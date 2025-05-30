@@ -1,0 +1,41 @@
+ body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(to bottom right, #1b0032, #4e0072);
+  color: rgb(255, 255, 255);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #ff66ff;
+  font-weight: bold;
+}
+
+nav a {
+  margin: 0 0.5rem;
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #00e6f6;
+}
+
+.content {
+  padding: 2rem;
+}
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #ccc;
+}
