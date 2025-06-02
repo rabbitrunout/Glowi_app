@@ -1,24 +1,39 @@
-# Glowi_app
-Web Capstone project - web application designed for parents of young rhythmic gymnasts.
+# 🌟 Glowi_app
 
-Project Proposal: Glowi
-Introduction:
-Glowi is a modern web application designed for parents of young rhythmic gymnasts.
-Its main goal is to simplify communication between parents and the sports school, giving easy access to training schedules, payment status, and a gallery of the child's achievements.
-Inspired by the elegance and grace of gymnastics, the application balances functionality with a clean, user-friendly design for both mobile and desktop platforms.
+Web Capstone Project is a modern web application created for parents of young gymnasts.
 
-Core Features:
-• For Parents:
-View the child's profile (photo, group, age)
-View training and competition calendar
-View achievements: certificates, medals, rankings (uploaded by admin)
-See monthly payment amount and status (paid/unpaid)
-Send training session request (not live booking)
-View admin responses to training requests
+![Glowi Preview](images/projectscreen.png)
 
-• For Admins (Coaches/Staff):
-Manage user's and children's profiles
-Create and update the calendar (training & competition events)
-Upload certificates, medals, rankings (visible to parents)
-Update payment status per child and month
-View and manage individual training session requests
+
+## ✨ Introduction
+
+Glowi is an intuitive platform that simplifies the interaction between parents and the sports school. The project is inspired by the grace and aesthetics of rhythmic gymnastics. It provides parents with quick access to their child's training schedule, pay status, and achievements — all in one place. The interface is adapted for mobile and desktop devices, emphasizing a clean and user-friendly design.
+
+## 🔑 Main functionality
+
+### 👨👩👧 For parents:
+- View the child's profile (photo, age, group)
+- Calendar of training and competitions
+- View achievements (diplomas, medals, ratings — uploaded by the admin)
+- Monthly payment status (paid/unpaid)
+- Sending a request for an individual lesson
+- View responses from the coach/admin on request
+
+### 🧑🏫 For administrators (coaches/staff):
+- User and child profile management
+- Adding and editing calendar events
+- Uploading achievements (diplomas, medals, ratings)
+- Updating the payment status for each child
+- View and manage requests for private lessons
+
+---
+
+## 🛠️ Technologies
+
+- HTML / CSS / JavaScript
+- PHP & MySQL
+- Adaptive layout
+- UI/UX design aimed at parents and admins
+
+---
+
