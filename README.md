@@ -2,7 +2,7 @@
 
 Web Capstone Project is a modern web application created for parents of young gymnasts.
 
-![Glowi Preview](images/projectscreen.png)
+![Glowi Preview](images/screen.png)
 
 
 ## ✨ Introduction
