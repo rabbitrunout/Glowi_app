@@ -1,113 +1,383 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #9D3DBE;
-  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(to right, #ff00cc, #333399);
+  color: white;
+  overflow-x: hidden;
 }
 
 header {
-  background: #111;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 1rem;
+  text-align: center;
+}
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  color: #00e6f6;
+  animation: pulse 2s infinite;
 }
 
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  gap: 1rem;
+}
 nav a {
-  margin: 0 1rem;
   color: #fff;
   text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+nav a:hover {
+  color: #ff66ff;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 40px;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 20px;
+main.container {
+  width: 90%;
+  margin: 2rem auto;
+  padding: 0 1rem;
 }
 
-.card {
-  background: #4d465057;
-  border-radius: 16px;
-  border: 1px solid #FA09FA;
-  padding: 1.5rem;
-  color: white;
+section.profile-section {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  transition: box-shadow 0.3s ease;
 }
 
-.child-card {
-  grid-column: span 6;
+section.profile-section:hover {
+  box-shadow: 0 6px 25px rgba(255, 102, 255, 0.7);
 }
 
-.calendar {
-  grid-column: span 6;
-}
-
-.training {
-  grid-column: span 3;
-}
-
-.payments {
-  grid-column: span 3;
-}
-
-.achievements {
-  grid-column: span 6;
-}
-
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: linear-gradient(to bottom right, #00f0ff, #c900ff);
+section.profile-section h2,
+section.profile-section h3 {
+  color: #00e6f6;
+  border-bottom: 2px solid #ff66ff;
+  padding-bottom: 0.3rem;
   margin-bottom: 1rem;
 }
 
-button {
-  background: #000;
-  color: #fff;
-  border: 2px solid #ffcb05;
-  padding: 0.5rem 1rem;
-  margin-top: 1rem;
-  border-radius: 8px;
+.profile-section {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.profile-section p,
+.profile-section table,
+.profile-section ul {
+  color: #ddd;
+}
+
+.profile-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.profile-section table th,
+.profile-section table td {
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-section ul li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-section ul li:last-child {
+  border-bottom: none;
+}
+
+button, .button {
+  background: #00e6f6;
+  color: #1a1a2e;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
   cursor: pointer;
+  margin: 1rem 0 0 0;
+  transition: background 0.3s ease;
+  display: inline-block;
+}
+button:hover, .button:hover {
+  background: #ff66ff;
 }
 
-.amount {
-  color: #00eaff;
-}
-
-calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
-  margin-top: 1rem;
-}
-.day, .blank {
+.login-section {
+  background-color: rgba(255,255,255,0.1);
+  padding: 2rem 1rem;
+  border-radius: 12px;
+  margin: 2rem 1rem;
   text-align: center;
-  padding: 0.5em;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.1);
+}
+.login-section input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  margin: 0.5rem;
+  width: 80%;
+}
+.login-section h3 {
+  color: #ffffff;
 }
 
-.medals {
+/* Для профиля */
+.profile-container {
   display: flex;
+  flex-direction: row;
+  gap: 24px;
+  padding: 2rem;
+  width: 1200px;
+  margin: auto;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.left-column {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
+  min-width: 300px;
+}
+
+.right-column {
+  flex: 1 1 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 280px;
+}
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.profile-header .avatar {
+  width: 100px;
+  height: 100px;
+  background: #ddd url('https://source.unsplash.com/100x100/?child,face') center/cover;
+  border-radius: 50%;
+  background-size: cover;
+  border: 2px solid #ccc;
+}
+.profile-header h2 {
+  margin: 0;
+}
+
+/* Пример таблицы в платежах */
+.payments-section table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payments-section th, .payments-section td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.payments-section th {
+  background-color: #eee;
+}
+
+.achievements-section h3 {
+  margin-top: 2rem;
+}
+
+.achievement {
+  background: #2b2b3d;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 10px rgba(102, 51, 153, 0.7);
+  color: #eee;
+}
+
+.achievement strong {
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.actions {
   margin-top: 1rem;
 }
 
-.placeholder {
-  width: 40px;
-  height: 40px;
-  border: 2px dashed #999;
-  border-radius: 50%;
+.actions a {
+  background: #6c63ff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+}
+* Для списков событий и достижений */
+.schedule-events-section ul,
+.achievements-section ul {
+  list-style-type: none;
+  padding-left: 0;
 }
 
-footer {
-  text-align: center;
+.schedule-events-section li,
+.achievements-section li {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* При необходимости — добавь стили для календаря */
+#calendar {
+  height: 320px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
   padding: 1rem;
-  background: #222;
-  color: #bbb;
+  color: #333;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.achievements-section li {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  color: #eee;
+}
+.card {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 102, 255, 0.3);
+}
+
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+.dashboard-block {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-block h2 {
+  color: #00e6f6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ff66ff;
+  padding-bottom: 0.3rem;
+}
+
+.dashboard-block ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dashboard-block ul li {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-block form input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  color: #00e6f6;
+}
+
+.actions {
+  text-align: right;
+}
+
+.actions a {
+  background: #ff66ff;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.actions a:hover {
+  background: #00e6f6;
+}
+
+
+
+
+/* Анимации */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+  }
+
+  .left-column,
+  .right-column {
+    flex: 1 1 100%;
+  }
 }
