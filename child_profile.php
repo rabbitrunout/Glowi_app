@@ -101,7 +101,7 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-<?php 'header.php'; ?>
+<?php include'header.php'; ?>
 
 <main class="container profile-container">
 
@@ -253,6 +253,6 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 
-<?php 'footer.php'; ?>
+<?php include 'footer.php'; ?>
 </body>
 </html>

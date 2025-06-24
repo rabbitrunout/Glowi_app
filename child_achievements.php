@@ -33,28 +33,33 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Достижения <?= htmlspecialchars($child['name']) ?></title>
+    <title>Достижения <?= htmlspecialchars($child['name']) ?></title>
+  <link rel="stylesheet" href="css/achievements.css" />
 </head>
 <body>
-<?php  'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <h1>Достижения ребенка: <?= htmlspecialchars($child['name']) ?></h1>
 
-<?php if (empty($achievements)): ?>
-    <p>Пока нет добавленных достижений.</p>
-<?php else: ?>
-    <ul>
-        <?php foreach ($achievements as $ach): ?>
-            <li>
-                <strong><?= htmlspecialchars($ach['title']) ?></strong> (<?= htmlspecialchars($ach['type']) ?>), дата: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
-                <a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank">Просмотреть файл</a>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+<section class="achievements-section card">
+  <?php if (empty($achievements)): ?>
+      <p>Пока нет добавленных достижений.</p>
+  <?php else: ?>
+      <ul>
+          <?php foreach ($achievements as $ach): ?>
+              <li class="achievement">
+                  <strong><?= htmlspecialchars($ach['title']) ?></strong>
+                  <span>(<?= htmlspecialchars($ach['type']) ?>)</span>, дата: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
+                  <a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank" class="button">Просмотреть файл</a>
+              </li>
+          <?php endforeach; ?>
+      </ul>
+  <?php endif; ?>
+</section>
 
-<p><a href="dashboard.php">← Назад в личный кабинет</a></p>
+<p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Назад к профилю ребенка</a></p>
 
-<?php  'footer.php'; ?>
+
+<?php include 'footer.php'; ?>
 </body>
 </html>

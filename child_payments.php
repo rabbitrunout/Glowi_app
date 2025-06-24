@@ -36,7 +36,7 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <title>Платежи для <?= htmlspecialchars($child['name']) ?></title>
 </head>
 <body>
-<?php 'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <h1>Платежи ребенка: <?= htmlspecialchars($child['name']) ?></h1>
 
@@ -65,6 +65,6 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <p><a href="dashboard.php">← Назад в личный кабинет</a></p>
 
-<?php 'footer.php'; ?>
+<?php include 'footer.php'; ?>
 </body>
 </html>

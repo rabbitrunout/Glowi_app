@@ -27,7 +27,7 @@ session_start();
 </head>
 <body>
 
-<?php include 'header.php'; ?>
+<?php 'header.php'; ?>
 
 <nav>
   <a href="#home">Главная</a>
@@ -76,14 +76,17 @@ session_start();
 <section id="login" class="login-section">
   <h3>Вход в личный кабинет</h3>
   <form method="POST" action="login.php">
-    <input type="email" name="email" placeholder="Email" required><br>
+   
+
+     <input type="text" name="userName" placeholder="Логин" required><br>
     <input type="password" name="password" placeholder="Пароль" required><br>
+    
     <button class="button" type="submit">Войти</button>
   </form>
   <p><a href="register.php" class="btn">Регистрация</a></p>
 </section>
 
-<?php include 'footer.php'; ?>
+<?php 'footer.php'; ?>
 
 
 

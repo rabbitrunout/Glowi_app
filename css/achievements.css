@@ -1,0 +1,77 @@
+body {
+  background: linear-gradient(to right, #ff00cc, #333399);
+  font-family: 'Nunito', sans-serif;
+  color: white;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+h1 {
+  color: #00e6f6;
+  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 6px #ff66ff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+ul li {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 15px rgba(255, 102, 255, 0.3);
+  transition: box-shadow 0.3s ease;
+}
+
+ul li:hover {
+  box-shadow: 0 8px 25px rgba(255, 102, 255, 0.6);
+}
+
+ul li strong {
+  font-size: 1.2rem;
+  color: #ff66ff;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+ul li a {
+  color: #00e6f6;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+ul li a:hover {
+  color: #ff66ff;
+  text-decoration: underline;
+}
+
+p a {
+  display: inline-block;
+  margin-top: 2rem;
+  color: #00e6f6;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+p a:hover {
+  color: #ff66ff;
+  text-decoration: underline;
+}
+
+/* Стили для header и footer (если есть) */
+header, footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: rgba(0,0,0,0.6);
+  color: #ccc;
+  font-size: 0.9rem;
+}
