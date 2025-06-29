@@ -3,7 +3,7 @@ require 'database.php';
 
 $eventID = $_GET['eventID'] ?? 0;
 if (!$eventID) {
-    die("Не указано событие.");
+    die("The event is not specified.");
 }
 
 // Получаем всех детей
@@ -15,7 +15,7 @@ $stmt->execute([$eventID]);
 $assigned = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'childID');
 ?>
 
-<h2>Привязать детей к событию</h2>
+<h2>Connect  children to an event</h2>
 
 <form method="POST" action="event_assign_save.php">
     <input type="hidden" name="eventID" value="<?= $eventID ?>">
@@ -24,9 +24,9 @@ $assigned = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'childID');
         <label>
             <input type="checkbox" name="children[]" value="<?= $child['childID'] ?>"
                 <?= in_array($child['childID'], $assigned) ? 'checked' : '' ?>>
-            <?= htmlspecialchars($child['name']) ?> (<?= htmlspecialchars($child['age']) ?> лет)
+            <?= htmlspecialchars($child['name']) ?> (<?= htmlspecialchars($child['age']) ?> y.o)
         </label><br>
     <?php endforeach; ?>
 
-    <br><button type="submit">Сохранить</button>
+    <br><button type="submit">Save</button>
 </form>

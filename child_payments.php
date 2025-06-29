@@ -63,7 +63,7 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </table>
 <?php endif; ?>
 
-<p><a href="dashboard.php">← Назад в личный кабинет</a></p>
+<p><a href="dashboard.php">← Back to your personal account</a></p>
 
 <?php include 'footer.php'; ?>
 </body>

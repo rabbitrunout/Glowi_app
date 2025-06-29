@@ -189,7 +189,8 @@ button:hover, .button:hover {
   flex-direction: row;
   gap: 24px;
   padding: 2rem;
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: auto;
   box-sizing: border-box;
   flex-wrap: wrap;
@@ -230,6 +231,20 @@ button:hover, .button:hover {
 .profile-header h2 {
   margin: 0;
 }
+.button {
+    display: inline-block;
+    padding: 8px 14px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 8px;
+}
+.button:hover {
+    background: #45a049;
+}
+
 
 /* --- Таблица платежей --- */
 .payments-section table {
@@ -247,6 +262,85 @@ button:hover, .button:hover {
   background-color: #eee;
   color: #333;
 }
+
+/* --- FullCalendar стиль адаптированный --- */
+
+.calendar-section {
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+#calendar {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  margin-top: 1rem;
+  overflow-x: auto;
+}
+
+
+.fc {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 1rem;
+  color: #1a1a2e;
+  font-family: 'Nunito', sans-serif;
+}
+
+.fc-toolbar-title {
+  font-size: 1.5rem;
+  color: #333399;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.fc-button {
+  background-color: #00e6f6 !important;
+  border: none !important;
+  color: #1a1a2e !important;
+  border-radius: 8px !important;
+  padding: 5px 12px !important;
+  font-weight: bold;
+}
+
+.fc-button:hover {
+  background-color: #ff66ff !important;
+}
+
+.fc-daygrid-day-number {
+  color: #1a1a2e;
+  font-weight: bold;
+}
+
+.fc-daygrid-event {
+  background-color: #ff66ff;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+}
+
+.fc-day-today {
+  background: #ffe0f7 !important;
+  border-radius: 10px;
+}
+
+
+
+
+.event-training {
+  background-color: #4CAF50;
+}
+
+.event-competition {
+  background-color: #f44336;
+}
+
 
 /* --- Секция достижений --- */
 .achievements-section h3 {
@@ -290,6 +384,10 @@ button:hover, .button:hover {
 
 /* --- Карточки --- */
 .card {
+  width: 100%;
+  max-width: 100%;
+  overflow: auto;
+  box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.4);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
@@ -381,14 +479,6 @@ button:hover, .button:hover {
   background: #00e6f6;
 }
 
-/* --- Календарь --- */
-#calendar {
-  height: 320px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 15px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
-  margin-top: 1rem;
-}
 
 /* --- Футер --- */
 footer {

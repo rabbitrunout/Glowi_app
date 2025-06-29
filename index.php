@@ -12,7 +12,7 @@ session_start();
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Главная — Glowi</title>
+  <title>Home — Glowi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Glowi — современная платформа для родителей гимнасток. Управление расписанием, достижениями и оплатами.">
   <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
@@ -30,17 +30,17 @@ session_start();
 <?php 'header.php'; ?>
 
 <nav>
-  <a href="#home">Главная</a>
-  <a href="#activities">Расписание</a>
-  <a href="#support">Успехи</a>
-  <a href="#payment">Оплата</a>
-  <a href="#booking">Бронирование</a>
-  <a href="#login">Вход</a>
+  <a href="#home">Home</a>
+  <a href="#activities">Schedule</a>
+  <a href="#support">Success</a>
+  <a href="#payment">Payment</a>
+  <a href="#booking">Booking</a>
+  <a href="#login">Login</a>
 </nav>
 
 <section class="hero" id="home">
-  <h2>Добро пожаловать в Glowi</h2>
-  <p>Яркие занятия для детей — уверенность и контроль для родителей</p>
+  <h2>Welcome to Glowi</h2>
+  <p>Bright activities for children — confidence and control for parents</p>
 </section>
 
 <section id="activities" class="section">
@@ -49,8 +49,8 @@ session_start();
     <div class="swiper-wrapper">
       <div class="swiper-slide">
         <img src="https://source.unsplash.com/300x200/?kids,sports" alt="Sports">
-        <h4>День спорта</h4>
-        <p>Весёлые тренировки, движение и командный дух!</p>
+        <h4>Sports Day</h4>
+        <p>Fun workouts, movement, and team spirit!</p>
       </div>
       <div class="swiper-slide">
         <img src="https://source.unsplash.com/300x200/?kids,science" alt="Science">
@@ -59,34 +59,34 @@ session_start();
       </div>
       <div class="swiper-slide">
         <img src="https://source.unsplash.com/300x200/?kids,art" alt="Art">
-        <h4>Творчество</h4>
-        <p>Рисование, поделки, креатив без границ!</p>
+        <h4>Creativity</h4>
+        <p>Drawing, crafts, creativity without borders!</p>
       </div>
     </div>
   </div>
 </section>
 
 <section id="support" class="section">
-  <h3>Поддержка для родителей</h3>
+  <h3>Support for parents</h3>
   <p style="text-align:center; max-width: 600px; margin: auto;">
-    От общения с тренерами до отслеживания прогресса — Glowi помогает быть в курсе всего.
+    From communicating with coaches to tracking progress, Glowi helps you keep up to date with everything.
   </p>
 </section>
 
 <section id="login" class="login-section">
-  <h3>Вход в личный кабинет</h3>
+  <h3>Login to your personal account</h3>
   <form method="POST" action="login.php">
    
 
      <input type="text" name="userName" placeholder="Логин" required><br>
     <input type="password" name="password" placeholder="Пароль" required><br>
     
-    <button class="button" type="submit">Войти</button>
+    <button class="button" type="submit">Login</button>
   </form>
-  <p><a href="register.php" class="btn">Регистрация</a></p>
+  <p><a href="register.php" class="btn">Registration</a></p>
 </section>
 
-<?php 'footer.php'; ?>
+<?php include  'footer.php'; ?>
 
 
 

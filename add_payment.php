@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: child_payments.php?childID=$childID");
         exit;
     } else {
-        $error = "Пожалуйста, заполните все поля корректно.";
+        $error = "Please fill in all fields correctly.";
     }
 }
 ?>
@@ -45,36 +45,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Добавить платеж — <?= htmlspecialchars($child['name']) ?></title>
+  <title>Add a payment— <?= htmlspecialchars($child['name']) ?></title>
 </head>
 <body>
-<?php  'header.php'; ?>
+<?php include 'header.php'; ?>
 
-<h1>Добавить платеж для <?= htmlspecialchars($child['name']) ?></h1>
+<h1>Add a payment for <?= htmlspecialchars($child['name']) ?></h1>
 
 <?php if ($error): ?>
     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
 
 <form method="POST" action="">
-    <label>Сумма (руб):</label><br>
+    <label>Amount (CAD):</label><br>
     <input type="number" step="0.01" min="0.01" name="amount" required><br><br>
 
-    <label>Статус:</label><br>
+    <label>Status:</label><br>
     <select name="status" required>
-        <option value="">Выберите статус</option>
-        <option value="paid">Оплачено</option>
-        <option value="unpaid">Не оплачено</option>
+        <option value="">Select the status</option>
+        <option value="paid">Paid</option>
+        <option value="unpaid">Not paid</option>
     </select><br><br>
 
-    <label>Дата платежа:</label><br>
+    <label>Payment date:</label><br>
     <input type="date" name="paymentDate" required><br><br>
 
-    <button type="submit">Добавить платеж</button>
+    <button type="submit">Add a payment</button>
 </form>
 
-<p><a href="child_payments.php?childID=<?= $childID ?>">← Назад к платежам</a></p>
+<p><a href="child_payments.php?childID=<?= $childID ?>">← Back to payments</a></p>
 
-<?php 'footer.php'; ?>
+<?php include 'footer.php'; ?>
 </body>
 </html>

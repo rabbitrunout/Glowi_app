@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: child_achievements.php?childID=$childID");
         exit;
     } else {
-        $error = "Пожалуйста, заполните все поля корректно.";
+        $error = "Please fill in all fields correctly.";
     }
 }
 ?>
@@ -46,40 +46,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Добавить достижение — <?= htmlspecialchars($child['name']) ?></title>
+  <title>Add Achievement— <?= htmlspecialchars($child['name']) ?></title>
 </head>
 <body>
-<?php 'header.php'; ?>
+<?php include 'header.php'; ?>
 
-<h1>Добавить достижение для <?= htmlspecialchars($child['name']) ?></h1>
+<h1>Add an achievement for <?= htmlspecialchars($child['name']) ?></h1>
 
 <?php if ($error): ?>
     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
 
 <form method="POST" action="">
-    <label>Название:</label><br>
+    <label>Title:</label><br>
     <input type="text" name="title" required><br><br>
 
-    <label>Тип:</label><br>
+    <label>Type:</label><br>
     <select name="type" required>
-        <option value="">Выберите тип</option>
-        <option value="medal">Медаль</option>
-        <option value="diploma">Диплом</option>
-        <option value="rating">Рейтинг</option>
+        <option value="">Select the type</option>
+        <option value="medal">Medal</option>
+        <option value="diploma">Diploma</option>
+        <option value="rating">Rating</option>
     </select><br><br>
 
-    <label>Дата присуждения:</label><br>
+    <label>Date of award:</label><br>
     <input type="date" name="dateAwarded" required><br><br>
 
-    <label>Ссылка на файл (URL):</label><br>
-    <input type="url" name="fileURL" required><br><br>
+    <label>Link to the file (URL):</label><br>
+    <input type="url" name="fileURL"><br><br>
 
-    <button type="submit">Добавить достижение</button>
+    <button type="submit">Add Achievement</button>
 </form>
 
-<p><a href="child_achievements.php?childID=<?= $childID ?>">← Назад к достижениям</a></p>
+<p><a href="child_achievements.php?childID=<?= $childID ?>">← Back to achievements</a></p>
 
-<?php  'footer.php'; ?>
+<?php include 'footer.php'; ?>
 </body>
 </html>

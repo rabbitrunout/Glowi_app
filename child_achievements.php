@@ -33,31 +33,31 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-    <title>Достижения <?= htmlspecialchars($child['name']) ?></title>
+    <title>Progress <?= htmlspecialchars($child['name']) ?></title>
   <link rel="stylesheet" href="css/achievements.css" />
 </head>
 <body>
 <?php include 'header.php'; ?>
 
-<h1>Достижения ребенка: <?= htmlspecialchars($child['name']) ?></h1>
+<h1>Child's achievements: <?= htmlspecialchars($child['name']) ?></h1>
 
 <section class="achievements-section card">
   <?php if (empty($achievements)): ?>
-      <p>Пока нет добавленных достижений.</p>
+      <p>There are no added achievements yet.</p>
   <?php else: ?>
       <ul>
           <?php foreach ($achievements as $ach): ?>
               <li class="achievement">
                   <strong><?= htmlspecialchars($ach['title']) ?></strong>
-                  <span>(<?= htmlspecialchars($ach['type']) ?>)</span>, дата: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
-                  <a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank" class="button">Просмотреть файл</a>
+                  <span>(<?= htmlspecialchars($ach['type']) ?>)</span>, date: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
+                  <a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank" class="button">View the file</a>
               </li>
           <?php endforeach; ?>
       </ul>
   <?php endif; ?>
 </section>
 
-<p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Назад к профилю ребенка</a></p>
+<p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Back to the child's profile</a></p>
 
 
 <?php include 'footer.php'; ?>

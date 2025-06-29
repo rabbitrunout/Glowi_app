@@ -27,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Добавить ребёнка</title>
+    <title>Add a child</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
 
-<h2>Добавить ребёнка</h2>
+<h2>Add a child</h2>
 
 <?php if ($error): ?>
     <p style="color:red;"><?= htmlspecialchars($error) ?></p>
@@ -42,19 +42,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php endif; ?>
 
 <form method="post">
-    <label>Имя:</label><br>
+    <label>Name:</label><br>
     <input type="text" name="name" required><br><br>
 
-    <label>Возраст:</label><br>
+    <label>Age:</label><br>
     <input type="number" name="age" min="1" required><br><br>
 
-    <label>Уровень группы:</label><br>
+    <label>Level/Group:</label><br>
     <input type="text" name="groupLevel"><br><br>
 
-    <button type="submit">Добавить</button>
+    <button type="submit">Add</button>
 </form>
 
-<p><a href="dashboard.php">← Назад</a></p>
+<p><a href="dashboard.php">← Back</a></p>
 <?php include 'footer.php'; ?>
 </body>
 </html>

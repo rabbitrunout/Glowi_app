@@ -18,35 +18,35 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Список событий</title>
+    <title>List Event's</title>
 </head>
 <body>
-    <h1>Список событий</h1>
+    <h1>List Event's</h1>
 
-    <p><a href="event_form.php">➕ Добавить новое событие</a></p>
+    <p><a href="event_form.php">➕ Add a new event</a></p>
 
     <form method="get" style="margin-bottom: 20px;">
-        <label for="filter">Фильтр по типу:</label>
+        <label for="filter">Filter by type:</label>
         <select name="filter" id="filter" onchange="this.form.submit()">
-            <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Все</option>
-            <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>Тренировки</option>
-            <option value="competition" <?= $filter === 'competition' ? 'selected' : '' ?>>Соревнования</option>
+            <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>All</option>
+            <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>Training</option>
+            <option value="competition" <?= $filter === 'competition' ? 'selected' : '' ?>>Competition</option>
         </select>
-        <noscript><button type="submit">Применить</button></noscript>
+        <noscript><button type="submit">Apply</button></noscript>
     </form>
 
     <?php if (empty($events)): ?>
-        <p>События не найдены.</p>
+        <p>Events not found</p>
     <?php else: ?>
         <table border="1" cellpadding="5" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Дата</th>
-                    <th>Время</th>
-                    <th>Название</th>
-                    <th>Тип</th>
-                    <th>Место</th>
-                    <th>Действия</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Location</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,11 +55,11 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?= htmlspecialchars($event['date']) ?></td>
                         <td><?= htmlspecialchars($event['time']) ?></td>
                         <td><?= htmlspecialchars($event['title']) ?></td>
-                        <td><?= $event['eventType'] === 'training' ? 'Тренировка' : 'Соревнование' ?></td>
+                        <td><?= $event['eventType'] === 'training' ? 'Training' : 'Competition' ?></td>
                         <td><?= htmlspecialchars($event['location']) ?></td>
                         <td>
-                            <a href="event_form.php?eventID=<?= $event['eventID'] ?>">✏️ Редактировать</a><br>
-                            <a href="event_assign.php?eventID=<?= $event['eventID'] ?>">🔗 Привязать детей</a>
+                            <a href="event_form.php?eventID=<?= $event['eventID'] ?>">✏️ Edit</a><br>
+                            <a href="event_assign.php?eventID=<?= $event['eventID'] ?>">🔗 Link children</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -67,6 +67,6 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </table>
     <?php endif; ?>
 
-    <p><a href="dashboard.php">← Назад</a></p>
+    <p><a href="dashboard.php">← Back</a></p>
 </body>
 </html>
