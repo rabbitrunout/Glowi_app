@@ -3,7 +3,7 @@
  document.addEventListener('DOMContentLoaded', function () {
   const calendarEl = document.getElementById('calendar');
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    locale: 'ru',
+    // locale: 'ru',
     initialView: 'dayGridMonth',
     editable: true,
     selectable: true,
@@ -17,13 +17,12 @@
       modal.show();
     },
 
-    eventClick: function (info) {
-      const title = prompt("Редактировать название события:", info.event.title);
-      if (title !== null) {
-        info.event.setProp('title', title);
-        updateEvent(info.event);
-      }
-    },
+   eventClick: function(info) {
+  const title = info.event.title;
+  const desc = info.event.extendedProps?.description || 'Без описания';
+  openGlowiModal(title, desc);
+},
+
 
     eventDrop: function (info) {
       updateEvent(info.event);
@@ -89,6 +88,20 @@
     });
   }
 });
+
+function openGlowiModal(title, description) {
+  document.getElementById('viewEventTitle').innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
+  document.getElementById('viewEventDetails').innerText = description;
+  document.getElementById('viewEventModal').style.display = 'block';
+  document.getElementById('modalOverlay').style.display = 'block';
+  lucide.createIcons();
+}
+
+function closeGlowiModal() {
+  document.getElementById('viewEventModal').style.display = 'none';
+  document.getElementById('modalOverlay').style.display = 'none';
+}
+
 
   const swiper = new Swiper('.swiper', {
   loop: true,

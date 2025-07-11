@@ -110,20 +110,28 @@ while ($event = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 // Добавим достижения как события в FullCalendar
 foreach ($achievements as $ach) {
+    $color = match ($ach['medal']) {
+        'gold' => '#FFD700',
+        'silver' => '#C0C0C0',
+        'bronze' => '#CD7F32',
+        default => '#9b59b6'
+    };
+
     $fcEvents[] = [
         'id' => 'ach_' . $ach['achievementID'],
         'title' => '🏅 ' . $ach['title'],
         'start' => $ach['dateAwarded'],
         'allDay' => true,
-        'color' => '#9b59b6', // Фиолетовый
+        'color' => $color,
         'extendedProps' => [
-            'description' => 'Тип: ' . $ach['type'] .
-                (!empty($ach['medal']) && $ach['medal'] !== 'none' ? ', Медаль: ' . $ach['medal'] : '') .
-                (!empty($ach['place']) ? ', Место: ' . $ach['place'] : ''),
+            'description' => '🏆 Тип: ' . $ach['type'] .
+                (!empty($ach['medal']) && $ach['medal'] !== 'none' ? ', 🏅 Медаль: ' . $ach['medal'] : '') .
+                (!empty($ach['place']) ? ', 📍 Место: ' . $ach['place'] : ''),
             'eventType' => 'achievement'
         ]
     ];
 }
+
 
 
 
@@ -246,13 +254,24 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 
   <div class="right-column">
     <section class="card calendar-section">
-      
-      <h2><i data-lucide="calendar-check-2"></i> Calendar of Events</h2>
-      <div id='calendar'></div>
-      <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
-  
-</div>
-    </section>
+  <h2><i data-lucide="calendar-check-2"></i> Calendar of Events</h2>
+  <div id='calendar'></div>
+
+  <!-- Модалка Bootstrap для событий -->
+  <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true"></div>
+
+  <!-- Glowi модалка -->
+  <div class="glowi-modal-overlay" id="modalOverlay" style="display: none;"></div>
+  <div class="glowi-modal" id="viewEventModal" style="display: none;">
+    <div class="modal-header">
+      <h3 id="viewEventTitle"><i data-lucide="calendar-days"></i> Событие</h3>
+      <button class="close-button" onclick="closeGlowiModal()">✖</button>
+    </div>
+    <div class="modal-body">
+      <p id="viewEventDetails">Загрузка...</p>
+    </div>
+  </div>
+</section>
 
   <section class="card achievements-section">
   <h2><i data-lucide="medal"></i> Achievements</h2>
@@ -264,15 +283,15 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       <?php foreach ($achievements as $ach): ?>
         <li>
           <strong><?= htmlspecialchars($ach['title']) ?></strong>
-          (<?= htmlspecialchars($ach['type']) ?>),
+          
           <?= htmlspecialchars($ach['dateAwarded']) ?>
 
           <?php if (!empty($ach['place'])): ?>
-            <br><i data-lucide="award"></i> Место: <strong><?= (int)$ach['place'] ?></strong>
+            <br><i data-lucide="award"></i> Place: <strong><?= (int)$ach['place'] ?></strong>
           <?php endif; ?>
 
           <?php if (!empty($ach['medal']) && $ach['medal'] !== 'none'): ?>
-            <br><i data-lucide="star"></i> Медаль:
+            <br><i data-lucide="star"></i> Award:
             <strong>
               <?php
                 switch ($ach['medal']) {

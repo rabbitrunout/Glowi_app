@@ -540,6 +540,61 @@ footer {
 }
 
 
+.glowi-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  
+}
+
+.glowi-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  border: 2px solid #ff66cc;
+  box-shadow: 0 0 25px #ff66cc, 0 0 40px #00ffff;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 500px;
+  z-index: 1000;
+  padding: 20px;
+  color: #fff;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.glowi-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+.glowi-modal .modal-body {
+  padding: 10px 0;
+  font-size: 16px;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.close-button:hover {
+  transform: scale(1.2);
+  color: #ff99ff;
+}
 
 
 /* --- Адаптивность --- */
