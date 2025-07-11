@@ -222,7 +222,7 @@ button:hover, .button:hover {
 .profile-header .avatar {
   width: 100px;
   height: 100px;
-  background: #ddd url('https://source.unsplash.com/100x100/?child,face') center/cover;
+  /* background: #ddd url('https://source.unsplash.com/100x100/?child,face') center/cover; */
   border-radius: 50%;
   background-size: cover;
   border: 2px solid #ccc;
@@ -311,7 +311,7 @@ button:hover, .button:hover {
 }
 
 .fc-button {
-  background-color: #00e6f6 !important;
+  background-color: #f200f6 !important;
   border: none !important;
   color: #1a1a2e !important;
   border-radius: 8px !important;
@@ -341,8 +341,6 @@ button:hover, .button:hover {
   background: #ffe0f7 !important;
   border-radius: 10px;
 }
-
-
 
 
 .event-training {
@@ -433,7 +431,7 @@ button:hover, .button:hover {
 }
 
 .dashboard-block h2 {
-  color: #00e6f6;
+  color: #e200f6;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -488,7 +486,7 @@ button:hover, .button:hover {
 }
 
 .actions a:hover {
-  background: #00e6f6;
+  background: #cd00f6;
 }
 
 

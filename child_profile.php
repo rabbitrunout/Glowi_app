@@ -124,11 +124,15 @@ foreach ($achievements as $ach) {
         'allDay' => true,
         'color' => $color,
         'extendedProps' => [
-            'description' => '🏆 Тип: ' . $ach['type'] .
-                (!empty($ach['medal']) && $ach['medal'] !== 'none' ? ', 🏅 Медаль: ' . $ach['medal'] : '') .
-                (!empty($ach['place']) ? ', 📍 Место: ' . $ach['place'] : ''),
-            'eventType' => 'achievement'
-        ]
+        'description' => implode("\n", array_filter([
+            '🏅 ' . $ach['title'],
+            '------------------',
+            'Тип: ' . ucfirst($ach['type']),
+            (!empty($ach['medal']) && $ach['medal'] !== 'none') ? 'Медаль: ' . ucfirst($ach['medal']) : null,
+            (!empty($ach['place'])) ? 'Место: ' . (int)$ach['place'] : null
+        ])),
+        'eventType' => 'achievement'
+    ]
     ];
 }
 
