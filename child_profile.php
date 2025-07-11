@@ -108,6 +108,24 @@ while ($event = $stmt->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
 
+// Добавим достижения как события в FullCalendar
+foreach ($achievements as $ach) {
+    $fcEvents[] = [
+        'id' => 'ach_' . $ach['achievementID'],
+        'title' => '🏅 ' . $ach['title'],
+        'start' => $ach['dateAwarded'],
+        'allDay' => true,
+        'color' => '#9b59b6', // Фиолетовый
+        'extendedProps' => [
+            'description' => 'Тип: ' . $ach['type'] .
+                (!empty($ach['medal']) && $ach['medal'] !== 'none' ? ', Медаль: ' . $ach['medal'] : '') .
+                (!empty($ach['place']) ? ', Место: ' . $ach['place'] : ''),
+            'eventType' => 'achievement'
+        ]
+    ];
+}
+
+
 
 
 $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
@@ -141,21 +159,21 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       </div>
       <div>
         <h1><i data-lucide="user"></i> <?= htmlspecialchars($child['name']) ?></h1>
-        <p><strong><i data-lucide="cake"></i> Возраст:</strong> <?= htmlspecialchars($child['age']) ?> лет</p>
-        <p><strong><i data-lucide="school"></i> Группа:</strong> <?= htmlspecialchars($child['groupLevel']) ?></p>
+        <p><strong><i data-lucide="cake"></i> Age:</strong> <?= htmlspecialchars($child['age']) ?> лет</p>
+        <p><strong><i data-lucide="school"></i> Level:</strong> <?= htmlspecialchars($child['groupLevel']) ?></p>
         <p><strong><i data-lucide="user-circle"></i> Пол:</strong> <?= htmlspecialchars($child['gender']) ?></p>
-        <p><a href="edit_child.php?childID=<?= $childID ?>" class="button"><i data-lucide="edit-3"></i> Редактировать</a></p>
+        <p><a href="edit_child.php?childID=<?= $childID ?>" class="button"><i data-lucide="edit-3"></i> Edit</a></p>
       </div>
     </section>
 
     <section class="card weekly-schedule">
-      <h2><i data-lucide="calendar-clock"></i> Расписание на неделю</h2>
+      <h2><i data-lucide="calendar-clock"></i> Weekly schedule</h2>
       <?php if (empty($groupedSchedule)): ?>
-        <p>На этой неделе нет запланированных занятий.</p>
+        <p></p>
       <?php else: ?>
         <table>
           <thead>
-            <tr><th>День</th><th>Время</th><th>Активность</th><th>Место</th></tr>
+            <tr><th>DAY</th><th>TIME</th><th>ACTIVIY</th><th>LOCATION</th></tr>
           </thead>
           <tbody>
             <?php foreach ($groupedSchedule as $day => $events): ?>
@@ -176,24 +194,24 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
     </section>
 
     <section class="card schedule-events-section">
-      <h2><i data-lucide="calendar-days"></i> Все события</h2>
+      <h2><i data-lucide="calendar-days"></i> All events</h2>
       <form method="get" style="margin-bottom: 10px;">
         <input type="hidden" name="childID" value="<?= $childID ?>">
-        <label>Фильтр:</label>
+        <label>Filter:</label>
         <select name="filter" onchange="this.form.submit()">
-          <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Все</option>
-          <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>Тренировки</option>
-          <option value="competition" <?= $filter === 'competition' ? 'selected' : '' ?>>Соревнования</option>
+          <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>ALL</option>
+          <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>training</option>
+          <option value="competition" <?= $filter === 'competition' ? 'selected' : '' ?>>competition</option>
         </select>
       </form>
       <?php if (empty($events)): ?>
-        <p>Событий пока нет.</p>
+        <p>No events yet.</p>
       <?php else: ?>
         <ul>
           <?php foreach ($events as $event): ?>
             <li>
               <strong><?= htmlspecialchars($event['title']) ?></strong>
-              (<?= $event['eventType'] === 'training' ? '<i data-lucide="dumbbell"></i> Тренировка' : '<i data-lucide="trophy"></i> Соревнование' ?>),
+              (<?= $event['eventType'] === 'training' ? '<i data-lucide="dumbbell"></i> Training' : '<i data-lucide="trophy"></i> Competition' ?>),
               <?= htmlspecialchars($event['date']) ?> в <?= htmlspecialchars($event['time']) ?>,
               <i data-lucide="map-pin"></i> <?= htmlspecialchars($event['location']) ?><br>
               <em><?= nl2br(htmlspecialchars($event['description'])) ?></em>
@@ -205,12 +223,12 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
     </section>
 
     <section class="card payments-section">
-      <h2><i data-lucide="credit-card"></i> Последние платежи</h2>
+      <h2><i data-lucide="credit-card"></i> Recent payments</h2>
       <?php if (empty($payments)): ?>
-        <p>Платежей пока нет</p>
+        <p>No payments yet</p>
       <?php else: ?>
         <table>
-          <thead><tr><th>Дата</th><th>Сумма (₽)</th><th>Статус</th></tr></thead>
+          <thead><tr><th>Day</th><th>Sum ($)</th><th>Status</th></tr></thead>
           <tbody>
             <?php foreach ($payments as $payment): ?>
               <tr>
@@ -221,7 +239,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
             <?php endforeach; ?>
           </tbody>
         </table>
-        <p><a href="child_payments.php?childID=<?= $childID ?>"><i data-lucide="wallet"></i> Все платежи →</a></p>
+        <p><a href="child_payments.php?childID=<?= $childID ?>"><i data-lucide="wallet"></i> All payments →</a></p>
       <?php endif; ?>
     </section>
   </div>
@@ -229,33 +247,63 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   <div class="right-column">
     <section class="card calendar-section">
       
-      <h2><i data-lucide="calendar-check-2"></i> Календарь событий</h2>
+      <h2><i data-lucide="calendar-check-2"></i> Calendar of Events</h2>
       <div id='calendar'></div>
       <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true">
   
 </div>
     </section>
 
-    <section class="card achievements-section">
-      <h2><i data-lucide="medal"></i> Достижения</h2>
-      <?php if (empty($achievements)): ?>
-        <p>Нет добавленных достижений.</p>
-      <?php else: ?>
-        <ul>
-          <?php foreach ($achievements as $ach): ?>
-            <li>
-              <strong><?= htmlspecialchars($ach['title']) ?></strong> (<?= htmlspecialchars($ach['type']) ?>),
-              <?= htmlspecialchars($ach['dateAwarded']) ?>
-              <?php if (!empty($ach['fileURL'])): ?>
-                <br><a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank"><i data-lucide="paperclip"></i> Файл</a>
-              <?php endif; ?>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-        <p><a href="child_achievements.php?childID=<?= $childID ?>"><i data-lucide="trophy"></i> Все достижения →</a></p>
-      <?php endif; ?>
-      <p><a href="add_achievement.php?childID=<?= $childID ?>" class="button"><i data-lucide="plus-circle"></i> Добавить достижение</a></p>
-    </section>
+  <section class="card achievements-section">
+  <h2><i data-lucide="medal"></i> Achievements</h2>
+
+  <?php if (empty($achievements)): ?>
+    <p>Нет добавленных достижений.</p>
+  <?php else: ?>
+    <ul>
+      <?php foreach ($achievements as $ach): ?>
+        <li>
+          <strong><?= htmlspecialchars($ach['title']) ?></strong>
+          (<?= htmlspecialchars($ach['type']) ?>),
+          <?= htmlspecialchars($ach['dateAwarded']) ?>
+
+          <?php if (!empty($ach['place'])): ?>
+            <br><i data-lucide="award"></i> Место: <strong><?= (int)$ach['place'] ?></strong>
+          <?php endif; ?>
+
+          <?php if (!empty($ach['medal']) && $ach['medal'] !== 'none'): ?>
+            <br><i data-lucide="star"></i> Медаль:
+            <strong>
+              <?php
+                switch ($ach['medal']) {
+                  case 'gold': echo 'Золотая 🥇'; break;
+                  case 'silver': echo 'Серебряная 🥈'; break;
+                  case 'bronze': echo 'Бронзовая 🥉'; break;
+                  case 'fourth': echo '4 место 🎗️'; break;
+                  case 'fifth': echo '5 место 🎗️'; break;
+                  case 'sixth': echo '6 место 🎗️'; break;
+                  case 'seventh': echo '7 место 🎗️'; break;
+                  case 'honorable': echo 'Почётная грамота 🏵️'; break;
+                  default: echo ucfirst($ach['medal']);
+                }
+              ?>
+            </strong>
+          <?php endif; ?>
+
+          <?php if (!empty($ach['fileURL'])): ?>
+            <br><a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank"><i data-lucide="paperclip"></i> Файл</a>
+          <?php endif; ?>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+
+    <p><a href="child_achievements.php?childID=<?= $childID ?>"><i data-lucide="trophy"></i> Все достижения →</a></p>
+  <?php endif; ?>
+
+  <p><a href="add_achievement.php?childID=<?= $childID ?>" class="button">
+    <i data-lucide="plus-circle"></i> Добавить достижение</a></p>
+</section>
+
   </div>
 </main>
 

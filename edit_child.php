@@ -82,9 +82,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <label>Уровень группы:</label><br>
         <select name="groupLevel" required>
-            <option value="Beginner" <?= $child['groupLevel'] === 'Beginner' ? 'selected' : '' ?>>Начинающий</option>
-            <option value="Intermediate" <?= $child['groupLevel'] === 'Intermediate' ? 'selected' : '' ?>>Средний</option>
-            <option value="Advanced" <?= $child['groupLevel'] === 'Advanced' ? 'selected' : '' ?>>Продвинутый</option>
+
+          <option value="Novice" <?= $child['groupLevel'] === 'Novice' ? 'selected' : '' ?>>Novice</option>
+            <option value="Junior" <?= $child['groupLevel'] === 'Junior' ? 'selected' : '' ?>>Junior</option>
+            <option value="Senior" <?= $child['groupLevel'] === 'Senior' ? 'selected' : '' ?>>Senior</option>
+
+            <option value="Level 2A" <?= $child['groupLevel'] === 'Level 2A' ? 'selected' : '' ?>>Provintial Level 2A</option>
+            <option value="Level 2B" <?= $child['groupLevel'] === 'Level 2B' ? 'selected' : '' ?>>Provintial Level 2B</option>
+            <option value="Level 2C" <?= $child['groupLevel'] === 'Level 2C' ? 'selected' : '' ?>>Provintial Level 2C</option>
+            
+            <option value="Level 3A" <?= $child['groupLevel'] === 'Level 3A' ? 'selected' : '' ?>>Provintial Level 3A</option>
+            <option value="Level 3B" <?= $child['groupLevel'] === 'Level 3B' ? 'selected' : '' ?>>Provintial Level 3B</option>
+            <option value="Level 3C" <?= $child['groupLevel'] === 'Level 3C' ? 'selected' : '' ?>>Provintial Level 3C</option>
+
+            <option value="Level 4A" <?= $child['groupLevel'] === 'Level 4A' ? 'selected' : '' ?>>Provintial Level 4A</option>
+            <option value="Level 4B" <?= $child['groupLevel'] === 'Level 4B' ? 'selected' : '' ?>>Provintial Level 4B</option>
+            <option value="Level 4C" <?= $child['groupLevel'] === 'Level 4C' ? 'selected' : '' ?>>Provintial Level 4C</option>
+
+            <option value="Level 5A" <?= $child['groupLevel'] === 'Level 5A' ? 'selected' : '' ?>>Provintial Level 5A</option>
+            <option value="Level 5B" <?= $child['groupLevel'] === 'Level 5B' ? 'selected' : '' ?>>Provintial Level 5B</option>
+            <option value="Level 5C" <?= $child['groupLevel'] === 'Level 5C' ? 'selected' : '' ?>>Provintial Level 5C</option>
+
+            <option value="Level 2A" <?= $child['groupLevel'] === 'Level 2A' ? 'selected' : '' ?>>Interclub  2A</option>
+            <option value="Level 2B" <?= $child['groupLevel'] === 'Level 2B' ? 'selected' : '' ?>>Interclub   2B</option>
+            <option value="Level 2C" <?= $child['groupLevel'] === 'Level 2C' ? 'selected' : '' ?>>Interclub 2C</option>
+
+             <option value="Level 3A" <?= $child['groupLevel'] === 'Level 3A' ? 'selected' : '' ?>>Interclub  3A</option>
+            <option value="Level 3B" <?= $child['groupLevel'] === 'Level 3B' ? 'selected' : '' ?>>Interclub   3B</option>
+            <option value="Level 3C" <?= $child['groupLevel'] === 'Level 3C' ? 'selected' : '' ?>>Interclub  3C</option>
+
+            
         </select><br><br>
 
         <label>Пол:</label><br>

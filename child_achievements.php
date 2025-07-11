@@ -23,6 +23,15 @@ if (!$child) {
     die("Ребенок не найден или доступ запрещён.");
 }
 
+// Удаление достижения
+if (isset($_GET['deleteID']) && is_numeric($_GET['deleteID'])) {
+    $deleteID = (int)$_GET['deleteID'];
+    $stmt = $pdo->prepare("DELETE FROM achievements WHERE achievementID = ? AND childID = ?");
+    $stmt->execute([$deleteID, $childID]);
+    header("Location: child_achievements.php?childID=$childID");
+    exit;
+}
+
 // Получаем достижения ребенка
 $stmt = $pdo->prepare("SELECT * FROM achievements WHERE childID = ? ORDER BY dateAwarded DESC");
 $stmt->execute([$childID]);
@@ -30,11 +39,19 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-    <title>Progress <?= htmlspecialchars($child['name']) ?></title>
+  <title>Progress <?= htmlspecialchars($child['name']) ?></title>
   <link rel="stylesheet" href="css/achievements.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .achievement { margin-bottom: 20px; }
+    .achievement button { margin-left: 10px; }
+    .modal { display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:#fff; padding:20px; border:1px solid #ccc; z-index:1000; }
+    .modal input, .modal select, .modal textarea { width:100%; margin-bottom:10px; }
+    .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; }
+  </style>
 </head>
 <body>
 <?php include 'header.php'; ?>
@@ -46,20 +63,105 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <p>There are no added achievements yet.</p>
   <?php else: ?>
       <ul>
-          <?php foreach ($achievements as $ach): ?>
-              <li class="achievement">
-                  <strong><?= htmlspecialchars($ach['title']) ?></strong>
-                  <span>(<?= htmlspecialchars($ach['type']) ?>)</span>, date: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
-                  <a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank" class="button">View the file</a>
-              </li>
-          <?php endforeach; ?>
+         <?php foreach ($achievements as $ach): ?>
+    <li class="achievement" data-id="<?= $ach['achievementID'] ?>">
+      <strong><?= htmlspecialchars($ach['title']) ?></strong>
+      <span>(<?= htmlspecialchars($ach['type']) ?>)</span>,
+      дата: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
+
+      <?php if (!empty($ach['place'])): ?>
+        <span><strong>🏅 Место:</strong> <?= (int)$ach['place'] ?></span><br>
+      <?php endif; ?>
+
+      <?php if (!empty($ach['medal']) && $ach['medal'] !== 'none'): ?>
+        <span><strong>🥇 Медаль:</strong>
+          <?php
+            switch ($ach['medal']) {
+              case 'gold': echo 'Золотая 🥇'; break;
+              case 'silver': echo 'Серебряная 🥈'; break;
+              case 'bronze': echo 'Бронзовая 🥉'; break;
+              case 'fourth': echo '4 место (лента) 🎗️'; break;
+              case 'fifth': echo '5 место (лента) 🎗️'; break;
+              case 'sixth': echo '6 место (лента) 🎗️'; break;
+              case 'seventh': echo '7 место (лента) 🎗️'; break;
+              case 'honorable': echo 'Почётная грамота 🏵️'; break;
+              default: echo ucfirst($ach['medal']);
+            }
+          ?>
+        </span><br>
+      <?php endif; ?>
+
+      <?php if (!empty($ach['fileURL'])): ?>
+        <a href="<?= htmlspecialchars($ach['fileURL']) ?>" target="_blank" class="button">📎 View file</a><br>
+      <?php endif; ?>
+
+      <button onclick="editAchievement(<?= htmlspecialchars(json_encode($ach)) ?>)">✏️ Edit</button>
+      <a href="?childID=<?= $childID ?>&deleteID=<?= $ach['achievementID'] ?>" onclick="return confirm('Удалить это достижение?')">❌ Delete</a>
+    </li>
+  <?php endforeach; ?>
       </ul>
   <?php endif; ?>
 </section>
 
 <p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Back to the child's profile</a></p>
 
+<!-- Редактирование -->
+<div class="modal-overlay" id="overlay"></div>
+<div class="modal" id="editModal">
+  <h3>Редактировать достижение</h3>
+  <form method="POST" action="update_achievement.php">
+    <input type="hidden" name="achievementID" id="editID">
+    <input type="hidden" name="childID" value="<?= $childID ?>">
+
+    <label>Название:</label>
+    <input type="text" name="title" id="editTitle" required>
+
+    <label>Тип:</label>
+    <select name="type" id="editType">
+      <option value="medal">Medal</option>
+      <option value="diploma">Diploma</option>
+      <option value="competition">Competition</option>
+
+      
+    </select>
+
+    <label>Дата:</label>
+    <input type="date" name="dateAwarded" id="editDate" required>
+
+    <label>Место:</label>
+    <input type="number" name="place" id="editPlace" min="1" placeholder="optional">
+
+    <label>Медаль:</label>
+    <select name="medal" id="editMedal">
+      <option value="none">Без медали</option>
+        <option value="gold">🥇 Gold</option>
+        <option value="silver"> 🥈 Silver</option>
+        <option value="bronze"> 🥉 Bronze</option>
+    </select>
+
+    <button type="submit">💾 Сохранить</button>
+    <button type="button" onclick="closeModal()">✖️ Отмена</button>
+  </form>
+</div>
 
 <?php include 'footer.php'; ?>
+<script>
+function editAchievement(data) {
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('editModal').style.display = 'block';
+
+  document.getElementById('editID').value = data.achievementID;
+  document.getElementById('editTitle').value = data.title;
+  document.getElementById('editType').value = data.type;
+  document.getElementById('editDate').value = data.dateAwarded;
+  document.getElementById('editPlace').value = data.place || '';
+  document.getElementById('editMedal').value = data.medal;
+}
+
+function closeModal() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('editModal').style.display = 'none';
+}
+</script>
 </body>
 </html>
