@@ -28,7 +28,7 @@ if (!$parent) {
     <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
-    <?php 'header.php'; ?>
+    <?php include 'header.php'; ?>
 
     <main>
         <h1>Профиль родителя</h1>
@@ -49,6 +49,6 @@ if (!$parent) {
         <p><a href="logout.php">Выйти</a></p>
     </main>
 
-    <?php 'footer.php'; ?>
+    <?php include 'footer.php'; ?>
 </body>
 </html>

@@ -1,0 +1,109 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #3d0066, #6a00b0);
+  color: #fff;
+}
+
+.container {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.left-column, .right-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.card {
+  background: linear-gradient(to bottom, #5e2590, #4e0072);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+.profile-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.profile-header img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #00e6f6;
+  background: radial-gradient(circle, #ff00ff, #00e6f6);
+}
+
+h1, h2 {
+  color: #f8f8f8;
+  font-weight: 600;
+}
+
+a {
+  color: #00e6f6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+th {
+  background-color: rgba(255,255,255,0.1);
+  color: #ffccff;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255,255,255,0.05);
+}
+
+.button {
+  display: inline-block;
+  background: #ff66ff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  color: #000;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.button:hover {
+  background: #d633d6;
+}
+
+.btn {
+  background: #00e6f6;
+  color: #1b0032;
+  font-weight: bold;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  margin-right: 0.5rem;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: #00bccc;
+}
+
+.avatar i {
+  font-size: 1.5rem;
+}

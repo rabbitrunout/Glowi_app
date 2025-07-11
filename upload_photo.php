@@ -32,3 +32,4 @@ if (move_uploaded_file($_FILES['photoImage']['tmp_name'], $targetPath)) {
 } else {
     die("Ошибка при сохранении файла.");
 }
+?>

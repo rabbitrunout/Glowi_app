@@ -43,7 +43,10 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <title>Personal account — Glowi</title>
-  <link rel="stylesheet" href="css/main.css">
+  <!-- <link rel="stylesheet" href="css/main.css"> -->
+  <link rel="stylesheet" href="css/dashboard_neon.css">
+  
+
   <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>

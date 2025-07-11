@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="css/main.css" />
 </head>
 <body>
-<?php 'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <main>
     <h2>Регистрация родителя</h2>
@@ -68,6 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <p>Уже зарегистрированы? <a href="login_form.php">Войти</a></p>
 </main>
 
-<?php 'footer.php'; ?>
+<?php  include 'footer.php'; ?>
 </body>
 </html>

@@ -1,0 +1,92 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #1b0032, #4e0072);
+  color: white;
+  padding: 2rem;
+}
+
+.dashboard-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard-block {
+  background: linear-gradient(to bottom, #5e2590, #4e0072);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+}
+
+h2 {
+  color: #00e6f6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.icon {
+  color: #ff66ff;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: #00e6f6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+input, button {
+  font-family: 'Poppins', sans-serif;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 0.5rem;
+  width: 100%;
+}
+
+button {
+  background-color: #ff66ff;
+  color: #1b0032;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #d633d6;
+}
+
+.actions {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.actions a {
+  background: #00e6f6;
+  color: #1b0032;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-weight: bold;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.actions a:hover {
+  background: #00c6d6;
+}

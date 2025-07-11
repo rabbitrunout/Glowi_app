@@ -72,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label>Date of award:</label><br>
     <input type="date" name="dateAwarded" required><br><br>
 
-    <label>Link to the file (URL):</label><br>
-    <input type="url" name="fileURL"><br><br>
+    <!-- <label>Link to the file (URL):</label><br>
+    <input type="url" name="fileURL"><br><br> -->
 
     <button type="submit">Add Achievement</button>
 </form>

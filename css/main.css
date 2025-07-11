@@ -244,6 +244,18 @@ button:hover, .button:hover {
 .button:hover {
     background: #45a049;
 }
+.weekly-schedule table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background-color: rgba(255,255,255,0.03);
+}
+
+.weekly-schedule th, .weekly-schedule td {
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 0.4rem;
+  text-align: left;
+}
 
 
 /* --- Таблица платежей --- */
@@ -276,7 +288,7 @@ button:hover, .button:hover {
   max-width: 100%;
   height: auto;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(216, 215, 216, 0.789);
   border-radius: 15px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
   margin-top: 1rem;
@@ -480,6 +492,44 @@ button:hover, .button:hover {
 }
 
 
+.weekly-schedule {
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+.weekly-schedule h2 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weekly-schedule table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.weekly-schedule th, .weekly-schedule td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.weekly-schedule th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+.weekly-schedule tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
 /* --- Футер --- */
 footer {
   text-align: center;
@@ -488,6 +538,9 @@ footer {
   font-size: 0.9rem;
   color: #ccc;
 }
+
+
+
 
 /* --- Адаптивность --- */
 @media (max-width: 768px) {
@@ -503,6 +556,18 @@ footer {
   main.container {
     width: 95%;
     padding: 0 0.5rem;
+  }
+
+  .weekly-schedule table {
+    font-size: 0.9rem;
+  }
+
+  .weekly-schedule th, .weekly-schedule td {
+    padding: 6px 8px;
+  }
+
+  .weekly-schedule h2 {
+    font-size: 1.1rem;
   }
 }
 

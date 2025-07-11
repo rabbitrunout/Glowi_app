@@ -27,7 +27,7 @@ session_start();
 </head>
 <body>
 
-<?php 'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <nav>
   <a href="#home">Home</a>

@@ -15,7 +15,7 @@ if (isset($_SESSION['parentID'])) {
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <?php  'header.php'; ?>
+  <?php include 'header.php'; ?>
 
   <main class="container">
     <h2>Login to your personal account</h2>
@@ -34,6 +34,6 @@ if (isset($_SESSION['parentID'])) {
     <p>No account? <a href="register.php ">Register</a></p>
   </main>
 
-  <?php 'footer.php'; ?>
+  <?php include 'footer.php'; ?>
 </body>
 </html>

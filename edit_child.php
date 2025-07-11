@@ -2,6 +2,9 @@
 session_start();
 require 'database.php';
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 if (!isset($_SESSION['parentID'])) {
     header('Location: login_form.php');
     exit;
@@ -69,7 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <main class="container card" style="max-width: 500px;">
     <h1>✏️ Редактировать профиль</h1>
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" action="edit_child.php?childID=<?= $childID ?>" enctype="multipart/form-data">
+
         <label>Имя:</label><br>
         <input type="text" name="name" value="<?= htmlspecialchars($child['name']) ?>" required><br><br>
 
