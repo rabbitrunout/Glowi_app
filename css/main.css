@@ -1,4 +1,23 @@
 /* --- Основной стиль страницы --- */
+
+/* Все иконки Lucide желтого яркого цвета */
+h1 svg[data-lucide],
+h2 svg[data-lucide],
+h3 svg[data-lucide],
+h4 svg[data-lucide],
+h5 svg[data-lucide],
+h6 svg[data-lucide] {
+  stroke: #FFD700 !important;   /* ярко-желтый */
+  fill: none !important;
+  width:3.4em;                 /* увеличиваем размер */
+  height: 3.4em;
+  vertical-align: middle;       
+   stroke-width: 1 !important; 
+}
+
+/* Если иконка должна быть залитой, можно добавить fill тоже, например: */
+/* fill: #FFD700 !important; */
+
 body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
@@ -594,6 +613,60 @@ footer {
   color: #ff99ff;
 }
 
+
+.glowi-card {
+            background: linear-gradient(145deg, #1f4068, #1b1b2f);
+            border: 1px solid #0f3460;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 0 15px #0f3460;
+        }
+        h2 {
+            text-align: center;
+            color: #f0f0f0;
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+        input[type="text"],
+        input[type="number"],
+        select,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 5px;
+            background-color: #e0e0e0;
+        }
+        .btn-save {
+            display: block;
+            width: 100%;
+            background: linear-gradient(45deg, #e94560, #903749);
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .btn-save:hover {
+            background: linear-gradient(45deg, #ff4d6d, #a53860);
+        }
+        .avatar-preview {
+            display: block;
+            margin: 20px auto;
+            max-width: 150px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px #00f7ff;
+        }
 
 /* --- Адаптивность --- */
 @media (max-width: 768px) {

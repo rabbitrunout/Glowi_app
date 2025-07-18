@@ -75,7 +75,7 @@ $allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
   <form method="get">
     <input type="hidden" name="childID" value="<?= $childID ?>">
-    <label>Фильтр:</label>
+    <label>Filter:</label>
     <select name="filter" onchange="this.form.submit()">
       <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Все</option>
       <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>Тренировки</option>
@@ -84,12 +84,12 @@ $allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </form>
 
   <?php if (empty($events)): ?>
-    <p>Нет событий.</p>
+    <p>No events.</p>
   <?php else: ?>
     <table border="1" cellpadding="6" cellspacing="0">
       <thead>
         <tr>
-          <th>Дата</th><th>Время</th><th>Название</th><th>Тип</th><th>Место</th><th>Действия</th>
+          <th>Date</th><th>Time</th><th>Name</th><th>Type</th><th>Location</th><th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -98,11 +98,11 @@ $allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= $event['date'] ?></td>
             <td><?= $event['time'] ?></td>
             <td><?= htmlspecialchars($event['title']) ?></td>
-            <td><?= $event['eventType'] === 'training' ? 'Тренировка' : 'Соревнование' ?></td>
+            <td><?= $event['eventType'] === 'training' ? 'Training' : 'Competition' ?></td>
             <td><?= htmlspecialchars($event['location']) ?></td>
             <td>
-              <a href="?childID=<?= $childID ?>&unlinkEventID=<?= $event['eventID'] ?>" onclick="return confirm('Удалить событие из списка ребёнка?')">❌ Удалить</a><br>
-              <button class="edit-btn" data-event='<?= json_encode($event, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>'>✏️ Редактировать</button>
+              <a href="?childID=<?= $childID ?>&unlinkEventID=<?= $event['eventID'] ?>" onclick="return confirm('Удалить событие из списка ребёнка?')">❌ Delete</a><br>
+              <button class="edit-btn" data-event='<?= json_encode($event, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>'>✏️ Edit</button>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -122,43 +122,43 @@ $allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <button type="submit">Привязать</button>
   </form> -->
 
-  <h3>➕ Новое событие</h3>
+  <!-- <h3>➕ New event</h3>
   <form method="post" action="add_event.php">
     <input type="hidden" name="childID" value="<?= $childID ?>">
     <input type="text" name="title" placeholder="Название" required><br>
     <select name="eventType" required>
-      <option value="training">Тренировка</option>
-      <option value="competition">Соревнование</option>
+      <option value="training">Training</option>
+      <option value="competition">Competition</option>
     </select><br>
     <textarea name="description" placeholder="Описание"></textarea><br>
     <input type="date" name="date" required>
     <input type="time" name="time" required><br>
     <input type="text" name="location" placeholder="Место" required><br>
-    <button type="submit">Создать</button>
-  </form>
+    <button type="submit">Create</button>
+  </form> -->
 
-  <p><a href="child_profile.php?childID=<?= $childID ?>">← Назад к профилю</a></p>
+  <p><a href="child_profile.php?childID=<?= $childID ?>">← Back on profile</a></p>
 </main>
 
 <!-- Модальное окно -->
 <div id="editModal" class="modal">
   <div class="modal-content">
     <span class="close" onclick="document.getElementById('editModal').style.display='none'">×</span>
-    <h3>Редактировать событие</h3>
+    <h3>Edit Event</h3>
     <form method="post" action="update_event.php">
       <input type="hidden" name="eventID" id="editEventID">
       <input type="hidden" name="childID" value="<?= $childID ?>">
-      <label>Название:</label><input type="text" name="title" id="editTitle" required><br>
-      <label>Тип:</label>
+      <label>Name:</label><input type="text" name="title" id="editTitle" required><br>
+      <label>Type:</label>
       <select name="eventType" id="editType" required>
-        <option value="training">Тренировка</option>
-        <option value="competition">Соревнование</option>
+        <option value="training">Training</option>
+        <option value="competition">Competition</option>
       </select><br>
-      <label>Описание:</label><textarea name="description" id="editDescription"></textarea><br>
-      <label>Дата:</label><input type="date" name="date" id="editDate" required><br>
-      <label>Время:</label><input type="time" name="time" id="editTime" required><br>
-      <label>Место:</label><input type="text" name="location" id="editLocation" required><br>
-      <button type="submit">💾 Сохранить</button>
+      <label>Discribe:</label><textarea name="description" id="editDescription"></textarea><br>
+      <label>Date:</label><input type="date" name="date" id="editDate" required><br>
+      <label>Time:</label><input type="time" name="time" id="editTime" required><br>
+      <label>Lovation:</label><input type="text" name="location" id="editLocation" required><br>
+      <button type="submit">💾 SAVE</button>
     </form>
   </div>
 </div>

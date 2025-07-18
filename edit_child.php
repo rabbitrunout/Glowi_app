@@ -37,21 +37,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt = $pdo->prepare("UPDATE children SET name = ?, age = ?, groupLevel = ?, gender = ? WHERE childID = ?");
     $stmt->execute([$name, $age, $groupLevel, $gender, $childID]);
 
-    // Загрузка фото
-    if (!empty($_FILES['photo']['name'])) {
-        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        if (in_array($_FILES['photo']['type'], $allowedTypes)) {
-            $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-            $targetDir = 'uploads/avatars/';
-            if (!is_dir($targetDir)) mkdir($targetDir, 0755, true);
+    // Загрузка изображения
+    if (isset($_FILES['childImage']) && $_FILES['childImage']['error'] === UPLOAD_ERR_OK) {
+        $tmp_name = $_FILES['childImage']['tmp_name'];
+        $original_name = basename($_FILES['childImage']['name']);
+        $ext = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
+        $new_name = uniqid('photoImage_', true) . '.' . $ext;
 
-            $filename = uniqid('photo_', true) . '.' . $ext;
-            $targetPath = $targetDir . $filename;
+        $upload_dir = 'uploads/avatars/';
+        if (!is_dir($upload_dir)) mkdir($upload_dir, 0755, true);
 
-            if (move_uploaded_file($_FILES['photo']['tmp_name'], $targetPath)) {
-                $stmt = $pdo->prepare("UPDATE children SET photoImage = ? WHERE childID = ? AND parentID = ?");
-                $stmt->execute([$targetPath, $childID, $parentID]);
-            }
+        $destination = $upload_dir . $new_name;
+
+        if (move_uploaded_file($tmp_name, $destination)) {
+            $image_path = '/' . $destination;
+
+            $stmt = $pdo->prepare("UPDATE children SET photoImage = ? WHERE childID = ?");
+            $stmt->execute([$image_path, $childID]);
         }
     }
 
@@ -60,79 +62,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Редактирование профиля: <?= htmlspecialchars($child['name']) ?></title>
+    <title>Profile Editing: <?= htmlspecialchars($child['name']) ?></title>
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/child_profile_neon.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
 
-<main class="container card" style="max-width: 500px;">
-    <h1>✏️ Редактировать профиль</h1>
+<main class="container glowi-card" style="max-width: 480px; margin: 3rem auto;">
+    <h2>✏️ Edit a child's profile</h2>
+
     <form method="POST" action="edit_child.php?childID=<?= $childID ?>" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input id="name" type="text" name="name" value="<?= htmlspecialchars($child['name']) ?>" required />
 
-        <label>Имя:</label><br>
-        <input type="text" name="name" value="<?= htmlspecialchars($child['name']) ?>" required><br><br>
+        <label for="age">Age:</label>
+        <input id="age" type="number" name="age" min="1" value="<?= htmlspecialchars($child['age']) ?>" required />
 
-        <label>Возраст:</label><br>
-        <input type="number" name="age" value="<?= htmlspecialchars($child['age']) ?>" min="1" required><br><br>
+        <label for="groupLevel">Level:</label>
+        <select id="groupLevel" name="groupLevel" required>
+            <?php
+            $levels = [
+                "Novice", "Junior", "Senior",
+                "Level 2A", "Level 2B", "Level 2C",
+                "Level 3A", "Level 3B", "Level 3C",
+                "Level 4A", "Level 4B", "Level 4C",
+                "Level 5A", "Level 5B", "Level 5C",
+                "Interclub 2A", "Interclub 2B", "Interclub 2C",
+                "Interclub 3A", "Interclub 3B", "Interclub 3C"
+            ];
+            foreach ($levels as $level) {
+                $selected = ($child['groupLevel'] === $level) ? 'selected' : '';
+                echo "<option value=\"$level\" $selected>$level</option>";
+            }
+            ?>
+        </select>
 
-        <label>Уровень группы:</label><br>
-        <select name="groupLevel" required>
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="male" <?= $child['gender'] === 'male' ? 'selected' : '' ?>>Male</option>
+            <option value="female" <?= $child['gender'] === 'female' ? 'selected' : '' ?>>Female</option>
+            <option value="unknown" <?= $child['gender'] === 'unknown' ? 'selected' : '' ?>>Unknown</option>
+        </select>
 
-          <option value="Novice" <?= $child['groupLevel'] === 'Novice' ? 'selected' : '' ?>>Novice</option>
-            <option value="Junior" <?= $child['groupLevel'] === 'Junior' ? 'selected' : '' ?>>Junior</option>
-            <option value="Senior" <?= $child['groupLevel'] === 'Senior' ? 'selected' : '' ?>>Senior</option>
+        <label for="childImage">Child Image:</label>
+        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)" />
 
-            <option value="Level 2A" <?= $child['groupLevel'] === 'Level 2A' ? 'selected' : '' ?>>Provintial Level 2A</option>
-            <option value="Level 2B" <?= $child['groupLevel'] === 'Level 2B' ? 'selected' : '' ?>>Provintial Level 2B</option>
-            <option value="Level 2C" <?= $child['groupLevel'] === 'Level 2C' ? 'selected' : '' ?>>Provintial Level 2C</option>
-            
-            <option value="Level 3A" <?= $child['groupLevel'] === 'Level 3A' ? 'selected' : '' ?>>Provintial Level 3A</option>
-            <option value="Level 3B" <?= $child['groupLevel'] === 'Level 3B' ? 'selected' : '' ?>>Provintial Level 3B</option>
-            <option value="Level 3C" <?= $child['groupLevel'] === 'Level 3C' ? 'selected' : '' ?>>Provintial Level 3C</option>
+        <img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview" />
 
-            <option value="Level 4A" <?= $child['groupLevel'] === 'Level 4A' ? 'selected' : '' ?>>Provintial Level 4A</option>
-            <option value="Level 4B" <?= $child['groupLevel'] === 'Level 4B' ? 'selected' : '' ?>>Provintial Level 4B</option>
-            <option value="Level 4C" <?= $child['groupLevel'] === 'Level 4C' ? 'selected' : '' ?>>Provintial Level 4C</option>
-
-            <option value="Level 5A" <?= $child['groupLevel'] === 'Level 5A' ? 'selected' : '' ?>>Provintial Level 5A</option>
-            <option value="Level 5B" <?= $child['groupLevel'] === 'Level 5B' ? 'selected' : '' ?>>Provintial Level 5B</option>
-            <option value="Level 5C" <?= $child['groupLevel'] === 'Level 5C' ? 'selected' : '' ?>>Provintial Level 5C</option>
-
-            <option value="Level 2A" <?= $child['groupLevel'] === 'Level 2A' ? 'selected' : '' ?>>Interclub  2A</option>
-            <option value="Level 2B" <?= $child['groupLevel'] === 'Level 2B' ? 'selected' : '' ?>>Interclub   2B</option>
-            <option value="Level 2C" <?= $child['groupLevel'] === 'Level 2C' ? 'selected' : '' ?>>Interclub 2C</option>
-
-             <option value="Level 3A" <?= $child['groupLevel'] === 'Level 3A' ? 'selected' : '' ?>>Interclub  3A</option>
-            <option value="Level 3B" <?= $child['groupLevel'] === 'Level 3B' ? 'selected' : '' ?>>Interclub   3B</option>
-            <option value="Level 3C" <?= $child['groupLevel'] === 'Level 3C' ? 'selected' : '' ?>>Interclub  3C</option>
-
-            
-        </select><br><br>
-
-        <label>Пол:</label><br>
-        <select name="gender">
-            <option value="male" <?= $child['gender'] === 'male' ? 'selected' : '' ?>>Мальчик</option>
-            <option value="female" <?= $child['gender'] === 'female' ? 'selected' : '' ?>>Девочка</option>
-            <option value="unknown" <?= $child['gender'] === 'unknown' ? 'selected' : '' ?>>Не указано</option>
-        </select><br><br>
-
-        <label>Фото (аватар):</label><br>
-        <?php if (!empty($child['photoImage'])): ?>
-            <img src="<?= htmlspecialchars($child['photoImage']) ?>" alt="Фото ребенка" style="max-width:100px; border-radius: 50%;"><br>
-        <?php endif; ?>
-        <input type="file" name="photo" accept="image/*"><br><br>
-
-        <button type="submit">💾 Сохранить изменения</button>
+        <button type="submit" class="btn-save"> Save</button>
     </form>
 
-    <p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Назад к профилю</a></p>
+    <p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Back to profile</a></p>
 </main>
 
 <?php include 'footer.php'; ?>
+
+<script>
+function previewImage(event) {
+  const input = event.target;
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const output = document.getElementById('imagePreview');
+      output.src = e.target.result;
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+</script>
+
 </body>
 </html>

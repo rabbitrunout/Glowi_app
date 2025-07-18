@@ -33,3 +33,5 @@ if ($childID && $title && $type && $date && $time && $location) {
     die("Ошибка: не все поля заполнены.");
 }
 ?>
+
+

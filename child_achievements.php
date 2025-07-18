@@ -58,6 +58,9 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <h1>Child's achievements: <?= htmlspecialchars($child['name']) ?></h1>
 
+<p><a href="add_achievement.php?childID=<?= $childID ?>" class="button">
+    <i data-lucide="plus-circle"></i> Добавить достижение</a></p>
+
 <section class="achievements-section card">
   <?php if (empty($achievements)): ?>
       <p>There are no added achievements yet.</p>

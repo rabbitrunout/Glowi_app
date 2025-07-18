@@ -27,9 +27,10 @@ $targetPath = $targetDir . $filename;
 
 if (move_uploaded_file($_FILES['photoImage']['tmp_name'], $targetPath)) {
     $stmt = $pdo->prepare("UPDATE children SET photoImage = ? WHERE childID = ? AND parentID = ?");
-    $stmt->execute([$targetPath, $childID, $parentID]);
+    $stmt->execute(['/' . $targetPath, $childID, $parentID]);
     header("Location: child_profile.php?childID=$childID");
 } else {
     die("Ошибка при сохранении файла.");
 }
+
 ?>

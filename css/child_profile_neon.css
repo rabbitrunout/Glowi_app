@@ -1,15 +1,19 @@
+/* Основной фон и шрифт */
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to bottom, #3d0066, #6a00b0);
-  color: #fff;
+  background: linear-gradient(to bottom, #1b0032, #4e0072);
+  color: white;
+  padding: 2rem;
 }
 
+/* Обёртка и блоки */
 .container {
   display: flex;
   gap: 2rem;
-  padding: 2rem;
   flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .left-column, .right-column {
@@ -26,6 +30,22 @@ body {
   color: #fff;
 }
 
+/* Заголовки с иконками */
+h1, h2 {
+  color: #00e6f6;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.icon {
+  color: #ffc300;
+  font-size: 1.8rem;
+}
+
+/* Аватар */
 .profile-header {
   display: flex;
   gap: 1.5rem;
@@ -41,24 +61,12 @@ body {
   background: radial-gradient(circle, #ff00ff, #00e6f6);
 }
 
-h1, h2 {
-  color: #f8f8f8;
-  font-weight: 600;
-}
-
-a {
-  color: #f600bf;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
+/* Таблицы */
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
+  margin-top: 1rem;
 }
 
 th, td {
@@ -75,35 +83,82 @@ tr:nth-child(even) {
   background-color: rgba(255,255,255,0.05);
 }
 
-.button {
+/* Ссылки */
+a {
+  color: #00e6f6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Кнопки */
+.button, .btn {
   display: inline-block;
   background: #ff66ff;
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
-  color: #000;
+  color: #1b0032;
   font-weight: bold;
+  text-align: center;
   transition: background 0.3s ease;
+  text-decoration: none;
+  margin-top: 0.5rem;
 }
 
-.button:hover {
+.btn:hover, .button:hover {
   background: #d633d6;
 }
 
-.btn {
-  background: #00e6f6;
-  color: #1b0032;
-  font-weight: bold;
-  padding: 0.4rem 1rem;
-  border-radius: 8px;
-  margin-right: 0.5rem;
-  text-decoration: none;
-  transition: background 0.2s ease;
+/* Карточки событий */
+.event-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
 }
 
-.btn:hover {
-  background: #00bccc;
+.event-card {
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 16px;
+  color: #fff;
+  box-shadow: 0 0 10px #00f0ff;
+  transition: 0.3s ease-in-out;
 }
 
-.avatar i {
-  font-size: 1.5rem;
+.event-card:hover {
+  box-shadow: 0 0 20px #00f0ff;
+  transform: translateY(-2px);
+}
+
+.event-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.event-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #ffc300;
+}
+
+/* Цвета по типу */
+.training {
+  color: #00c3ff;
+}
+
+.competition {
+  color: #ffc300;
+}
+
+/* Адаптив */
+@media (min-width: 768px) {
+  .event-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
