@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit">Добавить</button>
   </form>
 
-  <p><a href="profile.php?childID=<?= $childID ?>">← Вернуться к профилю</a></p>
+  <p><a href="child_profile.php?childID=<?= $childID ?>">← Вернуться к профилю</a></p>
 </main>
 
 <?php include 'footer.php'; ?>

@@ -10,7 +10,7 @@ if (!isset($_SESSION['parentID'])) {
 $parentID = $_SESSION['parentID'];
 
 if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
-    die("Некорректный ID ребенка.");
+    die("Invalid child's ID.");
 }
 
 $childID = (int)$_GET['childID'];
@@ -20,7 +20,7 @@ $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$child) {
-    die("Ребенок не найден или доступ запрещен.");
+    die("The child has not been found or access is denied.");
 }
 
 // Получаем платежи
@@ -33,29 +33,29 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Платежи для <?= htmlspecialchars($child['name']) ?></title>
+  <title>Payments for <?= htmlspecialchars($child['name']) ?></title>
 </head>
 <body>
 <?php include 'header.php'; ?>
 
-<h1>Платежи ребенка: <?= htmlspecialchars($child['name']) ?></h1>
+<h1>Child's payments: <?= htmlspecialchars($child['name']) ?></h1>
 
 <?php if (empty($payments)): ?>
-    <p>Платежи отсутствуют.</p>
+    <p>There are no payments.</p>
 <?php else: ?>
     <table border="1" cellpadding="5" cellspacing="0">
         <thead>
             <tr>
-                <th>Дата</th>
-                <th>Сумма</th>
-                <th>Статус</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($payments as $payment): ?>
             <tr>
                 <td><?= htmlspecialchars($payment['paymentDate']) ?></td>
-                <td><?= number_format($payment['amount'], 2, ',', ' ') ?> руб.</td>
+                <td><?= number_format($payment['amount'], 2, ',', ' ') ?> $ CAD</td>
                 <td><?= htmlspecialchars($payment['status']) ?></td>
             </tr>
             <?php endforeach; ?>
@@ -63,7 +63,11 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </table>
 <?php endif; ?>
 
-<p><a href="dashboard.php">← Back to your personal account</a></p>
+
+      <p><a href="add_payment.php?childID=<?= $childID ?>" class="button">
+        <i data-lucide="plus-circle"></i> Add payment </a></p>
+
+<p><a href="child_profile.php?childID=<?= $childID ?>">← Вернуться к профилю</a></p>
 
 <?php include 'footer.php'; ?>
 </body>

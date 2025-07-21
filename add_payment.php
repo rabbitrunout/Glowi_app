@@ -75,6 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <p><a href="child_payments.php?childID=<?= $childID ?>">← Back to payments</a></p>
 
+<p><a href="child_profile.php?childID=<?= $childID ?>">← Вернуться к профилю</a></p>
+
 <?php include 'footer.php'; ?>
 </body>
 </html>

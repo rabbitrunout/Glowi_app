@@ -75,6 +75,42 @@ nav a:hover {
   color: #e0e0e0;
   animation: fadeInUp 1s ease-in-out;
 }
+  .how-glowi-works {
+    background-color: #2a2a2e;
+    padding: 40px 20px;
+    border-top: 2px dashed #ff9ec8;
+    border-bottom: 2px dashed #ff9ec8;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .step img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+  }
+
+  .step img:hover {
+    transform: scale(1.1) rotate(3deg);
+  }
+
+  .step h4 {
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+    color: #FFC0E0;
+  }
+
+  .step p {
+    font-size: 0.95rem;
+    color: #eee;
+  }
 
 /* --- Общие секции --- */
 .section {
@@ -722,5 +758,112 @@ footer {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+
+
+/* --- Glowi Neon Main Style with Parallax --- */
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(to right, #ff00cc, #333399);
+  color: white;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* ÐŸÐ°Ñ€Ð°Ð»Ð»Ð°ÐºÑ-ÑÐµÐºÑ†Ð¸Ð¸ */
+.parallax-section {
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.parallax-1 { background-image: url('../assets/parallax1.jpg'); }
+.parallax-2 { background-image: url('../assets/parallax2.jpg'); }
+.parallax-3 { background-image: url('../assets/parallax3.jpg'); }
+
+/* Ð—Ð°Ð³Ð¾Ð»Ð¾Ð²ÐºÐ¸ */
+h1, h2, h3, h4, h5 {
+  color: #fff;
+  text-shadow: 0 0 6px #ff66ff;
+}
+
+a {
+  color: #00e6f6;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+a:hover { color: #ffccff; }
+
+/* ÐœÐ¾Ð´Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÑ‚Ð¸Ð»Ð¸ */
+.glowi-modal {
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  border: 2px solid #ff66cc;
+  box-shadow: 0 0 25px #ff66cc, 0 0 40px #00ffff;
+  border-radius: 15px;
+  padding: 20px;
+  color: #fff;
+}
+
+/* ÐšÐ½Ð¾Ð¿ÐºÐ¸ */
+.button, button {
+  background: #ff66ff;
+  color: #1a1a2e;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+.button:hover, button:hover {
+  background: #ff33cc;
+}
+
+/* ÐŸÑ€Ð¾Ñ„Ð¸Ð»ÑŒ Ð¸ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ¸ */
+.card {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  margin: 20px 0;
+}
+
+footer {
+  background: rgba(0, 0, 0, 0.8);
+  color: #ccc;
+  text-align: center;
+  padding: 1rem;
+}
+
+/* FullCalendar Ð°Ð´Ð°Ð¿Ñ‚Ð°Ñ†Ð¸Ñ */
+.fc {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 1rem;
+  color: #1a1a2e;
+  font-family: 'Nunito', sans-serif;
+}
+
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section {
+  animation: fadeInUp 1s ease-in-out;
+}
+
+
+html { scroll-behavior: smooth; }
+
+@media (max-width: 768px) {
+  .parallax-section {
+    background-attachment: scroll;
   }
 }

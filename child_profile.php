@@ -10,6 +10,18 @@ if (!isset($_SESSION['parentID'])) {
 $parentID = $_SESSION['parentID'];
 $childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die("Некорректный ID ребенка.");
 
+$childID = (int)$_GET['childID'];
+if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
+    die("Некорректный ID ребенка.");
+}
+
+$stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
+$stmt->execute([$childID, $parentID]);
+$child = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$child) {
+    die("Ребенок не найден или доступ запрещен.");
+}
+
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC) ?: die("Ребенок не найден или доступ запрещён.");
@@ -18,6 +30,7 @@ $stmt = $pdo->prepare("SELECT * FROM achievements WHERE childID = ? ORDER BY dat
 $stmt->execute([$childID]);
 $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Платежи: последние 5
 $stmt = $pdo->prepare("SELECT * FROM payments WHERE childID = ? ORDER BY paymentDate DESC LIMIT 5");
 $stmt->execute([$childID]);
 $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -148,8 +161,8 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       <div class="avatar">
         <?php 
           $imagePath = $child['photoImage'] ?? '';
-          if ($imagePath === null || $imagePath === '' || $imagePath === 'placeholder_100.jpg') {
-              $imagePath = 'uploads/avatars/placeholder_100.jpg';
+          if ($imagePath === null || $imagePath === '' || $imagePath === 'placeholder_100.png') {
+              $imagePath = 'uploads/avatars/placeholder_100.png';
           } else {
               if (!str_contains($imagePath, '/')) {
                   $imagePath = 'uploads/avatars/' . $imagePath;
@@ -229,26 +242,33 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
         <i data-lucide="plus-circle"></i> Add an event </a></p>
     </section>
 
-    <section class="card payments-section">
-      <h2><i data-lucide="credit-card"></i> Recent payments</h2>
-      <?php if (empty($payments)): ?>
-        <p>No payments yet</p>
-      <?php else: ?>
-        <table>
-          <thead><tr><th>Day</th><th>Sum ($)</th><th>Status</th></tr></thead>
-          <tbody>
-            <?php foreach ($payments as $payment): ?>
-              <tr>
-                <td><?= htmlspecialchars($payment['paymentDate']) ?></td>
-                <td><?= number_format($payment['amount'], 2, ',', ' ') ?></td>
-                <td><?= htmlspecialchars($payment['status']) ?></td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-        <p><a href="child_payments.php?childID=<?= $childID ?>"><i data-lucide="wallet"></i> All payments →</a></p>
-      <?php endif; ?>
-    </section>
+   <section class="card payments-section">
+  <h2><i data-lucide="credit-card"></i> Recent payments</h2>
+  <?php if (empty($payments)): ?>
+    <p>No payments yet</p>
+  <?php else: ?>
+    <table>
+      <thead><tr><th>Date</th><th>Amount ($)</th><th>Status</th></tr></thead>
+      <tbody>
+        <?php foreach ($payments as $payment): ?>
+          <tr>
+            <td><?= htmlspecialchars($payment['paymentDate']) ?></td>
+            <td><?= number_format($payment['amount'], 2, ',', ' ') ?></td>
+            <td><?= htmlspecialchars($payment['status']) ?></td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+
+   
+
+    <p><a href="child_payments.php?childID=<?= $childID ?>"><i data-lucide="wallet"></i> All payments →</a></p>
+
+     <p><a href="add_payment.php?childID=<?= $childID ?>" class="button">
+        <i data-lucide="plus-circle"></i> Add payment </a></p>
+  <?php endif; ?>
+</section>
+
   </div>
 
   <div class="right-column">
