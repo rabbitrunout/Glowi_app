@@ -254,13 +254,11 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       </tbody>
     </table>
 
-   
-
-    <p><a href="child_payments.php?childID=<?= $childID ?>"><i data-lucide="wallet"></i> All payments →</a></p>
-
-     <p><a href="add_payment.php?childID=<?= $childID ?>" class="button">
-        <i data-lucide="plus-circle"></i> Add payment </a></p>
+    
   <?php endif; ?>
+   <p><a href="child_payments.php?childID=<?= $childID ?>"><i data-lucide="wallet"></i> All payments →</a></p>
+   <p><a href="add_payment.php?childID=<?= $childID ?>" class="button">
+        <i data-lucide="plus-circle"></i> Add payment </a></p>
 </section>
 
   </div>

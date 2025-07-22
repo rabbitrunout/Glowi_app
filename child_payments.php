@@ -60,14 +60,16 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <td><?= number_format($payment['amount'], 2, ',', ' ') ?> $ CAD</td>
                 <td><?= htmlspecialchars($payment['status']) ?></td>
             </tr>
+            
             <?php endforeach; ?>
         </tbody>
+        <p><a href="add_payment.php?childID=<?= $childID ?>" class="button">
+        <i data-lucide="plus-circle"></i> Add payment </a></p>
     </table>
 <?php endif; ?>
 
 
-      <p><a href="add_payment.php?childID=<?= $childID ?>" class="button">
-        <i data-lucide="plus-circle"></i> Add payment </a></p>
+      
 
 <p><a href="child_profile.php?childID=<?= $childID ?>">← Вернуться к профилю</a></p>
 
