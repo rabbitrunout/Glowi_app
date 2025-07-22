@@ -154,7 +154,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 <body>
   <?php include 'header.php'; ?>
   <?php if (basename($_SERVER['PHP_SELF']) == 'child_profile.php'): ?>
-  <link rel="stylesheet" href="/css/child_profile_neon.css">
+  <!-- <link rel="stylesheet" href="/css/child_profile_neon.css"> -->
 <?php endif; ?>
 
 
@@ -165,7 +165,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   <img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview">
   </div>
       <div>
-        <h1><i data-lucide="user"></i> <?= htmlspecialchars($child['name']) ?></h1>
+        <h1> <?= htmlspecialchars($child['name']) ?></h1>
         <p><strong><i data-lucide="cake"></i> Age:</strong> <?= htmlspecialchars($child['age']) ?> y.o.</p>
         <p><strong><i data-lucide="school"></i> Level:</strong> <?= htmlspecialchars($child['groupLevel']) ?></p>
         <p><strong><i data-lucide="user-circle"></i> Gender:</strong> <?= htmlspecialchars($child['gender']) ?></p>

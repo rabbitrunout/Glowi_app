@@ -15,16 +15,15 @@ h6 svg[data-lucide] {
    stroke-width: 1 !important; 
 }
 
-/* Если иконка должна быть залитой, можно добавить fill тоже, например: */
-/* fill: #FFD700 !important; */
 
-body {
+
+/* body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
   background: linear-gradient(to right, #ff00cc, #333399);
   color: white;
   overflow-x: hidden;
-}
+} */
 
 header {
   background-color: rgba(0, 0, 0, 0.8);
@@ -277,10 +276,10 @@ button:hover, .button:hover {
 .profile-header .avatar {
   width: 100px;
   height: 100px;
-  /* background: #ddd url('https://source.unsplash.com/100x100/?child,face') center/cover; */
-  border-radius: 50%;
+  
+  
   background-size: cover;
-  border: 2px solid #ccc;
+  
 }
 
 .profile-header h2 {
@@ -651,13 +650,15 @@ footer {
 
 
 .glowi-card {
-            background: linear-gradient(145deg, #1f4068, #1b1b2f);
-            border: 1px solid #0f3460;
-            border-radius: 16px;
+            background: linear-gradient(to bottom, #5e2590, #4e0072);
+            /* border: 1px solid #0f3460; */
+            
             padding: 30px;
             max-width: 600px;
             margin: auto;
-            box-shadow: 0 0 15px #0f3460;
+            border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
         }
         h2 {
             text-align: center;
@@ -698,7 +699,7 @@ footer {
         }
         .avatar-preview {
             display: block;
-            margin: 20px auto;
+            /* margin: 20px auto; */
             max-width: 150px;
             border-radius: 12px;
             box-shadow: 0 0 10px #00f7ff;
@@ -866,4 +867,27 @@ html { scroll-behavior: smooth; }
   .parallax-section {
     background-attachment: scroll;
   }
+}
+
+.glowi-btn.danger {
+  background: #ff3366;
+  border: 1px solid #ff99bb;
+  color: #fff;
+  box-shadow: 0 0 10px #ff3366, 0 0 20px #ff3366;
+  transition: background 0.3s;
+}
+.glowi-btn.danger:hover {
+  background: #ff0033;
+}
+
+.child-card input[type="text"],
+.child-card input[type="number"] {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #1b1f3b;
+  color: #fff;
+  box-shadow: 0 0 8px #ff00cc66;
 }

@@ -34,6 +34,8 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8" />
   <title>Payments for <?= htmlspecialchars($child['name']) ?></title>
+   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/child_profile_neon.css">
 </head>
 <body>
 <?php include 'header.php'; ?>

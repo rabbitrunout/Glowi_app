@@ -46,6 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8" />
   <title>Add a payment— <?= htmlspecialchars($child['name']) ?></title>
+   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/child_profile_neon.css">
+  
 </head>
 <body>
 <?php include 'header.php'; ?>

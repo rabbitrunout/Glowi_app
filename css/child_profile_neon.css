@@ -53,12 +53,13 @@ h1, h2 {
 }
 
 .profile-header img {
-  width: 100px;
-  height: 100px;
+  width: 130px;
+  height: 130px;
   object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #00e6f6;
-  background: radial-gradient(circle, #ff00ff, #00e6f6);
+  border-radius: 50%; 
+  /* border: 2px solid #00e6f6;  */
+   /* justify-content: center;
+   align-items: center; */
 }
 
 /* Таблицы */

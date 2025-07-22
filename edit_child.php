@@ -125,14 +125,21 @@ if (!str_contains($imagePath, '/')) {
         </select>
 
         <label for="childImage">Child Image:</label>
-        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)">
+        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)"><br/>
 
-        <img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview">
+        <br/><img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview"> 
 
         <button type="submit" class="btn-save">Save</button>
+
+        <p>
+            <a href="child_profile.php?childID=<?= $childID ?>">
+                <i data-lucide="arrow-left"></i>
+                 ← Back to profile
+            </a>
+        </p>
     </form>
 
-    <p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Back to profile</a></p>
+    
 </main>
 
 <?php include 'footer.php'; ?>
