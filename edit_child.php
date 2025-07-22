@@ -1,73 +1,85 @@
 <?php
 session_start();
 require 'database.php';
+require 'image_functions.php'; // <-- подключаем функции ресайза
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-if (!isset($_SESSION['parentID'])) {
-    header('Location: login_form.php');
-    exit;
+$uploadDir = "uploads/avatars/";
+$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
 }
 
-$parentID = $_SESSION['parentID'];
-
-if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
-    die("Некорректный ID ребенка.");
-}
-
-$childID = (int)$_GET['childID'];
-
-// Получаем данные ребенка
-$stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
-$stmt->execute([$childID, $parentID]);
-$child = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$child) {
-    die("Ребенок не найден или доступ запрещён.");
-}
-
-// Обработка формы
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name']);
-    $age = (int)$_POST['age'];
-    $groupLevel = trim($_POST['groupLevel']);
-    $gender = $_POST['gender'] ?? 'unknown';
+    $childID = $_POST['childID'];
+    $name = $_POST['name'];
+    $age = $_POST['age'];
+    $gender = $_POST['gender'];
+    $groupLevel = $_POST['groupLevel'];
 
-    // Обновление текста
-    $stmt = $pdo->prepare("UPDATE children SET name = ?, age = ?, groupLevel = ?, gender = ? WHERE childID = ?");
-    $stmt->execute([$name, $age, $groupLevel, $gender, $childID]);
+    // Получаем старое изображение
+    $stmt = $pdo->prepare("SELECT photoImage FROM children WHERE childID = ?");
+    $stmt->execute([$childID]);
+    $old = $stmt->fetch(PDO::FETCH_ASSOC);
+    $old_image = $old['photoImage'] ?? 'placeholder_100.png';
 
-    // Загрузка изображения
+    $imageToSave = $old_image;
+
     if (isset($_FILES['childImage']) && $_FILES['childImage']['error'] === UPLOAD_ERR_OK) {
         $tmp_name = $_FILES['childImage']['tmp_name'];
         $original_name = basename($_FILES['childImage']['name']);
-        $ext = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
-        $new_name = uniqid('photoImage_', true) . '.' . $ext;
+        $extension = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
 
-        $upload_dir = 'uploads/avatars/';
-        if (!is_dir($upload_dir)) mkdir($upload_dir, 0755, true);
+        if (in_array($extension, $allowedExtensions)) {
+            $new_image = uniqid('child_', true) . '.' . $extension;
+            $destination = $uploadDir . $new_image;
 
-        $destination = $upload_dir . $new_name;
+            if (move_uploaded_file($tmp_name, $destination)) {
+                // Удаляем старые изображения, если есть
+                if (!empty($old_image) && $old_image !== 'placeholder_100.png') {
+                    $baseOld = pathinfo($old_image, PATHINFO_FILENAME);
+                    foreach (glob($uploadDir . $baseOld . '*') as $oldFile) {
+                        if (is_file($oldFile)) unlink($oldFile);
+                    }
+                }
 
-        if (move_uploaded_file($tmp_name, $destination)) {
-            $image_path = '/' . $destination;
+                // Создаем версии с ресайзом
+                process_image($uploadDir, $new_image);
 
-            $stmt = $pdo->prepare("UPDATE children SET photoImage = ? WHERE childID = ?");
-            $stmt->execute([$image_path, $childID]);
+                $imageToSave = $new_image;
+            }
         }
     }
 
-    header("Location: child_profile.php?childID=$childID");
+    $stmt = $pdo->prepare("UPDATE children SET name = ?, age = ?, gender = ?, groupLevel = ?, photoImage = ? WHERE childID = ?");
+    $stmt->execute([$name, $age, $gender, $groupLevel, $imageToSave, $childID]);
+
+    header("Location: child_profile.php?childID=" . $childID);
     exit;
 }
+
+// Для GET-запроса или первого открытия формы:
+$childID = $_GET['childID'] ?? $_POST['childID'] ?? null;
+if (!$childID) die("Ошибка: childID не передан.");
+
+$stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ?");
+$stmt->execute([$childID]);
+$child = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$child) die("Ребенок не найден.");
+
+$imagePath = $child['photoImage'] ?? 'placeholder_100.png';
+if (!str_contains($imagePath, '/')) {
+    $imagePath = $uploadDir . $imagePath;
+}
 ?>
-
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Profile Editing: <?= htmlspecialchars($child['name']) ?></title>
+    <title>Редактирование профиля: <?= htmlspecialchars($child['name']) ?></title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/child_profile_neon.css">
 </head>
@@ -77,12 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <main class="container glowi-card" style="max-width: 480px; margin: 3rem auto;">
     <h2>✏️ Edit a child's profile</h2>
 
-    <form method="POST" action="edit_child.php?childID=<?= $childID ?>" enctype="multipart/form-data">
+    <form method="POST" action="edit_child.php" enctype="multipart/form-data">
+        <input type="hidden" name="childID" value="<?= $childID ?>">
+
         <label for="name">Name:</label>
-        <input id="name" type="text" name="name" value="<?= htmlspecialchars($child['name']) ?>" required />
+        <input id="name" type="text" name="name" value="<?= htmlspecialchars($child['name']) ?>" required>
 
         <label for="age">Age:</label>
-        <input id="age" type="number" name="age" min="1" value="<?= htmlspecialchars($child['age']) ?>" required />
+        <input id="age" type="number" name="age" min="1" value="<?= htmlspecialchars($child['age']) ?>" required>
 
         <label for="groupLevel">Level:</label>
         <select id="groupLevel" name="groupLevel" required>
@@ -111,11 +125,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </select>
 
         <label for="childImage">Child Image:</label>
-        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)" />
+        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)">
 
-        <img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview" />
+        <img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview">
 
-        <button type="submit" class="btn-save"> Save</button>
+        <button type="submit" class="btn-save">Save</button>
     </form>
 
     <p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Back to profile</a></p>
@@ -136,6 +150,5 @@ function previewImage(event) {
   }
 }
 </script>
-
 </body>
 </html>

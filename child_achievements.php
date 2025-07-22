@@ -69,15 +69,14 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <?php foreach ($achievements as $ach): ?>
     <li class="achievement" data-id="<?= $ach['achievementID'] ?>">
       <strong><?= htmlspecialchars($ach['title']) ?></strong>
-      <span>(<?= htmlspecialchars($ach['type']) ?>)</span>,
-      дата: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
+      date: <?= htmlspecialchars($ach['dateAwarded']) ?><br>
 
       <?php if (!empty($ach['place'])): ?>
-        <span><strong>🏅 Место:</strong> <?= (int)$ach['place'] ?></span><br>
+        <span><strong> Place: <?= (int)$ach['place'] ?></strong> </span><br>
       <?php endif; ?>
 
       <?php if (!empty($ach['medal']) && $ach['medal'] !== 'none'): ?>
-        <span><strong>🥇 Медаль:</strong>
+        <span><strong> Type:</strong>
           <?php
             switch ($ach['medal']) {
               case 'gold': echo 'Золотая 🥇'; break;

@@ -10,7 +10,7 @@ if (!isset($_SESSION['parentID'])) {
 $parentID = $_SESSION['parentID'];
 
 if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
-    die("Некорректный ID ребенка.");
+    die("Invalid child's ID.");
 }
 
 $childID = (int)$_GET['childID'];
@@ -20,7 +20,7 @@ $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$child) {
-    die("Ребенок не найден или доступ запрещён.");
+    die("The child has not been found or access is denied.");
 }
 
 $error = '';
@@ -43,13 +43,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: child_achievements.php?childID=$childID");
         exit;
     } else {
-        $error = "Пожалуйста, заполните все обязательные поля корректно.";
+        $error = "Please fill in all required fields correctly.";
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Добавить достижение — <?= htmlspecialchars($child['name']) ?></title>
@@ -73,22 +73,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php include 'header.php'; ?>
 
 <main class="container card">
-  <h1>🏅 Добавить достижение для <?= htmlspecialchars($child['name']) ?></h1>
+  <h1>🏅 Add an achievement for <?= htmlspecialchars($child['name']) ?></h1>
 
   <?php if ($error): ?>
     <p style="color: red;"><?= htmlspecialchars($error) ?></p>
   <?php endif; ?>
 
   <form method="POST" class="add-ach-form">
-    <label>Название достижения:</label>
+    <label>Achievement name:</label>
     <input type="text" name="title" required>
 
-    <label>Тип:</label>
+    <label>Type:</label>
     <select name="type" required>
-        <option value="">-- Выберите тип --</option>
-        <option value="medal">Медаль</option>
-        <option value="diploma">Диплом</option>
-        <option value="competition">Соревнование</option>
+        <option value="">--Chose type --</option>
+        <option value="medal">Medal</option>
+        <option value="diploma">Diploma</option>
+        <option value="competition"> Competition</option>
     </select>
 
     <label>Day Awarded:</label>
@@ -105,13 +105,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <option value="bronze"> 🥉 Bronze</option>
     </select>
 
-    <label>Ссылка на файл (если есть):</label>
+    <label>Link to the file (if available):</label>
     <input type="url" name="fileURL" placeholder="https://...">
 
-    <button type="submit">➕ Добавить достижение</button>
+    <button type="submit">➕ Add Achievement</button>
   </form>
 
-  <p><a href="child_achievements.php?childID=<?= $childID ?>" class="button">← Назад к достижениям</a></p>
+  <p><a href="child_achievements.php?childID=<?= $childID ?>" class="button">← Back to achievements</a></p>
 </main>
 
 <?php include 'footer.php'; ?>

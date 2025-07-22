@@ -10,11 +10,6 @@ if (!isset($_SESSION['parentID'])) {
 $parentID = $_SESSION['parentID'];
 $childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die("Некорректный ID ребенка.");
 
-$childID = (int)$_GET['childID'];
-if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
-    die("Некорректный ID ребенка.");
-}
-
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -22,15 +17,22 @@ if (!$child) {
     die("Ребенок не найден или доступ запрещен.");
 }
 
-$stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
-$stmt->execute([$childID, $parentID]);
-$child = $stmt->fetch(PDO::FETCH_ASSOC) ?: die("Ребенок не найден или доступ запрещён.");
+// Обработка изображения профиля
+$imageFile = $child['photoImage'] ?? '';
+if (empty($imageFile) || $imageFile === 'placeholder_100.png') {
+    $imagePath = 'uploads/avatars/placeholder_100.png';
+} elseif (!str_contains($imageFile, '/')) {
+    $imagePath = 'uploads/avatars/' . $imageFile;
+} else {
+    $imagePath = $imageFile;
+}
 
+// Получение достижений ребенка
 $stmt = $pdo->prepare("SELECT * FROM achievements WHERE childID = ? ORDER BY dateAwarded DESC LIMIT 5");
 $stmt->execute([$childID]);
 $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Платежи: последние 5
+// Получение платежей ребенка
 $stmt = $pdo->prepare("SELECT * FROM payments WHERE childID = ? ORDER BY paymentDate DESC LIMIT 5");
 $stmt->execute([$childID]);
 $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -108,7 +110,7 @@ foreach ($achievements as $ach) {
         'gold' => '#FFD700',
         'silver' => '#C0C0C0',
         'bronze' => '#CD7F32',
-        default => '#9b59b6'
+        default => '#61b659ff'
     };
 
     $fcEvents[] = [
@@ -132,6 +134,7 @@ foreach ($achievements as $ach) {
 
 $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -159,20 +162,8 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   <div class="left-column">
     <section class="card profile-header">
       <div class="avatar">
-        <?php 
-          $imagePath = $child['photoImage'] ?? '';
-          if ($imagePath === null || $imagePath === '' || $imagePath === 'placeholder_100.png') {
-              $imagePath = 'uploads/avatars/placeholder_100.png';
-          } else {
-              if (!str_contains($imagePath, '/')) {
-                  $imagePath = 'uploads/avatars/' . $imagePath;
-              }
-          }
-        ?>
-        <?php if (!empty($imagePath)): ?>
-          <img src="<?= htmlspecialchars($imagePath) ?>" class="child-profile-img" alt="Child Photo">
-        <?php endif; ?>
-      </div>
+  <img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview">
+  </div>
       <div>
         <h1><i data-lucide="user"></i> <?= htmlspecialchars($child['name']) ?></h1>
         <p><strong><i data-lucide="cake"></i> Age:</strong> <?= htmlspecialchars($child['age']) ?> y.o.</p>
@@ -207,6 +198,9 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
           </tbody>
         </table>
       <?php endif; ?>
+
+      <p><a href="add_schedue.php?childID=<?= $childID ?>" class="button">
+        <i data-lucide="plus-circle"></i> Add schedule </a></p>
     </section>
 
     <section class="card schedule-events-section">
