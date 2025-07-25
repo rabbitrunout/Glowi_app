@@ -33,12 +33,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $age = intval($_POST['childAge'] ?? 0);
     $groupLevel = $_POST['groupLevel'] ?? '';
 
-    if ($name && $age > 0 && $groupLevel) {
-        $stmt = $pdo->prepare("INSERT INTO children (parentID, name, age, groupLevel) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$parentID, $name, $age, $groupLevel]);
-        header("Location: dashboard.php");
-        exit;
-    } else {
+   if ($name && $age > 0 && $groupLevel) {
+    // Обработка изображения
+    $filename = 'placeholder.png';
+if (!empty($_FILES['photoImage']['name'])) {
+    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (in_array($_FILES['photoImage']['type'], $allowedTypes)) {
+        $ext = pathinfo($_FILES['photoImage']['name'], PATHINFO_EXTENSION);
+        $targetDir = 'uploads/avatars/';
+        if (!is_dir($targetDir)) mkdir($targetDir, 0755, true);
+
+        $filename = uniqid('child_', true) . '.' . $ext;
+        $targetPath = $targetDir . $filename;
+        move_uploaded_file($_FILES['photoImage']['tmp_name'], $targetPath);
+    }
+}
+
+
+    $stmt = $pdo->prepare("INSERT INTO children (parentID, name, age, groupLevel, photoImage) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$parentID, $name, $age, $groupLevel, $filename]);
+
+    header("Location: dashboard.php");
+    exit;
+}
+ else {
         $error = "Пожалуйста, заполните все поля при добавлении ребенка.";
     }
 }
@@ -81,7 +99,18 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <div class="children-list">
         <?php foreach ($children as $child): ?>
           <div class="child-card card">
-            <img src="uploads/avatars/<?= htmlspecialchars($child['photoImage'] ?: 'placeholder_100.png') ?>" alt="Avatar" class="child-avatar"  width="65" high="65"/>
+          
+          
+          <?php
+$photoBase = pathinfo($child['photoImage'], PATHINFO_FILENAME);
+$photoExt = pathinfo($child['photoImage'], PATHINFO_EXTENSION);
+
+$photo100 = "uploads/avatars/{$photoBase}_100.{$photoExt}";
+$photoSrc = $child['photoImage'] === 'placeholder.png' ? 'uploads/avatars/placeholder.png' : $photo100;
+?>
+<img src="<?= htmlspecialchars($photoSrc) ?>" width="65" height="65" />
+
+
             <h3><?= htmlspecialchars($child['name']) ?></h3>
             <p>Возраст: <?= (int)$child['age'] ?> лет</p>
             <p>Уровень: <?= htmlspecialchars($child['groupLevel']) ?></p>
@@ -109,7 +138,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php if (!empty($error)): ?>
       <p style="color:#ff66cc; font-weight:bold;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
-    <form method="POST" action="dashboard.php" novalidate>
+   <form method="POST" action="dashboard.php" enctype="multipart/form-data" novalidate>
       <label for="childName">Имя ребенка:</label>
       <input type="text" id="childName" name="childName" required placeholder="Введите имя" />
 
@@ -118,6 +147,9 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       <label for="groupLevel">Уровень группы:</label>
       <input type="text" id="groupLevel" name="groupLevel" required placeholder="Например, 'Начинающий'" />
+
+       <!-- <label>Фото (опционально):</label><br>
+       <input type="file" name="photoImage" accept="image/*"><br><br> -->
 
       <button type="submit" class="neon-button">
         <i data-lucide="check-circle"></i> Добавить
