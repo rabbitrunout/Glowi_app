@@ -1,4 +1,4 @@
-/* --- Основной стиль страницы --- */
+
 
 /* Все иконки Lucide желтого яркого цвета */
 h1 svg[data-lucide],
@@ -15,36 +15,55 @@ h6 svg[data-lucide] {
    stroke-width: 1 !important; 
 }
 
-
-
+/* --- Основной стиль страницы --- */
 /* body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
-  background: linear-gradient(to right, #ff00cc, #333399);
+  background: linear-gradient(to bottom, #1b0032, #4e0072);
   color: white;
   overflow-x: hidden;
 } */
 
-header {
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 1rem;
-  text-align: center;
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(145deg, #1b0032, #31004d);
+  color: white;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 2rem;
-  color: #00e6f6;
-  animation: pulse 2s infinite;
+header {
+  /* Убираем центрирование */
+  padding: 1rem;
 }
 
 nav {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  gap:2rem;
+}
+
+/* Стили для левого блока с логотипом */
+.nav-left h1 {
+  margin: 0;
+  font-size: 3.5rem;
+  color: #00e6f6;
+  animation: pulse 2s infinite;
+}
+
+/* Стили для ссылок */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
   flex-wrap: wrap;
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 0.5rem;
-  gap: 1rem;
+  justify-content: center;
 }
 
 nav a {
@@ -57,6 +76,7 @@ nav a {
 nav a:hover {
   color: #ff66ff;
 }
+
 
 /* --- Hero секция --- */
 .hero {
@@ -582,15 +602,6 @@ button:hover, .button:hover {
   background-color: #fafafa;
 }
 
-/* --- Футер --- */
-footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: rgba(0, 0, 0, 0.8);
-  font-size: 0.9rem;
-  color: #ccc;
-}
-
 
 .glowi-modal-overlay {
   position: fixed;
@@ -765,13 +776,13 @@ footer {
 
 /* --- Glowi Neon Main Style with Parallax --- */
 body {
-  margin: 0;
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(to right, #ff00cc, #333399);
-  color: white;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
+margin: 0;
+font-family: 'Nunito', sans-serif;
+background: linear-gradient(to right, #2d1b47, #12142e);
+color: white;
+overflow-x: hidden;
 }
+
 
 /* ÐŸÐ°Ñ€Ð°Ð»Ð»Ð°ÐºÑ-ÑÐµÐºÑ†Ð¸Ð¸ */
 .parallax-section {
@@ -783,11 +794,9 @@ body {
   text-align: center;
 }
 
-.parallax-1 { background-image: url('../assets/parallax1.jpg'); }
-.parallax-2 { background-image: url('../assets/parallax2.jpg'); }
-.parallax-3 { background-image: url('../assets/parallax3.jpg'); }
 
-/* Ð—Ð°Ð³Ð¾Ð»Ð¾Ð²ÐºÐ¸ */
+
+
 h1, h2, h3, h4, h5 {
   color: #fff;
   text-shadow: 0 0 6px #ff66ff;
@@ -813,7 +822,7 @@ a:hover { color: #ffccff; }
 /* ÐšÐ½Ð¾Ð¿ÐºÐ¸ */
 .button, button {
   background: #ff66ff;
-  color: #1a1a2e;
+  color: #212222;
   border: none;
   padding: 10px 20px;
   border-radius: 30px;
@@ -825,20 +834,39 @@ a:hover { color: #ffccff; }
 }
 
 /* ÐŸÑ€Ð¾Ñ„Ð¸Ð»ÑŒ Ð¸ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ¸ */
-.card {
-  background: rgba(0, 0, 0, 0.4);
+/* .card {
+  background: linear-gradient(to bottom, #5e2590, #4e0072);
   border-radius: 16px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-  padding: 20px;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+  padding: 1.5rem;
   margin: 20px 0;
+  gap:2rem;
+} */
+
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(255, 0, 255, 0.25);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  margin: 30px auto;
+  max-width: 1000px;
+  width: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-footer {
-  background: rgba(0, 0, 0, 0.8);
-  color: #ccc;
-  text-align: center;
-  padding: 1rem;
-}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(255, 0, 255, 0.35),
+              0 0 40px rgba(255, 0, 255, 0.2);
+} 
+
+
+
+
 
 /* FullCalendar Ð°Ð´Ð°Ð¿Ñ‚Ð°Ñ†Ð¸Ñ */
 .fc {

@@ -109,7 +109,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     ? 'uploads/avatars/' . htmlspecialchars($photoFile)
                     : 'assets/img/placeholder.png';
          ?>
-         <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Фото ребёнка" width="65" height="65" />
+         <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Фото ребёнка" width="100" height="100" />
 
   <h3><?= htmlspecialchars($child['name']) ?></h3>
     <p>Возраст: <?= (int)$child['age'] ?> лет</p>
