@@ -1,84 +1,67 @@
 <?php
-function process_image($dir, $filename) {
-    $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-    $i = strrpos($filename, '.');
-    $image_name = substr($filename, 0, $i);
-    $ext = substr($filename, $i);
+function process_image($uploadDir, $filename) {
+    $sourcePath = $uploadDir . $filename;
 
-    $image_path = $dir . $filename;
-    $image_path_400 = $dir . $image_name . '_400' . $ext;
-    $image_path_100 = $dir . $image_name . '_100' . $ext;
+    if (!file_exists($sourcePath)) {
+        return false;
+    }
 
-    resize_image($image_path, $image_path_400, 400, 300);
-    resize_image($image_path, $image_path_100, 100, 100);
-}
+    $info = getimagesize($sourcePath);
+    if (!$info) return false;
 
-function resize_image($old_image_path, $new_image_path, $max_width, $max_height) {
-    $image_info = getimagesize($old_image_path);
-    $image_type = $image_info[2];
+    $width = 100;
+    $height = 100;
 
-    switch ($image_type) {
-        case IMAGETYPE_JPEG:
-            $image_from_file = 'imagecreatefromjpeg';
-            $image_to_file = 'imagejpeg';
+    switch ($info['mime']) {
+        case 'image/jpeg':
+            $src = imagecreatefromjpeg($sourcePath);
             break;
-        case IMAGETYPE_GIF:
-            $image_from_file = 'imagecreatefromgif';
-            $image_to_file = 'imagegif';
+        case 'image/png':
+            $src = imagecreatefrompng($sourcePath);
             break;
-        case IMAGETYPE_PNG:
-            $image_from_file = 'imagecreatefrompng';
-            $image_to_file = 'imagepng';
+        case 'image/gif':
+            $src = imagecreatefromgif($sourcePath);
+            break;
+        case 'image/webp':
+            $src = imagecreatefromwebp($sourcePath);
             break;
         default:
-            die('Файл должен быть изображением JPEG, GIF или PNG.');
+            return false;
     }
 
-    $old_image = $image_from_file($old_image_path);
-    $old_width = imagesx($old_image);
-    $old_height = imagesy($old_image);
+    if (!$src) return false;
 
-    $width_ratio = $old_width / $max_width;
-    $height_ratio = $old_height / $max_height;
+    $thumb = imagecreatetruecolor($width, $height);
 
-    if ($width_ratio > 1 || $height_ratio > 1) {
-        $ratio = max($width_ratio, $height_ratio);
-        $new_width = round($old_width / $ratio);
-        $new_height = round($old_height / $ratio);
-
-        $new_image = imagecreatetruecolor($new_width, $new_height);
-
-        if ($image_type == IMAGETYPE_GIF) {
-            $transparent_index = imagecolortransparent($old_image);
-            if ($transparent_index >= 0) {
-                $transparent_color = imagecolorsforindex($old_image, $transparent_index);
-                $transparent_index_new = imagecolorallocate($new_image, $transparent_color['red'], $transparent_color['green'], $transparent_color['blue']);
-                imagefill($new_image, 0, 0, $transparent_index_new);
-                imagecolortransparent($new_image, $transparent_index_new);
-            }
-        }
-
-        if ($image_type == IMAGETYPE_PNG || $image_type == IMAGETYPE_GIF) {
-            imagealphablending($new_image, false);
-            imagesavealpha($new_image, true);
-            $transparent = imagecolorallocatealpha($new_image, 0, 0, 0, 127);
-            imagefill($new_image, 0, 0, $transparent);
-        }
-
-        imagecopyresampled(
-            $new_image, $old_image,
-            0, 0, 0, 0,
-            $new_width, $new_height,
-            $old_width, $old_height
-        );
-
-        $image_to_file($new_image, $new_image_path);
-
-        imagedestroy($new_image);
-    } else {
-        $image_to_file($old_image, $new_image_path);
+    if ($info['mime'] === 'image/png' || $info['mime'] === 'image/gif') {
+        imagecolortransparent($thumb, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
+        imagealphablending($thumb, false);
+        imagesavealpha($thumb, true);
     }
 
-    imagedestroy($old_image);
+    imagecopyresampled($thumb, $src, 0, 0, 0, 0, $width, $height, $info[0], $info[1]);
+
+    $targetFile = pathinfo($filename, PATHINFO_FILENAME) . '_100.' . pathinfo($filename, PATHINFO_EXTENSION);
+    $targetPath = $uploadDir . $targetFile;
+
+    switch ($info['mime']) {
+        case 'image/jpeg':
+            imagejpeg($thumb, $targetPath, 90);
+            break;
+        case 'image/png':
+            imagepng($thumb, $targetPath);
+            break;
+        case 'image/gif':
+            imagegif($thumb, $targetPath);
+            break;
+        case 'image/webp':
+            imagewebp($thumb, $targetPath, 90);
+            break;
+    }
+
+    imagedestroy($src);
+    imagedestroy($thumb);
+
+    return $targetFile;
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'database.php';
-require 'image_functions.php'; // <-- подключаем функции ресайза
+require 'image_functions.php';
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -13,6 +13,7 @@ if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);
 }
 
+// Обработка формы
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $childID = $_POST['childID'];
     $name = $_POST['name'];
@@ -20,40 +21,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $gender = $_POST['gender'];
     $groupLevel = $_POST['groupLevel'];
 
-    // Получаем старое изображение
+    // Получаем текущее фото
     $stmt = $pdo->prepare("SELECT photoImage FROM children WHERE childID = ?");
     $stmt->execute([$childID]);
     $old = $stmt->fetch(PDO::FETCH_ASSOC);
-    $old_image = $old['photoImage'] ?? 'placeholder_100.png';
-
+    $old_image = $old['photoImage'] ?? '';
     $imageToSave = $old_image;
 
+    // Обработка нового фото
     if (isset($_FILES['childImage']) && $_FILES['childImage']['error'] === UPLOAD_ERR_OK) {
         $tmp_name = $_FILES['childImage']['tmp_name'];
-        $original_name = basename($_FILES['childImage']['name']);
+        $original_name = $_FILES['childImage']['name'];
         $extension = strtolower(pathinfo($original_name, PATHINFO_EXTENSION));
 
         if (in_array($extension, $allowedExtensions)) {
-            $new_image = uniqid('child_', true) . '.' . $extension;
-            $destination = $uploadDir . $new_image;
+            $new_filename = uniqid('child_', true) . '.' . $extension;
+            $destination = $uploadDir . $new_filename;
 
             if (move_uploaded_file($tmp_name, $destination)) {
-                // Удаляем старые изображения, если есть
-                if (!empty($old_image) && $old_image !== 'placeholder_100.png') {
-                    $baseOld = pathinfo($old_image, PATHINFO_FILENAME);
-                    foreach (glob($uploadDir . $baseOld . '*') as $oldFile) {
-                        if (is_file($oldFile)) unlink($oldFile);
-                    }
+                if (!empty($old_image) && file_exists($uploadDir . $old_image) && $old_image !== 'placeholder.png') {
+                    unlink($uploadDir . $old_image);
                 }
-
-                // Создаем версии с ресайзом
-                process_image($uploadDir, $new_image);
-
-                $imageToSave = $new_image;
+                $imageToSave = $new_filename;
             }
         }
     }
 
+    // Обновление записи
     $stmt = $pdo->prepare("UPDATE children SET name = ?, age = ?, gender = ?, groupLevel = ?, photoImage = ? WHERE childID = ?");
     $stmt->execute([$name, $age, $gender, $groupLevel, $imageToSave, $childID]);
 
@@ -61,19 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 
-// Для GET-запроса или первого открытия формы:
+// Загрузка данных ребёнка
 $childID = $_GET['childID'] ?? $_POST['childID'] ?? null;
 if (!$childID) die("Ошибка: childID не передан.");
 
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ?");
 $stmt->execute([$childID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$child) die("Ребенок не найден.");
+if (!$child) die("Ребёнок не найден.");
 
-$imagePath = $child['photoImage'] ?? 'placeholder_100.png';
-if (!str_contains($imagePath, '/')) {
-    $imagePath = $uploadDir . $imagePath;
-}
+$photoFile = $child['photoImage'] ?? '';
+$photoPath = (!empty($photoFile) && file_exists($uploadDir . $photoFile))
+    ? $uploadDir . htmlspecialchars($photoFile)
+    : 'assets/img/placeholder.png';
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -88,6 +82,8 @@ if (!str_contains($imagePath, '/')) {
 
 <main class="container glowi-card" style="max-width: 480px; margin: 3rem auto;">
     <h2>✏️ Edit a child's profile</h2>
+
+    <img src="<?= htmlspecialchars($photoPath) ?>" alt="Фото ребёнка" width="100" height="100" style="border-radius: 50%; object-fit: cover; margin-bottom: 1rem;" id="imagePreview" />
 
     <form method="POST" action="edit_child.php" enctype="multipart/form-data">
         <input type="hidden" name="childID" value="<?= $childID ?>">
@@ -124,37 +120,33 @@ if (!str_contains($imagePath, '/')) {
             <option value="unknown" <?= $child['gender'] === 'unknown' ? 'selected' : '' ?>>Unknown</option>
         </select>
 
-        <label for="childImage">Child Image:</label>
-        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)"><br/>
-
-        <br/><img src="<?= htmlspecialchars($imagePath) ?>" alt="Фото ребенка" class="avatar-preview" id="imagePreview"> 
+        <label for="childImage">Upload New Photo:</label>
+        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)"><br/><br/>
 
         <button type="submit" class="btn-save">Save</button>
 
         <p>
             <a href="child_profile.php?childID=<?= $childID ?>">
                 <i data-lucide="arrow-left"></i>
-                 ← Back to profile
+                ← Back to profile
             </a>
         </p>
     </form>
-
-    
 </main>
 
 <?php include 'footer.php'; ?>
 
 <script>
 function previewImage(event) {
-  const input = event.target;
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const output = document.getElementById('imagePreview');
-      output.src = e.target.result;
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const output = document.getElementById('imagePreview');
+            output.src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
     }
-    reader.readAsDataURL(input.files[0]);
-  }
 }
 </script>
 </body>

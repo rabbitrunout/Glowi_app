@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
    if ($name && $age > 0 && $groupLevel) {
     // Обработка изображения
-    $filename = 'placeholder.png';
+  $filename = 'placeholder.png'; // значение по умолчанию
 if (!empty($_FILES['photoImage']['name'])) {
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (in_array($_FILES['photoImage']['type'], $allowedTypes)) {
@@ -45,9 +45,13 @@ if (!empty($_FILES['photoImage']['name'])) {
 
         $filename = uniqid('child_', true) . '.' . $ext;
         $targetPath = $targetDir . $filename;
-        move_uploaded_file($_FILES['photoImage']['tmp_name'], $targetPath);
+        if (!move_uploaded_file($_FILES['photoImage']['tmp_name'], $targetPath)) {
+            // загрузка не удалась, вернуть к placeholder
+            $filename = 'placeholder.png';
+        }
     }
 }
+
 
 
     $stmt = $pdo->prepare("INSERT INTO children (parentID, name, age, groupLevel, photoImage) VALUES (?, ?, ?, ?, ?)");
@@ -98,32 +102,28 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php else: ?>
       <div class="children-list">
         <?php foreach ($children as $child): ?>
-          <div class="child-card card">
-          
-          
-          <?php
-$photoBase = pathinfo($child['photoImage'], PATHINFO_FILENAME);
-$photoExt = pathinfo($child['photoImage'], PATHINFO_EXTENSION);
+        <div class="child-card card">
+         <?php
+          $photoFile = $child['photoImage']; // ← вот этого не хватало
+          $photoSrc = (!empty($photoFile) && file_exists('uploads/avatars/' . $photoFile))
+                    ? 'uploads/avatars/' . htmlspecialchars($photoFile)
+                    : 'assets/img/placeholder.png';
+         ?>
+         <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Фото ребёнка" width="65" height="65" />
 
-$photo100 = "uploads/avatars/{$photoBase}_100.{$photoExt}";
-$photoSrc = $child['photoImage'] === 'placeholder.png' ? 'uploads/avatars/placeholder.png' : $photo100;
-?>
-<img src="<?= htmlspecialchars($photoSrc) ?>" width="65" height="65" />
-
-
-            <h3><?= htmlspecialchars($child['name']) ?></h3>
-            <p>Возраст: <?= (int)$child['age'] ?> лет</p>
-            <p>Уровень: <?= htmlspecialchars($child['groupLevel']) ?></p>
-            <div class="child-actions">
-              <a class="button" href="child_profile.php?childID=<?= $child['childID'] ?>">
-                <i data-lucide="info"></i> Подробнее
-              </a>
-              <form method="post" onsubmit="return confirm('Удалить этого ребёнка?');" style="display:inline-block; margin-top:8px;">
-  <input type="hidden" name="delete_child_id" value="<?= $child['childID'] ?>" />
-  <button type="submit" class="button" style="background:#ff3366;">
-    <i data-lucide="trash-2"></i> Удалить
-  </button>
-</form>
+  <h3><?= htmlspecialchars($child['name']) ?></h3>
+    <p>Возраст: <?= (int)$child['age'] ?> лет</p>
+    <p>Уровень: <?= htmlspecialchars($child['groupLevel']) ?></p>
+    <div class="child-actions">
+      <a class="button" href="child_profile.php?childID=<?= $child['childID'] ?>">
+        <i data-lucide="info"></i> More details
+      </a>
+      <form method="post" onsubmit="return confirm('Delete this child?');" style="display:inline-block; margin-top:8px;">
+        <input type="hidden" name="delete_child_id" value="<?= $child['childID'] ?>" />
+        <button type="submit" class="button" style="background:#ff3366;">
+          <i data-lucide="trash-2"></i> Delete
+        </button>
+      </form>
 
             </div>
           </div>
@@ -152,7 +152,7 @@ $photoSrc = $child['photoImage'] === 'placeholder.png' ? 'uploads/avatars/placeh
        <input type="file" name="photoImage" accept="image/*"><br><br> -->
 
       <button type="submit" class="neon-button">
-        <i data-lucide="check-circle"></i> Добавить
+        <i data-lucide="check-circle"></i> Add
       </button>
     </form>
   </section>

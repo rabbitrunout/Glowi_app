@@ -19,13 +19,25 @@ if (!$child) {
 
 // Обработка изображения профиля
 $imageFile = $child['photoImage'] ?? '';
-if (empty($imageFile) || $imageFile === 'placeholder_100.png') {
-    $imagePath = 'uploads/avatars/placeholder_100.png';
-} elseif (!str_contains($imageFile, '/')) {
-    $imagePath = 'uploads/avatars/' . $imageFile;
+$uploadDir = 'uploads/avatars/';
+$placeholder = 'assets/img/placeholder.png';
+
+if (!empty($imageFile)) {
+    $thumbPath = $uploadDir . pathinfo($imageFile, PATHINFO_FILENAME) . '_100.' . pathinfo($imageFile, PATHINFO_EXTENSION);
+    $originalPath = $uploadDir . $imageFile;
+
+    if (file_exists($thumbPath)) {
+        $imagePath = $thumbPath;
+    } elseif (file_exists($originalPath)) {
+        $imagePath = $originalPath;
+    } else {
+        $imagePath = $placeholder;
+    }
 } else {
-    $imagePath = $imageFile;
+    $imagePath = $placeholder;
 }
+
+
 
 // Получение достижений ребенка
 $stmt = $pdo->prepare("SELECT * FROM achievements WHERE childID = ? ORDER BY dateAwarded DESC LIMIT 5");
