@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -54,7 +54,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit">Add</button>
 </form>
 
-<p><a href="dashboard.php">← Back</a></p>
 <?php include 'footer.php'; ?>
 </body>
-</html>
+</html> -->

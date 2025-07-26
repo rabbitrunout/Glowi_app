@@ -14,6 +14,8 @@ h6 svg[data-lucide] {
    stroke-width: 1 !important; 
 }
 
+html { scroll-behavior: smooth; }
+
 /* ************************************************************************ */
 /* ***************** --- Glowi Neon Main Style  --- *************************/
 /* ************************************************************************ */
@@ -184,6 +186,8 @@ nav a:hover {
 /* ================== How Glowi Works =================== */
 
 /* ================== Login Section =================== */
+
+
  .login-section input {
   padding: 0.75rem;
   border-radius: 8px;
@@ -216,78 +220,207 @@ footer {
 
 
 
+/* =============================================== */
+/* =============== Dashboard Styling ============= */
+/* =============================================== */
 
-/* --- Основной контейнер и профильные секции --- */
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard-block {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(255, 0, 255, 0.25);
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-block:hover {
+  transform: translateY(-5px);
+}
+
+.dashboard-block h2 {
+  font-size: 1.8rem;
+  color: #ffccff;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* Children Cards */
+.children-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.child-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 1.2rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(255, 0, 255, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.child-card:hover {
+  transform: translateY(-5px);
+}
+
+.child-card img {
+  border-radius: 50%;
+  object-fit: cover;
+  width: 125px;
+  height: 125px;
+  margin-bottom: 0.8rem;
+}
+
+.child-card h3 {
+  color: #fff;
+  margin: 0.5rem 0;
+}
+
+ .child-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+} 
+
+.child-actions .button {
+  all: unset;
+  width: 70px;
+  height: 55px;
+  border-radius: 10px;
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FFD700;
+  cursor: pointer;
+}
+
+.child-actions .button img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
+
+.child-actions .button:hover {
+  background-color: #FFD700;
+}
+
+.child-actions form {
+  display: inline-block;
+  
+}
+
+.button {
+  background: #ff00cc;
+  border: none;
+  color: white;
+  padding: 0.5rem 1.2rem;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+
+/* Form styling */
+.neon-form label {
+  display: block;
+  text-align: left;
+  margin: 1rem 0 0.3rem;
+  font-weight: bold;
+  color: #ffccff;
+}
+
+.neon-form input {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+}
+
+.neon-form input::placeholder {
+  color: #ccc;
+}
+
+.neon-button {
+  margin-top: 1.2rem;
+  background: #ff00cc;
+  color: white;
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.neon-button:hover {
+  transform: scale(1.05);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+
+/* ============================================= */
+
+/* ==============child_profile================== */
+
 main.container {
   width: 90%;
   margin: 2rem auto;
   padding: 0 1rem;
 }
 
-section.profile-section {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
-  padding: 1.5rem 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  transition: box-shadow 0.3s ease;
-  color: #ddd;
+
+/* Обёртка и блоки */
+.container {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
 }
-
-section.profile-section:hover {
-  box-shadow: 0 6px 25px rgba(255, 102, 255, 0.7);
-}
-
-section.profile-section h2,
-section.profile-section h3 {
-  color: #00e6f6;
-  border-bottom: 2px solid #ff66ff;
-  padding-bottom: 0.3rem;
-  margin-bottom: 1rem;
-}
-
-.profile-section table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.profile-section table th,
-.profile-section table td {
-  padding: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.profile-section ul li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.profile-section ul li:last-child {
-  border-bottom: none;
-}
-
-/* --- Кнопки --- */
-button, .button {
-  background: #00e6f6;
-  color: #1a1a2e;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 30px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 1rem 0 0 0;
-  transition: background 0.3s ease;
-  display: inline-block;
-}
-
-button:hover, .button:hover {
-  background: #ff66ff;
-}
-
-
-
-/* --- Профильный контейнер с колонками --- */
 .profile-container {
   display: flex;
   flex-direction: row;
@@ -299,7 +432,6 @@ button:hover, .button:hover {
   box-sizing: border-box;
   flex-wrap: wrap;
 }
-
 .left-column {
   flex: 0 0 40%;
   display: flex;
@@ -316,37 +448,128 @@ button:hover, .button:hover {
   min-width: 280px;
 }
 
-/* --- Заголовок профиля с аватаром --- */
-.profile-header {
+
+/* Заголовки с иконками */
+h1, h2 {
+  color: #00e6f6;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
-.profile-header .avatar {
-  width: 100px;
-  height: 100px;
-  
-  
-  background-size: cover;
-  
+.icon {
+  color: #ffc300;
+  font-size: 1.8rem;
+}
+
+/* Аватар */
+.profile-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.profile-header img {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 50%; 
 }
 
 .profile-header h2 {
   margin: 0;
 }
-.button {
-    display: inline-block;
-    padding: 8px 14px;
-    background: #4CAF50;
-    color: white;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    margin-top: 8px;
+/* Таблицы */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  margin-top: 1rem;
 }
-.button:hover {
-    background: #45a049;
+
+th, td {
+  padding: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+th {
+  background-color: rgba(255,255,255,0.1);
+  color: #ffccff;
+}
+
+tr:nth-child(even) {
+  background-color: rgba(255,255,255,0.05);
+}
+
+
+
+/* Кнопки */
+.button, button {
+  background: #ff66ff;
+  justify-content: start;
+  color: #212222;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+.button:hover, button:hover {
+  background: #ff33cc;
+}
+
+a {
+  color: #00e6f6;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+
+/* Карточки событий */
+.event-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+
+.event-card {
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 16px;
+  color: #fff;
+  box-shadow: 0 0 10px #00f0ff;
+  transition: 0.3s ease-in-out;
+}
+
+.event-card:hover {
+  box-shadow: 0 0 20px #00f0ff;
+  transform: translateY(-2px);
+}
+
+.event-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.event-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #ffc300;
+}
+
+/* Цвета по типу */
+.training {
+  color: #00c3ff;
+}
+
+.competition {
+  color: #ffc300;
 }
 
 /* ********************************** */
@@ -368,6 +591,7 @@ button:hover, .button:hover {
   color: #333;
 }
 
+
 /* ***************************************** */
 /* --- FullCalendar стиль адаптированный --- */
 /* ***************************************** */
@@ -388,7 +612,6 @@ button:hover, .button:hover {
   margin-top: 1rem;
   overflow-x: auto;
 }
-
 
 .fc {
   background: rgba(255, 255, 255, 0.95);
@@ -436,7 +659,6 @@ button:hover, .button:hover {
   border-radius: 10px;
 }
 
-
 .event-training {
   background-color: #4CAF50;
 }
@@ -445,24 +667,31 @@ button:hover, .button:hover {
   background-color: #f44336;
 }
 
+/* =========== Секция достижений =========== */
 
-/* --- Секция достижений --- */
-.achievements-section h3 {
-  margin-top: 2rem;
-}
 
 .achievement {
-  background: #2b2b3d;
+  background: rgba(255, 255, 255, 0.05);
   padding: 1rem;
   border-radius: 10px;
   margin-bottom: 1rem;
   box-shadow: 0 0 10px rgba(102, 51, 153, 0.7);
   color: #eee;
 }
-
+.achievements-section h3 {
+  margin-top: 2rem;
+}
 .achievement strong {
   display: block;
   margin-bottom: 0.4rem;
+}
+
+.achievements-section li {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  color: #eee;
 }
 
 /* --- Списки событий и достижений --- */
@@ -478,94 +707,8 @@ button:hover, .button:hover {
   border-bottom: 1px solid #ddd;
 }
 
-.achievements-section li {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 10px 12px;
-  margin-bottom: 8px;
-  color: #eee;
-}
 
-
-/* --- Дашборд --- */
-.dashboard-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-}
-
-.dashboard-block {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 15px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.dashboard-block h2 {
-  color: #e200f6;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #ff66ff;
-  padding-bottom: 0.3rem;
-}
-
-.dashboard-block ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.dashboard-block ul li {
-  margin: 0.5rem 0;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.dashboard-block form input {
-  width: 70%;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: none;
-  margin-bottom: 1rem;
-}
-
-/* --- Иконки --- */
-.icon {
-  width: 18px;
-  height: 18px;
-  vertical-align: middle;
-  color: #00e6f6;
-}
-
-/* --- Действия --- */
-.actions {
-  margin-top: 1rem;
-  text-align: right;
-}
-
-.actions a {
-  background: #ff66ff;
-  color: #fff;
-  padding: 0.6rem 1.2rem;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background 0.3s;
-  margin-right: 0.5rem;
-}
-
-.actions a:hover {
-  background: #cd00f6;
-}
-
-.weekly-schedule {
+/* .weekly-schedule {
   margin-top: 20px;
   background-color: #fff;
   border-radius: 12px;
@@ -601,244 +744,22 @@ button:hover, .button:hover {
 
 .weekly-schedule tr:nth-child(even) {
   background-color: #fafafa;
-}
-
-
-.glowi-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 999;
-  
-}
-
-.glowi-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(135deg, #1f1c2c, #928dab);
-  border: 2px solid #ff66cc;
-  box-shadow: 0 0 25px #ff66cc, 0 0 40px #00ffff;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 500px;
-  z-index: 1000;
-  padding: 20px;
-  color: #fff;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-}
-
-.glowi-modal .modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #fff;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 15px;
-}
-
-.glowi-modal .modal-body {
-  padding: 10px 0;
-  font-size: 16px;
-}
-
-.close-button {
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  color: #fff;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.close-button:hover {
-  transform: scale(1.2);
-  color: #ff99ff;
-}
-
-
-.glowi-card {
-            background: linear-gradient(to bottom, #5e2590, #4e0072);
-            /* border: 1px solid #0f3460; */
-            padding: 30px;
-            max-width: 600px;
-            margin: auto;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
-        }
-        h2 {
-            text-align: center;
-            color: #f0f0f0;
-            margin-bottom: 25px;
-        }
-        label {
-            display: block;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-        input[type="text"],
-        input[type="number"],
-        select,
-        input[type="file"] {
-            width: 50%;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            margin-top: 5px;
-            background-color: #e0e0e0;
-        }
-        .btn-save {
-            display: block;
-            width: 100%;
-            background: linear-gradient(45deg, #e94560, #903749);
-            border: none;
-            color: white;
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 25px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .btn-save:hover {
-            background: linear-gradient(45deg, #ff4d6d, #a53860);
-        }
-        .avatar-preview {
-            display: block;
-            /* margin: 20px auto; */
-            max-width: 150px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px #00f7ff;
-        }
-
-
-/* --- Анимации --- */
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-h1, h2, h3, h4, h5 {
-  color: #fff;
-  text-shadow: 0 0 6px #ff66ff;
-}
-
-a {
-  color: #00e6f6;
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-a:hover { color: #ffccff; }
-
-
-.glowi-modal {
-  background: linear-gradient(135deg, #1f1c2c, #928dab);
-  border: 2px solid #ff66cc;
-  box-shadow: 0 0 25px #ff66cc, 0 0 40px #00ffff;
-  border-radius: 15px;
-  padding: 20px;
-  color: #fff;
-}
-
-/* ÐšÐ½Ð¾Ð¿ÐºÐ¸ */
-.button, button {
-  background: #ff66ff;
-  justify-content: start;
-  color: #212222;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 30px;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-.button:hover, button:hover {
-  background: #ff33cc;
-}
-
- 
-
-
-
-
-
-/* FullCalendar Ð°Ð´Ð°Ð¿Ñ‚Ð°Ñ†Ð¸Ñ */
-.fc {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  padding: 1rem;
-  color: #1a1a2e;
-  font-family: 'Nunito', sans-serif;
-}
-
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* .section {
-  animation: fadeInUp 1s ease-in-out;
 } */
 
 
-html { scroll-behavior: smooth; }
 
-@media (max-width: 768px) {
-  .parallax-section {
-    background-attachment: scroll;
-  }
-}
+  
 
-.glowi-btn.danger {
-  background: #ff3366;
-  border: 1px solid #ff99bb;
-  color: #fff;
-  box-shadow: 0 0 10px #ff3366, 0 0 20px #ff3366;
-  transition: background 0.3s;
-}
-.glowi-btn.danger:hover {
-  background: #ff0033;
-}
 
-.child-card input[type="text"],
-.child-card input[type="number"] {
-  width: 100%;
-  padding: 6px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  background: #1b1f3b;
-  color: #fff;
-  box-shadow: 0 0 8px #ff00cc66;
-}
+
+
+
+
+
+
+
+
+
 
 
 

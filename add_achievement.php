@@ -52,22 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Добавить достижение — <?= htmlspecialchars($child['name']) ?></title>
+  <title> Add Achievement — <?= htmlspecialchars($child['name']) ?></title>
   <link rel="stylesheet" href="css/main.css">
-  <style>
-    form.add-ach-form input,
-    form.add-ach-form select,
-    form.add-ach-form textarea {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 12px;
-        box-sizing: border-box;
-    }
-    form.add-ach-form {
-        max-width: 500px;
-        margin: 0 auto;
-    }
-  </style>
+
 </head>
 <body>
 <?php include 'header.php'; ?>

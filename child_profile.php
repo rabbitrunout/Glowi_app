@@ -154,8 +154,6 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   <meta charset="UTF-8">
   <title> Profile Child: <?= htmlspecialchars($child['name']) ?></title>
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/child_profile_neon.css">
-
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>

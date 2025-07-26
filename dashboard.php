@@ -52,8 +52,6 @@ if (!empty($_FILES['photoImage']['name'])) {
     }
 }
 
-
-
     $stmt = $pdo->prepare("INSERT INTO children (parentID, name, age, groupLevel, photoImage) VALUES (?, ?, ?, ?, ?)");
     $stmt->execute([$parentID, $name, $age, $groupLevel, $filename]);
 
@@ -74,12 +72,12 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Личный кабинет — Glowi</title>
-   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/child_profile_neon.css">
+  <title> Parent's profile — Glowi</title>
+  <link rel="stylesheet" href="css/main.css">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+
 <?php include 'header.php'; ?>
 
 <main class="dashboard-wrapper container">
@@ -111,25 +109,24 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     ? 'uploads/avatars/' . htmlspecialchars($photoFile)
                     : 'assets/img/placeholder.png';
          ?>
-         <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Photo of the child" width="100" height="100" />
+         <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Photo of the child" />
 
   <h3><?= htmlspecialchars($child['name']) ?></h3>
     <p>Age: <?= (int)$child['age'] ?> лет</p>
     <p>Level: <?= htmlspecialchars($child['groupLevel']) ?></p>
 
-    <div class="child-actions">
-      <a class="button" href="child_profile.php?childID=<?= $child['childID'] ?>">
-        <img src="assets/img/porfoliolist.png" alt="">
-      </a>
-      
-      <form method="post" onsubmit="return confirm('Delete this child?');" style="display:inline-block; margin-top:8px;">
-        <input type="hidden" name="delete_child_id" value="<?= $child['childID'] ?>" />
-        <button type="submit" class="button" style="background:#ff3366;">
-           <img src="assets/img/delete.png" alt="">
-        </button>
-      </form>
+   <div class="child-actions">
+  <a class="button" href="child_profile.php?childID=<?= $child['childID'] ?>">
+    <img src="assets/img/porfoliolist.png" alt="Open profile">
+  </a>
 
-            </div>
+  <form method="post" onsubmit="return confirm('Delete this child?');">
+    <input type="hidden" name="delete_child_id" value="<?= $child['childID'] ?>" />
+    <button type="submit" class="button" style="background-color: #ff3366;">
+      <img src="assets/img/delete.png" alt="Delete">
+    </button>
+  </form>
+</div>
           </div>
         <?php endforeach; ?>
       </div>
