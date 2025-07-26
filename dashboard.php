@@ -83,22 +83,24 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php include 'header.php'; ?>
 
 <main class="dashboard-wrapper container">
-  <!-- Профиль родителя -->
+
+  <!-- Parent's profile -->
+
   <section class="dashboard-block card">
-    <h2><i data-lucide="user" class="icon"></i> Профиль родителя</h2>
-    <p><strong><i data-lucide="user" class="icon"></i> Имя пользователя:</strong> <?= htmlspecialchars($parent['userName']) ?></p>
+    <h2><i data-lucide="user" class="icon"></i> Parent's profile</h2>
+    <p><strong><i data-lucide="user" class="icon"></i> Username:</strong> <?= htmlspecialchars($parent['userName']) ?></p>
     <p><strong><i data-lucide="mail" class="icon"></i> Email:</strong> <?= htmlspecialchars($parent['emailAddress']) ?></p>
     <?php if (!empty($parent['phone'])): ?>
-      <p><strong><i data-lucide="phone" class="icon"></i> Телефон:</strong> <?= htmlspecialchars($parent['phone']) ?></p>
+      <p><strong><i data-lucide="phone" class="icon"></i> Phone:</strong> <?= htmlspecialchars($parent['phone']) ?></p>
     <?php endif; ?>
-    <p><strong><i data-lucide="calendar" class="icon"></i> Дата регистрации:</strong> <?= htmlspecialchars($parent['created_at']) ?></p>
+    <p><strong><i data-lucide="calendar" class="icon"></i> Registration date: </strong> <?= htmlspecialchars($parent['created_at']) ?></p>
   </section>
 
-  <!-- Список детей -->
+  <!-- List of children -->
   <section class="dashboard-block card">
-    <h2><i data-lucide="baby" class="icon"></i> Ваши дети</h2>
+    <h2><i data-lucide="baby" class="icon"></i> Your children </h2>
     <?php if (count($children) === 0): ?>
-      <p>Дети ещё не добавлены.</p>
+      <p>Children have not been added yet.</p>
     <?php else: ?>
       <div class="children-list">
         <?php foreach ($children as $child): ?>
@@ -109,19 +111,21 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     ? 'uploads/avatars/' . htmlspecialchars($photoFile)
                     : 'assets/img/placeholder.png';
          ?>
-         <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Фото ребёнка" width="100" height="100" />
+         <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Photo of the child" width="100" height="100" />
 
   <h3><?= htmlspecialchars($child['name']) ?></h3>
-    <p>Возраст: <?= (int)$child['age'] ?> лет</p>
-    <p>Уровень: <?= htmlspecialchars($child['groupLevel']) ?></p>
+    <p>Age: <?= (int)$child['age'] ?> лет</p>
+    <p>Level: <?= htmlspecialchars($child['groupLevel']) ?></p>
+
     <div class="child-actions">
       <a class="button" href="child_profile.php?childID=<?= $child['childID'] ?>">
-        <i data-lucide="info"></i> More details
+        <img src="assets/img/porfoliolist.png" alt="">
       </a>
+      
       <form method="post" onsubmit="return confirm('Delete this child?');" style="display:inline-block; margin-top:8px;">
         <input type="hidden" name="delete_child_id" value="<?= $child['childID'] ?>" />
         <button type="submit" class="button" style="background:#ff3366;">
-          <i data-lucide="trash-2"></i> Delete
+           <img src="assets/img/delete.png" alt="">
         </button>
       </form>
 
@@ -132,23 +136,23 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php endif; ?>
   </section>
 
-  <!-- Форма добавления ребенка -->
+  <!-- Child's addition form -->
   <section class="dashboard-block card neon-form">
-    <h2><i data-lucide="plus-circle" class="icon"></i> Добавить ребёнка</h2>
+    <h2><i data-lucide="plus-circle" class="icon"></i> Add a child</h2>
     <?php if (!empty($error)): ?>
       <p style="color:#ff66cc; font-weight:bold;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
    <form method="POST" action="dashboard.php" enctype="multipart/form-data" novalidate>
-      <label for="childName">Имя ребенка:</label>
-      <input type="text" id="childName" name="childName" required placeholder="Введите имя" />
+      <label for="childName">Child's name:</label>
+      <input type="text" id="childName" name="childName" required placeholder="Enter a name" />
 
-      <label for="childAge">Возраст:</label>
-      <input type="number" id="childAge" name="childAge" min="1" max="18" required placeholder="От 1 до 18" />
+      <label for="childAge">Age:</label>
+      <input type="number" id="childAge" name="childAge" min="1" max="18" required placeholder="From 1 to 18" />
 
-      <label for="groupLevel">Уровень группы:</label>
-      <input type="text" id="groupLevel" name="groupLevel" required placeholder="Например, 'Начинающий'" />
+      <label for="groupLevel">Level:</label>
+      <input type="text" id="groupLevel" name="groupLevel" required placeholder="For example, 'Beginner'" />
 
-       <!-- <label>Фото (опционально):</label><br>
+       <!-- <label> Photo:</label><br>
        <input type="file" name="photoImage" accept="image/*"><br><br> -->
 <br/>
       <button type="submit" class="neon-button">
@@ -160,7 +164,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <!-- Действия -->
   <div class="actions">
     <a href="logout.php" class="button">
-      <i data-lucide="log-out"></i> Выйти
+      <i data-lucide="log-out"></i> Logout
     </a>
   </div>
   <br/>

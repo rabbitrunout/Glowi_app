@@ -1,5 +1,4 @@
 
-
 /* Все иконки Lucide желтого яркого цвета */
 h1 svg[data-lucide],
 h2 svg[data-lucide],
@@ -15,27 +14,25 @@ h6 svg[data-lucide] {
    stroke-width: 1 !important; 
 }
 
-/* --- Основной стиль страницы --- */
-/* body {
+/* ************************************************************************ */
+/* ***************** --- Glowi Neon Main Style  --- *************************/
+/* ************************************************************************ */
+/* ================== Base =================== */
+body {
   margin: 0;
   font-family: 'Nunito', sans-serif;
-  background: linear-gradient(to bottom, #1b0032, #4e0072);
+  background: linear-gradient(to right, #2d1b47, #12142e);
   color: white;
   overflow-x: hidden;
-} */
-
-/* --- Glowi Neon Main Style with Parallax --- */
-body {
-margin: 0;
-font-family: 'Nunito', sans-serif;
-background: linear-gradient(to right, #2d1b47, #12142e);
-color: white;
-overflow-x: hidden;
 }
 
+/* ================== Header =================== */
 header {
-  /* Убираем центрирование */
-  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(27, 0, 50, 0.95);
+  backdrop-filter: blur(8px);
 }
 
 nav {
@@ -43,10 +40,9 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1.2rem 2rem;
-  gap:2rem;
+  gap: 2rem;
 }
 
-/* Стили для левого блока с логотипом */
 .nav-left h1 {
   margin: 0;
   font-size: 3.5rem;
@@ -54,7 +50,6 @@ nav {
   animation: pulse 2s infinite;
 }
 
-/* Стили для ссылок */
 .nav-links {
   display: flex;
   gap: 1.5rem;
@@ -73,104 +68,154 @@ nav a:hover {
   color: #ff66ff;
 }
 
-
-/* --- Hero секция --- */
-.hero {
-  padding: 2rem;
+.section {
+  padding: 60px 20px;
   text-align: center;
 }
+/* ================== Hero =================== */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 45vh;
+  padding: 2rem;
+  text-align: center;
+  background: linear-gradient(to right, #ff00cc44, #33339944);
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
-.hero h2 {
-  font-size: 1.8rem;
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
   color: #ffffff;
-  animation: fadeInDown 1s ease-in-out;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  margin-bottom: 1rem;
 }
 
 .hero p {
+  font-size: 1.1rem;
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
   color: #e0e0e0;
-  animation: fadeInUp 1s ease-in-out;
-}
-  .how-glowi-works {
-    background-color: #2a2a2e;
-    padding: 40px 20px;
-    border-top: 2px dashed #ff9ec8;
-    border-bottom: 2px dashed #ff9ec8;
-  }
-
-  .steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
-    text-align: center;
-  }
-
-  .step img {
-    width: 60px;
-    height: 60px;
-    margin-bottom: 15px;
-    transition: transform 0.3s ease;
-  }
-
-  .step img:hover {
-    transform: scale(1.1) rotate(3deg);
-  }
-
-  .step h4 {
-    margin-bottom: 8px;
-    font-size: 1.2rem;
-    color: #FFC0E0;
-  }
-
-  .step p {
-    font-size: 0.95rem;
-    color: #eee;
-  }
-
-/* --- Общие секции --- */
-.section {
-  padding: 2rem 1rem;
 }
 
-.section h3 {
-  color: #00e6f6;
-  text-align: center;
-  margin-bottom: 1rem;
+/* ================== Button =================== */
+.btn {
+  background: #ff00cc;
+  color: white;
+  padding: 0.8rem 1.8rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-footer {
-  display: flex;
-justify-content: center;
-align-items: center;
-text-align: center;
-padding: 2rem;
-}
-
-/* --- Swiper слайдер ---
-.swiper {
-  width: 100%;
-  padding-top: 20px;
-  padding-bottom: 40px;
-}
-
-.swiper-slide {
-  background: #1a1a2e;
-  border-radius: 12px;
-  text-align: center;
-  padding: 1rem;
-  color: #fff;
-  transition: transform 0.3s ease;
-}
-
-.swiper-slide:hover {
+.btn:hover {
   transform: scale(1.05);
 }
 
-.swiper-slide img {
-  max-width: 100%;
-  border-radius: 8px;
+/* ================== Card Box =================== */
+.card {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
+              0 0 30px rgba(255, 0, 255, 0.25);
+  backdrop-filter: blur(12px);
+  padding: 2rem;
+  margin: 30px auto;
+  max-width: 1000px;
+  width: 90%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(255, 0, 255, 0.35),
+              0 0 40px rgba(255, 0, 255, 0.2);
+}
+
+/* ================== Main Page Cards =================== */
+.cards-container-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.card-main {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 0, 255, 0.25);
+}
+
+.card-main:hover {
+  transform: translateY(-10px);
+}
+
+.card-main img {
+  max-width: 80px;
   margin-bottom: 1rem;
-} */
+}
+
+.card-main h3, .card-main h4 {
+  margin: 0.5rem 0;
+  color: #ffccff;
+}
+
+.card-main p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ================== How Glowi Works =================== */
+
+/* ================== Login Section =================== */
+ .login-section input {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  margin: 0.5rem 0;
+  width: 100%;
+  max-width: 400px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-section h2 {
+  margin-bottom: 1rem;
+}
+
+.login-section img {
+  max-width: 80px;
+  margin-bottom: 1rem;
+} 
+
+/* ================== Footer =================== */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+
+
 
 /* --- Основной контейнер и профильные секции --- */
 main.container {
@@ -240,26 +285,7 @@ button:hover, .button:hover {
   background: #ff66ff;
 }
 
-/* --- Секция входа --- */
-.login-section {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 2rem 1rem;
-  border-radius: 12px;
-  margin: 2rem 1rem;
-  text-align: center;
-}
 
-.login-section input {
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: none;
-  margin: 0.5rem;
-  width: 50%;
-}
-
-.login-section h3 {
-  color: #ffffff;
-}
 
 /* --- Профильный контейнер с колонками --- */
 .profile-container {
@@ -322,21 +348,10 @@ button:hover, .button:hover {
 .button:hover {
     background: #45a049;
 }
-/* .weekly-schedule table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  background-color: rgba(255,255,255,0.03);
-}
 
-.weekly-schedule th, .weekly-schedule td {
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 0.4rem;
-  text-align: left;
-} */
-
-
-/* --- Таблица платежей --- */
+/* ********************************** */
+/* *******--- Paymets TABLE --- ***** */
+/* ********************************** */
 .payments-section table {
   width: 100%;
   border-collapse: collapse;
@@ -353,8 +368,9 @@ button:hover, .button:hover {
   color: #333;
 }
 
+/* ***************************************** */
 /* --- FullCalendar стиль адаптированный --- */
-
+/* ***************************************** */
 .calendar-section {
   max-width: 100%;
   overflow-x: auto;
@@ -470,24 +486,6 @@ button:hover, .button:hover {
   color: #eee;
 }
 
-/* --- Карточки --- */
-.card {
-  width: 100%;
-  max-width: 100%;
-  overflow: auto;
-  box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-  padding: 1.5rem 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(255, 102, 255, 0.3);
-}
 
 /* --- Дашборд --- */
 .dashboard-wrapper {
@@ -566,7 +564,6 @@ button:hover, .button:hover {
 .actions a:hover {
   background: #cd00f6;
 }
-
 
 .weekly-schedule {
   margin-top: 20px;
@@ -719,34 +716,6 @@ button:hover, .button:hover {
             box-shadow: 0 0 10px #00f7ff;
         }
 
-/* --- Адаптивность --- */
-@media (max-width: 768px) {
-  .profile-container {
-    flex-direction: column;
-  }
-
-  .left-column,
-  .right-column {
-    flex: 1 1 100%;
-  }
-
-  main.container {
-    width: 95%;
-    padding: 0 0.5rem;
-  }
-
-  .weekly-schedule table {
-    font-size: 0.9rem;
-  }
-
-  .weekly-schedule th, .weekly-schedule td {
-    padding: 6px 8px;
-  }
-
-  .weekly-schedule h2 {
-    font-size: 1.1rem;
-  }
-}
 
 /* --- Анимации --- */
 @keyframes pulse {
@@ -777,23 +746,6 @@ button:hover, .button:hover {
 }
 
 
-
-
-
-
-/* ÐŸÐ°Ñ€Ð°Ð»Ð»Ð°ÐºÑ-ÑÐµÐºÑ†Ð¸Ð¸ */
-.parallax-section {
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  padding: 80px 20px;
-  text-align: center;
-}
-
-
-
-
 h1, h2, h3, h4, h5 {
   color: #fff;
   text-shadow: 0 0 6px #ff66ff;
@@ -806,7 +758,7 @@ a {
 }
 a:hover { color: #ffccff; }
 
-/* ÐœÐ¾Ð´Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÑ‚Ð¸Ð»Ð¸ */
+
 .glowi-modal {
   background: linear-gradient(135deg, #1f1c2c, #928dab);
   border: 2px solid #ff66cc;
@@ -831,28 +783,7 @@ a:hover { color: #ffccff; }
   background: #ff33cc;
 }
 
-
-
-.card {
-  background: rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4),
-              0 0 30px rgba(255, 0, 255, 0.25);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  padding: 2rem;
-  margin: 30px auto;
-  max-width: 1000px;
-  width: 100%;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(255, 0, 255, 0.35),
-              0 0 40px rgba(255, 0, 255, 0.2);
-} 
+ 
 
 
 
@@ -873,9 +804,9 @@ a:hover { color: #ffccff; }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.section {
+/* .section {
   animation: fadeInUp 1s ease-in-out;
-}
+} */
 
 
 html { scroll-behavior: smooth; }
@@ -908,3 +839,11 @@ html { scroll-behavior: smooth; }
   color: #fff;
   box-shadow: 0 0 8px #ff00cc66;
 }
+
+
+
+
+
+
+
+

@@ -1,10 +1,52 @@
 body {
-  background: linear-gradient(to right, #ff00cc, #333399);
-  font-family: 'Nunito', sans-serif;
-  color: white;
+margin: 0;
+font-family: 'Nunito', sans-serif;
+background: linear-gradient(to right, #2d1b47, #12142e);
+color: white;
+overflow-x: hidden;
+}
+
+header {
+position: sticky;
+top: 0;
+z-index: 1000;
+background: rgba(27, 0, 50, 0.95);
+backdrop-filter: blur(8px);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  gap:2rem;
+}
+
+/* Стили для левого блока с логотипом */
+.nav-left h1 {
   margin: 0;
-  padding: 20px;
-  min-height: 100vh;
+  font-size: 3.5rem;
+  color: #00e6f6;
+  animation: pulse 2s infinite;
+}
+
+/* Стили для ссылок */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #ff66ff;
 }
 
 h1 {
@@ -67,11 +109,10 @@ p a:hover {
   text-decoration: underline;
 }
 
-/* Стили для header и footer (если есть) */
-header, footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: rgba(0,0,0,0.6);
-  color: #ccc;
-  font-size: 0.9rem;
+footer {
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 2rem;
 }

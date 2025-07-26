@@ -5,10 +5,10 @@
     </div>
     <div class="nav-links">
       <a href="index.php">Home</a>
-      <a href="schedule.php">Schedule</a>
-      <a href="successes.php">Successes</a>
-      <a href="payment.php">Payment</a>
-      <a href="booking.php">Booking</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#support">Support</a>
+      <!-- <a href="payment.php">Payment</a>
+      <a href="booking.php">Booking</a> -->
       <a href="#login">Login</a>
     </div>
   </nav>
