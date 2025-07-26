@@ -150,7 +150,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
        <!-- <label>Фото (опционально):</label><br>
        <input type="file" name="photoImage" accept="image/*"><br><br> -->
-
+<br/>
       <button type="submit" class="neon-button">
         <i data-lucide="check-circle"></i> Add
       </button>
@@ -163,6 +163,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <i data-lucide="log-out"></i> Выйти
     </a>
   </div>
+  <br/>
 </main>
 
 <?php include 'footer.php'; ?>

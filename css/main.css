@@ -24,17 +24,13 @@ h6 svg[data-lucide] {
   overflow-x: hidden;
 } */
 
+/* --- Glowi Neon Main Style with Parallax --- */
 body {
-  margin: 0;
-  font-family: 'Nunito', sans-serif;
-  background: linear-gradient(145deg, #1b0032, #31004d);
-  color: white;
-  overflow-x: hidden;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
+margin: 0;
+font-family: 'Nunito', sans-serif;
+background: linear-gradient(to right, #2d1b47, #12142e);
+color: white;
+overflow-x: hidden;
 }
 
 header {
@@ -142,7 +138,15 @@ nav a:hover {
   margin-bottom: 1rem;
 }
 
-/* --- Swiper слайдер --- */
+footer {
+  display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+padding: 2rem;
+}
+
+/* --- Swiper слайдер ---
 .swiper {
   width: 100%;
   padding-top: 20px;
@@ -166,7 +170,7 @@ nav a:hover {
   max-width: 100%;
   border-radius: 8px;
   margin-bottom: 1rem;
-}
+} */
 
 /* --- Основной контейнер и профильные секции --- */
 main.container {
@@ -250,7 +254,7 @@ button:hover, .button:hover {
   border-radius: 8px;
   border: none;
   margin: 0.5rem;
-  width: 80%;
+  width: 50%;
 }
 
 .login-section h3 {
@@ -527,7 +531,7 @@ button:hover, .button:hover {
 }
 
 .dashboard-block form input {
-  width: 100%;
+  width: 70%;
   padding: 0.5rem;
   border-radius: 8px;
   border: none;
@@ -684,7 +688,7 @@ button:hover, .button:hover {
         input[type="number"],
         select,
         input[type="file"] {
-            width: 100%;
+            width: 50%;
             padding: 10px;
             border-radius: 8px;
             border: none;
@@ -774,14 +778,7 @@ button:hover, .button:hover {
 
 
 
-/* --- Glowi Neon Main Style with Parallax --- */
-body {
-margin: 0;
-font-family: 'Nunito', sans-serif;
-background: linear-gradient(to right, #2d1b47, #12142e);
-color: white;
-overflow-x: hidden;
-}
+
 
 
 /* ÐŸÐ°Ñ€Ð°Ð»Ð»Ð°ÐºÑ-ÑÐµÐºÑ†Ð¸Ð¸ */
@@ -822,6 +819,7 @@ a:hover { color: #ffccff; }
 /* ÐšÐ½Ð¾Ð¿ÐºÐ¸ */
 .button, button {
   background: #ff66ff;
+  justify-content: start;
   color: #212222;
   border: none;
   padding: 10px 20px;
@@ -833,15 +831,7 @@ a:hover { color: #ffccff; }
   background: #ff33cc;
 }
 
-/* ÐŸÑ€Ð¾Ñ„Ð¸Ð»ÑŒ Ð¸ ÐºÐ°Ñ€Ñ‚Ð¾Ñ‡ÐºÐ¸ */
-/* .card {
-  background: linear-gradient(to bottom, #5e2590, #4e0072);
-  border-radius: 16px;
-  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
-  padding: 1.5rem;
-  margin: 20px 0;
-  gap:2rem;
-} */
+
 
 .card {
   background: rgba(255, 255, 255, 0.08);

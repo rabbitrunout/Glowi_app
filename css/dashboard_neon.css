@@ -1,10 +1,9 @@
 body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  /* background: linear-gradient(to bottom, #1b0032, #4e0072); */
-  background: linear-gradient(to right, #ff00cc, #333399);
-  color: white;
-  padding: 2rem;
+margin: 0;
+font-family: 'Nunito', sans-serif;
+background: linear-gradient(to right, #2d1b47, #12142e);
+color: white;
+overflow-x: hidden;
 }
 
 .dashboard-wrapper {
