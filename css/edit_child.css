@@ -1,0 +1,164 @@
+/* ======= Общий стиль страницы ====== */
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(to right, #2d1b47, #12142e);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Компактный стиль для окна редактирования */
+
+main.container.glowi-card {
+  max-width: 400px;            /* чуть уже */
+  margin: 2rem auto;           /* чуть меньше внешних отступов */
+  padding: 1.2rem 1.5rem;      /* уменьшенный padding */
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(255, 0, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+main.container.glowi-card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 24px rgba(255, 0, 255, 0.3),
+    0 0 35px rgba(255, 0, 255, 0.15);
+}
+
+main h2 {
+  font-size: 1.6rem;           /* меньше заголовок */
+  margin-bottom: 1rem;
+  color: #00e6f6;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Фото ребёнка - меньше и компактнее */
+#imagePreview {
+  display: block;
+  margin: 0 auto 1rem auto;
+  object-fit: cover;
+  width: 100px;                /* уменьшен размер */
+  height: 100px;
+  /* box-shadow: 0 0 4px #a5a49e; */
+}
+
+/* Меньше поля формы */
+form label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #ffccff;
+  text-shadow: 0 0 2px #ff66ff;
+  font-size: 0.9rem;          /* чуть меньше */
+}
+
+form input[type="text"],
+form input[type="number"],
+form select,
+form input[type="file"] {
+  width: 100%;           /* растягиваем на всю ширину родителя */
+  box-sizing: border-box; /* чтобы padding не ломал ширину */
+  padding: 0.5rem 0.9rem;
+  margin-bottom: 0.9rem;
+  border-radius: 10px;
+  border: 1.3px solid #ff66ff;
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus,
+form input[type="file"]:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 5px #ffd700;
+}
+
+/* Кнопка "Сохранить" компактнее */
+.btn-save {
+  width: 100%;
+  padding: 0.6rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  background: #ff00cc;
+  color: #212222;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff00cc;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-save:hover {
+  background: #cc00cc;
+  box-shadow: 0 0 25px #ff66ff;
+  transform: scale(1.04);
+}
+
+/* Ссылка назад */
+a {
+  color: #00e6f6;
+  font-weight: 600;
+  margin-top: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #ffcc00;
+}
+
+
+/* ======= Иконки Lucide жёлтые ======= */
+h1 svg[data-lucide],
+h2 svg[data-lucide],
+h3 svg[data-lucide],
+h4 svg[data-lucide],
+h5 svg[data-lucide],
+h6 svg[data-lucide] {
+  stroke: #FFD700 !important;
+  fill: none !important;
+  width: 1.4em;
+  height: 1.4em;
+  vertical-align: middle;
+  stroke-width: 1.5 !important;
+}
+
+/* ================== Footer =================== */
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+/* ====== Анимация плавного появления ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main.container.glowi-card {
+  animation: fadeInUp 0.7s ease forwards;
+}

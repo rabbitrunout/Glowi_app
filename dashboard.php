@@ -139,6 +139,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php if (!empty($error)): ?>
       <p style="color:#ff66cc; font-weight:bold;"><?= htmlspecialchars($error) ?></p>
     <?php endif; ?>
+    
    <form method="POST" action="dashboard.php" enctype="multipart/form-data" novalidate>
       <label for="childName">Child's name:</label>
       <input type="text" id="childName" name="childName" required placeholder="Enter a name" />

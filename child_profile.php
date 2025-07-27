@@ -153,7 +153,8 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 <head>
   <meta charset="UTF-8">
   <title> Profile Child: <?= htmlspecialchars($child['name']) ?></title>
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/child_profile.css">
+  <!-- <link rel="stylesheet" href="css/main.css"> -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
@@ -164,11 +165,11 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 <body>
   <?php include 'header.php'; ?>
   <?php if (basename($_SERVER['PHP_SELF']) == 'child_profile.php'): ?>
-  <!-- <link rel="stylesheet" href="/css/child_profile_neon.css"> -->
+  
 <?php endif; ?>
 
 
-<main class="container profile-container">
+<main class="profile-container">
   <div class="left-column">
     <section class="card profile-header">
       <div class="avatar">
@@ -343,7 +344,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   </div>
 </main>
 
-<p><a href="dashboard.php"><i data-lucide="arrow-left"></i> Back to your personal account</a></p>
+<p class="arrow"><a href="dashboard.php" ><i data-lucide="arrow-left"></i> Back to your personal account</a></p>
 
 <?php include 'footer.php'; ?>
 

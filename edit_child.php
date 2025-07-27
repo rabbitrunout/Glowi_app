@@ -69,21 +69,22 @@ $photoPath = (!empty($photoFile) && file_exists($uploadDir . $photoFile))
     ? $uploadDir . htmlspecialchars($photoFile)
     : 'assets/img/placeholder.png';
 ?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>Редактирование профиля: <?= htmlspecialchars($child['name']) ?></title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/child_profile_neon.css">
+   <link rel="stylesheet" href="css/edit_child.css">
+
 </head>
 <body>
-<?php include 'header.php'; ?>
+
 
 <main class="container glowi-card" style="max-width: 480px; margin: 3rem auto;">
     <h2>✏️ Edit a child's profile</h2>
 
-    <img src="<?= htmlspecialchars($photoPath) ?>" alt="Фото ребёнка" width="100" height="100" style="border-radius: 50%; object-fit: cover; margin-bottom: 1rem;" id="imagePreview" />
+    <img src="<?= htmlspecialchars($photoPath) ?>" alt="Фото ребёнка" width="100" height="100" style=" object-fit: cover; margin-bottom: 1rem;" id="imagePreview" />
 
     <form method="POST" action="edit_child.php" enctype="multipart/form-data">
         <input type="hidden" name="childID" value="<?= $childID ?>">

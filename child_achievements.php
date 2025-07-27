@@ -45,21 +45,13 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <title>Progress <?= htmlspecialchars($child['name']) ?></title>
   <link rel="stylesheet" href="css/achievements.css" />
   <script src="https://unpkg.com/lucide@latest"></script>
-  <style>
-    .achievement { margin-bottom: 20px; }
-    .achievement button { margin-left: 10px; }
-    .modal { display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:#fff; padding:20px; border:1px solid #ccc; z-index:1000; }
-    .modal input, .modal select, .modal textarea { width:100%; margin-bottom:10px; }
-    .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:999; }
-  </style>
+
 </head>
 <body>
-<?php include 'header.php'; ?>
 
 <h1>Child's achievements: <?= htmlspecialchars($child['name']) ?></h1>
 
-<p><a href="add_achievement.php?childID=<?= $childID ?>" class="button">
-    <i data-lucide="plus-circle"></i> Добавить достижение</a></p>
+
 
 <section class="achievements-section card">
   <?php if (empty($achievements)): ?>
@@ -105,7 +97,15 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <?php endif; ?>
 </section>
 
-<p><a href="child_profile.php?childID=<?= $childID ?>" class="button">← Back to the child's profile</a></p>
+<div class="button-row">
+  <a href="add_achievement.php?childID=<?= $childID ?>" class="button">
+    <i data-lucide="plus-circle"></i> Добавить достижение
+  </a>
+  <a href="child_profile.php?childID=<?= $childID ?>" class="button">
+    ← Back to the child's profile
+  </a>
+</div>
+
 
 <!-- Редактирование -->
 <div class="modal-overlay" id="overlay"></div>
@@ -146,7 +146,7 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </form>
 </div>
 
-<?php include 'footer.php'; ?>
+<!-- <?php include 'footer.php'; ?> -->
 <script>
 function editAchievement(data) {
   document.getElementById('overlay').style.display = 'block';
