@@ -127,22 +127,29 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
       
     </select>
 
-    <label>Дата:</label>
+    <label>Date:</label>
     <input type="date" name="dateAwarded" id="editDate" required>
 
-    <label>Место:</label>
+    <label>Place:</label>
     <input type="number" name="place" id="editPlace" min="1" placeholder="optional">
 
-    <label>Медаль:</label>
+    <label>Medal:</label>
     <select name="medal" id="editMedal">
       <option value="none">Без медали</option>
         <option value="gold">🥇 Gold</option>
         <option value="silver"> 🥈 Silver</option>
         <option value="bronze"> 🥉 Bronze</option>
+        <option value="forth">🎗️ 4th  </option>
+        <option value="fifth"> 🎗️ 5th  </option>
+        <option value="sixth"> 🎗️ 6th</option>
+        <option value="seventh"> 🎗️ 7th  </option>
+        <option value="eighth"> 🎗️ 8th</option>
+        <option value="honorable"> 🏵️ Certificate of honor </option>
+        
     </select>
 
-    <button type="submit">💾 Сохранить</button>
-    <button type="button" onclick="closeModal()">✖️ Отмена</button>
+    <button type="submit">💾 Save</button>
+    <button type="button" onclick="closeModal()">✖️ Cancel</button>
   </form>
 </div>
 

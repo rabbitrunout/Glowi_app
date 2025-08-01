@@ -117,7 +117,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
    <div class="child-actions">
   <a class="button" href="child_profile.php?childID=<?= $child['childID'] ?>">
-    <img src="assets/img/porfoliolist.png" alt="Open profile">
+    <img src="assets/img/profile3.png" alt="Open profile">
   </a>
 
   <form method="post" onsubmit="return confirm('Delete this child?');">

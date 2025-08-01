@@ -81,15 +81,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label>Day Awarded:</label>
     <input type="date" name="dateAwarded" required>
 
-    <label>Awarding Place (if any):</label>
+    <label>Awarding Place:</label>
     <input type="number" name="place" min="1" placeholder="например, 1">
 
     <label>Type of Medal:</label>
     <select name="medal">
-        <option value="none">Без медали</option>
+        <option value="none">-----</option>
         <option value="gold">🥇 Gold</option>
         <option value="silver"> 🥈 Silver</option>
         <option value="bronze"> 🥉 Bronze</option>
+        <option value="forth">🎗️ 4th  </option>
+        <option value="fifth"> 🎗️ 5th  </option>
+        <option value="sixth"> 🎗️ 6th</option>
+        <option value="seventh"> 🎗️ 7th  </option>
+        <option value="eighth"> 🎗️ 8th</option>
+        <option value="honorable"> 🏵️ Certificate of honor </option>
+        <option value="cup"> 🏆 Cup </option>
     </select>
 
     <label>Link to the file (if available):</label>

@@ -2,121 +2,83 @@
 session_start();
 require 'database.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Включить отображение ошибок PDO
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 if (!isset($_SESSION['parentID'])) {
     header('Location: login_form.php');
     exit;
 }
 
 $parentID = $_SESSION['parentID'];
-$childID = isset($_GET['childID']) ? (int)$_GET['childID'] : 0;
-if ($childID <= 0) die("Неверный ID ребенка.");
+$childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die("Некорректный ID ребенка.");
 
-// Проверка доступа к ребенку
-$stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
-$stmt->execute([$childID, $parentID]);
-$child = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$child) die("Ребенок не найден или не принадлежит вам.");
+$message = '';
 
-// Удаление привязки события
-if (isset($_GET['unlinkEventID'])) {
-    $unlinkEventID = (int)$_GET['unlinkEventID'];
-    $delStmt = $pdo->prepare("DELETE FROM child_event WHERE eventID = ? AND childID = ?");
-    $delStmt->execute([$unlinkEventID, $childID]);
-    header("Location: event_list_child.php?childID=$childID");
-    exit;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = trim($_POST['title']);
+    $description = trim($_POST['description']);
+    $eventType = $_POST['eventType'];
+    $eventDate = $_POST['eventDate'];
+    $eventTime = $_POST['eventTime'];
+    $location = trim($_POST['location']);
+
+    if ($title && $eventType && $eventDate && $eventTime) {
+        try {
+            $stmt = $pdo->prepare("INSERT INTO events (childID, title, description, eventType, eventDate, eventTime, location) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$childID, $title, $description, $eventType, $eventDate, $eventTime, $location]);
+
+            $message = '<div class="glowi-message success"><i data-lucide="check-circle"></i> Событие успешно добавлено!</div>';
+        } catch (PDOException $e) {
+            $message = '<div class="glowi-message error"><i data-lucide="x-circle"></i> Ошибка БД: ' . htmlspecialchars($e->getMessage()) . '</div>';
+        }
+    } else {
+        $message = '<div class="glowi-message error"><i data-lucide="alert-triangle"></i> Пожалуйста, заполните все обязательные поля.</div>';
+    }
 }
-
-// Фильтрация
-$filter = $_GET['filter'] ?? 'all';
-$allowedTypes = ['training', 'competition'];
-
-if (in_array($filter, $allowedTypes)) {
-    $stmt = $pdo->prepare("
-        SELECT e.* FROM events e
-        JOIN child_event ce ON ce.eventID = e.eventID
-        WHERE ce.childID = ? AND e.eventType = ?
-        ORDER BY e.date DESC, e.time DESC
-    ");
-    $stmt->execute([$childID, $filter]);
-} else {
-    $stmt = $pdo->prepare("
-        SELECT e.* FROM events e
-        JOIN child_event ce ON ce.eventID = e.eventID
-        WHERE ce.childID = ?
-        ORDER BY e.date DESC, e.time DESC
-    ");
-    $stmt->execute([$childID]);
-}
-$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Все доступные события для привязки
-$stmt = $pdo->query("SELECT eventID, title, date FROM events ORDER BY date DESC");
-$allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Привязка события</title>
-    <link rel="stylesheet" href="css/main.css">
+    <title>Добавить событие</title>
+    <link rel="stylesheet" href="css/event_add_child.css">
 </head>
 <body>
-<?php include 'header.php'; ?>
+  <?php include 'header.php'; ?>
+    <div class="form-wrapper">
+        <form class="glowi-form" method="POST">
+            <h2><i data-lucide="calendar-plus"></i> Добавить событие</h2>
+            <?= $message ?>
 
-<main>
+            <input type="text" name="title" placeholder="Название" required>
+            <select name="eventType" required>
+                <option value="">-- Тип события --</option>
+                <option value="Training">Тренировка</option>
+                <option value="Competition">Соревнование</option>
+                <option value="Other">Другое</option>
+            </select>
+            <input type="text" name="description" placeholder="Описание">
+            <input type="date" name="eventDate" required>
+            <input type="time" name="eventTime" required>
+            <input type="text" name="location" placeholder="Место">
 
+            <button type="submit">Создать событие</button>
+            <a href="child_profile.php?childID=<?= $childID ?>" class="back-link">← Назад к профилю</a>
+        </form>
+    </div>
 
-<h3>➕ New event</h3>
-  <form method="post" action="add_event.php">
-    <input type="hidden" name="childID" value="<?= $childID ?>">
-    <input type="text" name="title" placeholder="Название" required><br>
-    <select name="eventType" required>
-      <option value="training">Training</option>
-      <option value="competition">Competition</option>
-    </select><br>
-    <textarea name="description" placeholder="Описание"></textarea><br>
-    <input type="date" name="date" required>
-    <input type="time" name="time" required><br>
-    <input type="text" name="location" placeholder="Место" required><br>
-    <button type="submit">Create</button>
-  </form>
+    <?php include 'footer.php'; ?>
 
-  <p><a href="child_profile.php?childID=<?= $childID ?>">← Back on profile</a></p>
-</main>
-
-  <?php include 'footer.php'; ?>
-
-<script>
-    const editBtns = document.querySelectorAll('.edit-btn');
-  const modal = document.getElementById('editModal');
-
-  editBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.style.display = 'block';
-
-      document.getElementById('editEventID').value = btn.dataset.eventId;
-      document.getElementById('editTitle').value = btn.dataset.title;
-      document.getElementById('editType').value = btn.dataset.type;
-      document.getElementById('editDescription').value = btn.dataset.description;
-      document.getElementById('editDate').value = btn.dataset.date;
-      document.getElementById('editTime').value = btn.dataset.time;
-      document.getElementById('editLocation').value = btn.dataset.location;
-    });
-  });
-
-  function closeModal() {
-    modal.style.display = 'none';
-  }
-
-  window.onclick = function(event) {
-    if (event.target == modal) closeModal();
-  };
-</script>
-<script src="scripts/app.js"></script>
-<script>
-  lucide.createIcons();
-</script>
+    <script src="https://unpkg.com/lucide@0.292.0"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            lucide.createIcons();
+        });
+    </script>
 </body>
 </html>

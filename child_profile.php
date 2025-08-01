@@ -314,13 +314,14 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
                 <strong>
                   <?php
                     switch ($ach['medal']) {
-                      case 'gold': echo 'Gold 🥇'; break;
-                      case 'silver': echo 'Silver 🥈'; break;
-                      case 'bronze': echo 'Bronze 🥉'; break;
-                      case 'fourth': echo '4th 🎗️'; break;
-                      case 'fifth': echo '5th 🎗️'; break;
-                      case 'sixth': echo '6th 🎗️'; break;
-                      case 'seventh': echo '7th🎗️'; break;
+                      case 'gold': echo '🥇 Gold '; break;
+                      case 'silver': echo '🥈 Silver '; break;
+                      case 'bronze': echo '🥉 Bronze '; break;
+                      case 'fourth': echo '🎗️ 4th '; break;
+                      case 'fifth': echo '🎗️ 5th '; break;
+                      case 'sixth': echo '🎗️ 6th '; break;
+                      case 'seventh': echo '🎗️ 7th'; break;
+                      case 'eighth': echo '🎗️ 8th '; break;
                       case 'honorable': echo 'Certificate of honor 🏵️'; break;
                       default: echo ucfirst($ach['medal']);
                     }

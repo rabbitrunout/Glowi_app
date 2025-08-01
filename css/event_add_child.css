@@ -1,0 +1,154 @@
+
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(to right, #2d1b47, #12142e);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ================== Header =================== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(27, 0, 50, 0.95);
+  backdrop-filter: blur(8px);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  gap: 2rem;
+}
+
+.nav-left h1 {
+  margin: 0;
+  font-size: 3.5rem;
+  color: #00e6f6;
+  animation: pulse 2s infinite;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #ff66ff;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+ .form-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 1rem;
+            min-height: 60vh;
+        }
+
+        .glowi-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 15px #ff66ff;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .glowi-form h2 {
+            color: #00e6f6;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+        .glowi-form input,
+        .glowi-form select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .glowi-form input::placeholder {
+            color: #ccc;
+        }
+
+        .glowi-form button {
+            background: #ff00cc;
+            color: white;
+            padding: 0.8rem 1.6rem;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 0 12px rgba(255, 0, 255, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .glowi-form button:hover {
+            transform: scale(1.05);
+        }
+
+        .glowi-message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .glowi-message.success {
+            background: rgba(0, 255, 100, 0.2);
+            border: 1px solid #0f0;
+        }
+
+        .glowi-message.error {
+            background: rgba(255, 0, 100, 0.2);
+            border: 1px solid #f00;
+        }
+
+        .glowi-message i {
+            width: 24px;
+            height: 24px;
+            stroke: #FFD700;
+            stroke-width: 2;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: #ffccff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            color: #ff66ff;
+        }
+
