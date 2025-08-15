@@ -22,16 +22,24 @@ $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $title = trim($_POST['title']);
     $description = trim($_POST['description']);
-    $eventType = $_POST['eventType'];
+    $eventType = strtolower(trim($_POST['eventType']));
     $eventDate = $_POST['eventDate'];
     $eventTime = $_POST['eventTime'];
     $location = trim($_POST['location']);
 
     if ($title && $eventType && $eventDate && $eventTime) {
         try {
-            $stmt = $pdo->prepare("INSERT INTO events (childID, title, description, eventType, eventDate, eventTime, location) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([$childID, $title, $description, $eventType, $eventDate, $eventTime, $location]);
+            // Добавляем событие в таблицу events
+            $stmt = $pdo->prepare("INSERT INTO events (title, description, eventType, date, time, location) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$title, $description, $eventType, $eventDate, $eventTime, $location]);
 
+            $eventID = $pdo->lastInsertId();
+
+            // Привязываем событие к ребёнку через таблицу child_event
+            $stmt2 = $pdo->prepare("INSERT INTO child_event (eventID, childID, createdBy) VALUES (?, ?, 'parent')");
+            $stmt2->execute([$eventID, $childID]);
+
+            // Можно перенаправить или отобразить сообщение
             $message = '<div class="glowi-message success"><i data-lucide="check-circle"></i> Событие успешно добавлено!</div>';
         } catch (PDOException $e) {
             $message = '<div class="glowi-message error"><i data-lucide="x-circle"></i> Ошибка БД: ' . htmlspecialchars($e->getMessage()) . '</div>';
@@ -40,45 +48,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = '<div class="glowi-message error"><i data-lucide="alert-triangle"></i> Пожалуйста, заполните все обязательные поля.</div>';
     }
 }
+
+// Загрузка всех событий ребёнка
+$stmt = $pdo->prepare("
+    SELECT e.*
+    FROM events e
+    JOIN child_event ce ON e.eventID = ce.eventID
+    WHERE ce.childID = ?
+    ORDER BY e.date DESC, e.time DESC
+");
+$stmt->execute([$childID]);
+$events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Добавить событие</title>
+    <title>Add Event</title>
     <link rel="stylesheet" href="css/event_add_child.css">
 </head>
 <body>
-  <?php include 'header.php'; ?>
-    <div class="form-wrapper">
-        <form class="glowi-form" method="POST">
+<?php include 'header.php'; ?>
+
+<div class="form-wrapper">
+    <main class="container glowi-card">
+        <form method="POST">
             <h2><i data-lucide="calendar-plus"></i> Добавить событие</h2>
             <?= $message ?>
 
-            <input type="text" name="title" placeholder="Название" required>
-            <select name="eventType" required>
-                <option value="">-- Тип события --</option>
-                <option value="Training">Тренировка</option>
-                <option value="Competition">Соревнование</option>
-                <option value="Other">Другое</option>
+            <label for="title">Название</label>
+            <input type="text" name="title" id="title" required>
+
+            <label for="eventType">Тип события</label>
+            <select name="eventType" id="eventType" required>
+                <option value="">-- Выберите тип --</option>
+                <option value="training">Тренировка</option>
+                <option value="competition">Соревнование</option>
             </select>
-            <input type="text" name="description" placeholder="Описание">
-            <input type="date" name="eventDate" required>
-            <input type="time" name="eventTime" required>
-            <input type="text" name="location" placeholder="Место">
 
-            <button type="submit">Создать событие</button>
-            <a href="child_profile.php?childID=<?= $childID ?>" class="back-link">← Назад к профилю</a>
+            <label for="description">Описание</label>
+            <input type="text" name="description" id="description">
+
+            <label for="eventDate">Дата</label>
+            <input type="date" name="eventDate" id="eventDate" required>
+
+            <label for="eventTime">Время</label>
+            <input type="time" name="eventTime" id="eventTime" required>
+
+            <label for="location">Место проведения</label>
+            <input type="text" name="location" id="location">
+
+            <button type="submit" class="btn-save">Создать событие</button>
+            <a href="child_profile.php?childID=<?= $childID ?>">← Назад в профиль</a>
         </form>
-    </div>
+    </main>
+</div>
 
-    <?php include 'footer.php'; ?>
 
-    <script src="https://unpkg.com/lucide@0.292.0"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            lucide.createIcons();
-        });
-    </script>
+
+
+<?php include 'footer.php'; ?>
+
+<script src="https://unpkg.com/lucide@0.292.0"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        lucide.createIcons();
+    });
+</script>
 </body>
 </html>

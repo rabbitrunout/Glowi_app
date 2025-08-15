@@ -71,7 +71,7 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
       
 
-<p><a href="child_profile.php?childID=<?= $childID ?>">← Вернуться к профилю</a></p>
+<p><a href="child_profile.php?childID=<?= $childID ?>">← Back to profile</a></p>
 
 <?php include 'footer.php'; ?>
 </body>

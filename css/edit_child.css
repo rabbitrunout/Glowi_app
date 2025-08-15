@@ -8,6 +8,59 @@ body {
   overflow-x: hidden;
 }
 
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(27, 0, 50, 0.95);
+  backdrop-filter: blur(8px);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 2rem;
+  gap: 2rem;
+}
+
+.nav-left h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 500; /* чуть тоньше */
+  color: #00e6f6;
+  animation: pulse 2s infinite;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* расстояние между логотипом и текстом */
+}
+
+.logo {
+  height: 65px; /* подберите под ваш дизайн */
+  width: auto;
+  /* border: 2px solid #FFD700; */
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #ff66ff;
+  text-shadow: 0 0 5px #ff66ff, 0 0 10px #ff66ff;
+}
 /* Компактный стиль для окна редактирования */
 
 main.container.glowi-card {

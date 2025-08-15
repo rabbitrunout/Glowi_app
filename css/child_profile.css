@@ -24,6 +24,7 @@ body {
   overflow-x: hidden;
 }
 /* ================== Header =================== */
+
 header {
   position: sticky;
   top: 0;
@@ -37,14 +38,26 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 1.2rem 2rem;
-  gap: 3rem;
+  gap: 2rem;
 }
 
 .nav-left h1 {
   margin: 0;
-  font-size: 3.5rem;
+  font-size: 1.8rem;
+  font-weight: 500; /* чуть тоньше */
   color: #00e6f6;
   animation: pulse 2s infinite;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* расстояние между логотипом и текстом */
+}
+
+.logo {
+  height: 65px; /* подберите под ваш дизайн */
+  width: auto;
+  /* border: 2px solid #FFD700; */
 }
 
 .nav-links {
@@ -63,6 +76,7 @@ nav a {
 
 nav a:hover {
   color: #ff66ff;
+  text-shadow: 0 0 5px #ff66ff, 0 0 10px #ff66ff;
 }
 
 
@@ -426,6 +440,47 @@ a {
 .competition {
   color: #ffc300;
 }
+
+.event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.event-card {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 1.8rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 0, 255, 0.25);
+  transition: transform 0.3s ease;
+  color: white;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(255, 0, 255, 0.35), 0 0 40px rgba(255, 0, 255, 0.2);
+}
+
+.event-card h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #FFD700;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.event-card p {
+  margin: 0.3rem 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
 /* ********************************** */
 /* *******--- Paymets TABLE --- ***** */
 /* ********************************** */
