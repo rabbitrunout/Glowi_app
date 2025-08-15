@@ -1,7 +1,7 @@
 <header>
   <nav>
     <div class="nav-left">
-      <img src="assets/img/logo.png" alt="GLOWI Logo" class="logo">
+      <img src="assets/img/mainlogo.png" alt="GLOWI Logo" class="logo">
       <h1 class="animate__animated animate__pulse">GLOWI</h1>
     </div>
     <div class="nav-links">

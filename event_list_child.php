@@ -53,29 +53,141 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $stmt = $pdo->query("SELECT eventID, title, date FROM events ORDER BY date DESC");
 $allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>События — <?= htmlspecialchars($child['name']) ?></title>
-  <link rel="stylesheet" href="css/main.css">
-  <style>
-    .modal { display: none; position: fixed; top: 10%; left: 50%; transform: translateX(-50%); background: #fff; padding: 20px; z-index: 999; border-radius: 8px; box-shadow: 0 0 20px #999; }
-    .modal-content { width: 100%; max-width: 500px; }
-    .modal .close { float: right; cursor: pointer; font-weight: bold; }
-    .edit-btn { cursor: pointer; background: #e6e6ff; border: none; padding: 5px 10px; border-radius: 6px; }
-  </style>
+<meta charset="UTF-8">
+<title>События — <?= htmlspecialchars($child['name']) ?></title>
+<link rel="stylesheet" href="css/main.css">
+<style>
+/* ===== Таблица Glowi ===== */
+main.container.glowi-card {
+  max-width: 700px; /* вместо 400px */
+  padding: 2rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+.glowi-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width:600px;
+  margin-top: 1rem;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.glowi-table th, .glowi-table td {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+}
+
+.glowi-table th {
+  background: rgba(255, 0, 255, 0.2);
+  color: #ffd700;
+}
+
+.glowi-table tr:nth-child(even) {
+  background: rgba(255,255,255,0.05);
+}
+
+.glowi-table tr:hover {
+  background: rgba(255,0,255,0.1);
+  box-shadow: 0 0 8px #ff66ff;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* ===== Модальное окно Glowi ===== */
+.modal.glowi-card {
+  display: none;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 1.2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 25px #ff00cc;
+  backdrop-filter: blur(10px);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  max-width: 500px;
+}
+
+/* Кнопки */
+.edit-btn {
+  cursor: pointer;
+  background: #ff00cc;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 0 10px #ff00cc;
+  transition: 0.3s;
+}
+
+.edit-btn:hover {
+  box-shadow: 0 0 18px #ff66ff;
+  transform: scale(1.05);
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+select, input, textarea {
+  width: 100%;
+  padding: 0.5rem 0.9rem;
+  margin-bottom: 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #ff66ff;
+  background: rgba(0,0,0,0.28);
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+select:focus, input:focus, textarea:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 5px #ffd700;
+}
+
+button.btn-save {
+  width: 100%;
+  padding: 0.6rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  background: #ff00cc;
+  color: #212222;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff00cc;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button.btn-save:hover {
+  background: #cc00cc;
+  box-shadow: 0 0 25px #ff66ff;
+  transform: scale(1.04);
+}
+</style>
 </head>
 <body>
 <?php include 'header.php'; ?>
-
-<main class="container">
+<main class="container glowi-card">
   <h1>📅 События — <?= htmlspecialchars($child['name']) ?></h1>
 
   <form method="get">
     <input type="hidden" name="childID" value="<?= $childID ?>">
-    <label>Filter:</label>
+    <label>Фильтр:</label>
     <select name="filter" onchange="this.form.submit()">
       <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Все</option>
       <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>Тренировки</option>
@@ -84,12 +196,13 @@ $allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </form>
 
   <?php if (empty($events)): ?>
-    <p>No events.</p>
+    <p class="glowi-message error">Нет событий.</p>
   <?php else: ?>
-    <table border="1" cellpadding="6" cellspacing="0">
+    <div class="table-wrapper">
+    <table class="glowi-table">
       <thead>
         <tr>
-          <th>Date</th><th>Time</th><th>Name</th><th>Type</th><th>Location</th><th>Action</th>
+          <th>Дата</th><th>Время</th><th>Название</th><th>Тип</th><th>Место</th><th>Действие</th>
         </tr>
       </thead>
       <tbody>
@@ -102,100 +215,67 @@ $allEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <td><?= htmlspecialchars($event['location']) ?></td>
             <td>
               <a href="?childID=<?= $childID ?>&unlinkEventID=<?= $event['eventID'] ?>" onclick="return confirm('Удалить событие из списка ребёнка?')">❌ Delete</a><br>
-              <button class="edit-btn" data-event='<?= json_encode($event, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>'>✏️ Edit</button>
+              <button class="edit-btn"
+                data-event='<?= json_encode($event, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP) ?>'>✏️ Edit</button>
             </td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
+    </div>
   <?php endif; ?>
-
-  <!-- <h3>🔗 Привязать событие</h3>
-  <form method="post" action="link_event.php">
-    <input type="hidden" name="childID" value="<?= $childID ?>">
-    <select name="eventID" required>
-      <option value="">Выберите...</option>
-      <?php foreach ($allEvents as $e): ?>
-        <option value="<?= $e['eventID'] ?>"><?= htmlspecialchars($e['title']) ?> (<?= $e['date'] ?>)</option>
-      <?php endforeach; ?>
-    </select>
-    <button type="submit">Привязать</button>
-  </form> -->
-
-  <!-- <h3>➕ New event</h3>
-  <form method="post" action="add_event.php">
-    <input type="hidden" name="childID" value="<?= $childID ?>">
-    <input type="text" name="title" placeholder="Название" required><br>
-    <select name="eventType" required>
-      <option value="training">Training</option>
-      <option value="competition">Competition</option>
-    </select><br>
-    <textarea name="description" placeholder="Описание"></textarea><br>
-    <input type="date" name="date" required>
-    <input type="time" name="time" required><br>
-    <input type="text" name="location" placeholder="Место" required><br>
-    <button type="submit">Create</button>
-  </form> -->
 
   <p><a href="child_profile.php?childID=<?= $childID ?>">← Back on profile</a></p>
 </main>
 
 <!-- Модальное окно -->
-<div id="editModal" class="modal">
+<div id="editModal" class="modal glowi-card">
   <div class="modal-content">
     <span class="close" onclick="document.getElementById('editModal').style.display='none'">×</span>
     <h3>Edit Event</h3>
     <form method="post" action="update_event.php">
       <input type="hidden" name="eventID" id="editEventID">
       <input type="hidden" name="childID" value="<?= $childID ?>">
-      <label>Name:</label><input type="text" name="title" id="editTitle" required><br>
+      <label>Name:</label><input type="text" name="title" id="editTitle" required>
       <label>Type:</label>
       <select name="eventType" id="editType" required>
         <option value="training">Training</option>
         <option value="competition">Competition</option>
-      </select><br>
-      <label>Discribe:</label><textarea name="description" id="editDescription"></textarea><br>
-      <label>Date:</label><input type="date" name="date" id="editDate" required><br>
-      <label>Time:</label><input type="time" name="time" id="editTime" required><br>
-      <label>Lovation:</label><input type="text" name="location" id="editLocation" required><br>
-      <button type="submit">💾 SAVE</button>
+      </select>
+      <label>Description:</label><textarea name="description" id="editDescription"></textarea>
+      <label>Date:</label><input type="date" name="date" id="editDate" required>
+      <label>Time:</label><input type="time" name="time" id="editTime" required>
+      <label>Location:</label><input type="text" name="location" id="editLocation" required>
+      <button type="submit" class="btn-save">💾 SAVE</button>
     </form>
   </div>
 </div>
 
-
-
 <?php include 'footer.php'; ?>
 
 <script>
-    const editBtns = document.querySelectorAll('.edit-btn');
-  const modal = document.getElementById('editModal');
+const editBtns = document.querySelectorAll('.edit-btn');
+const modal = document.getElementById('editModal');
 
-  editBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      modal.style.display = 'block';
-
-      document.getElementById('editEventID').value = btn.dataset.eventId;
-      document.getElementById('editTitle').value = btn.dataset.title;
-      document.getElementById('editType').value = btn.dataset.type;
-      document.getElementById('editDescription').value = btn.dataset.description;
-      document.getElementById('editDate').value = btn.dataset.date;
-      document.getElementById('editTime').value = btn.dataset.time;
-      document.getElementById('editLocation').value = btn.dataset.location;
-    });
+editBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const e = JSON.parse(btn.dataset.event);
+    document.getElementById('editEventID').value = e.eventID;
+    document.getElementById('editTitle').value = e.title;
+    document.getElementById('editType').value = e.eventType;
+    document.getElementById('editDescription').value = e.description;
+    document.getElementById('editDate').value = e.date;
+    document.getElementById('editTime').value = e.time;
+    document.getElementById('editLocation').value = e.location;
+    modal.style.display = 'block';
   });
+});
 
-  function closeModal() {
-    modal.style.display = 'none';
-  }
-
-  window.onclick = function(event) {
-    if (event.target == modal) closeModal();
-  };
+window.onclick = function(event) {
+  if (event.target == modal) modal.style.display = 'none';
+};
 </script>
 <script src="scripts/app.js"></script>
-<script>
-  lucide.createIcons();
-</script>
+<script>lucide.createIcons();</script>
 </body>
 </html>
