@@ -10,14 +10,13 @@ if (!isset($_SESSION['parentID'])) {
 $parentID = $_SESSION['parentID'];
 $childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die("Некорректный ID ребенка.");
 
+// Получаем ребенка
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$child) {
-    die("Ребенок не найден или доступ запрещен.");
-}
+if (!$child) die("Ребенок не найден или доступ запрещен.");
 
-// Обработка изображения профиля
+// Фото
 $imageFile = $child['photoImage'] ?? '';
 $uploadDir = 'uploads/avatars/';
 $placeholder = 'assets/img/placeholder.png';
@@ -25,98 +24,80 @@ $placeholder = 'assets/img/placeholder.png';
 if (!empty($imageFile)) {
     $thumbPath = $uploadDir . pathinfo($imageFile, PATHINFO_FILENAME) . '_100.' . pathinfo($imageFile, PATHINFO_EXTENSION);
     $originalPath = $uploadDir . $imageFile;
+    if (file_exists($thumbPath)) $imagePath = $thumbPath;
+    elseif (file_exists($originalPath)) $imagePath = $originalPath;
+    else $imagePath = $placeholder;
+} else $imagePath = $placeholder;
 
-    if (file_exists($thumbPath)) {
-        $imagePath = $thumbPath;
-    } elseif (file_exists($originalPath)) {
-        $imagePath = $originalPath;
-    } else {
-        $imagePath = $placeholder;
-    }
-} else {
-    $imagePath = $placeholder;
-}
+// Расписание
+$stmt = $pdo->prepare("SELECT * FROM schedule WHERE childID = ? ORDER BY FIELD(dayOfWeek,'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'), startTime ASC");
+$stmt->execute([$childID]);
+$scheduleList = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Private request
+$stmt = $pdo->prepare("SELECT * FROM private_lesson_requests WHERE childID = ? ORDER BY requestDate DESC");
+$stmt->execute([$childID]);
+$requests = $stmt->fetchAll();
 
-
-// Получение достижений ребенка
+// Достижения
 $stmt = $pdo->prepare("SELECT * FROM achievements WHERE childID = ? ORDER BY dateAwarded DESC LIMIT 5");
 $stmt->execute([$childID]);
 $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Получение платежей ребенка
+// Платежи
 $stmt = $pdo->prepare("SELECT * FROM payments WHERE childID = ? ORDER BY paymentDate DESC LIMIT 5");
 $stmt->execute([$childID]);
 $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$filter = $_GET['filter'] ?? 'all';
-$allowed = ['training', 'competition'];
-
-$firstDayOfMonth = date('Y-m-01');
-$lastDayOfMonth = date('Y-m-t');
-
-if (in_array($filter, $allowed)) {
-    $stmt = $pdo->prepare("
-        SELECT e.*
-        FROM events e
-        JOIN child_event ce ON e.eventID = ce.eventID
-        WHERE ce.childID = ? 
-          AND e.eventType = ?
-          AND e.date BETWEEN ? AND ?
-        ORDER BY e.date DESC, e.time DESC
-    ");
-    $stmt->execute([$childID, $filter, $firstDayOfMonth, $lastDayOfMonth]);
-} else {
-    $stmt = $pdo->prepare("
-        SELECT e.*
-        FROM events e
-        JOIN child_event ce ON e.eventID = ce.eventID
-        WHERE ce.childID = ? 
-          AND e.date BETWEEN ? AND ?
-        ORDER BY e.date DESC, e.time DESC
-    ");
-    $stmt->execute([$childID, $firstDayOfMonth, $lastDayOfMonth]);
-}
+// События
+$stmt = $pdo->prepare("SELECT e.*, ce.createdBy FROM events e JOIN child_event ce ON e.eventID = ce.eventID WHERE ce.childID = ?");
+$stmt->execute([$childID]);
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$startOfWeek = date('Y-m-d', strtotime('monday this week'));
-$endOfWeek = date('Y-m-d', strtotime('sunday this week'));
-
-$stmt = $pdo->prepare("
-  SELECT e.date, e.time, e.title AS activity, e.location
-  FROM events e
-  JOIN child_event ce ON ce.eventID = e.eventID
-  WHERE ce.childID = ? AND e.date BETWEEN ? AND ?
-  ORDER BY e.date ASC, e.time ASC
-");
-$stmt->execute([$childID, $startOfWeek, $endOfWeek]);
-$weeklyEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$groupedSchedule = [];
-foreach ($weeklyEvents as $event) {
-    $dayName = strftime('%A', strtotime($event['date']));
-    $groupedSchedule[$dayName][] = $event;
-}
-
-$stmt = $pdo->prepare("
-  SELECT e.*, ce.createdBy
-  FROM events e
-  JOIN child_event ce ON e.eventID = ce.eventID
-  WHERE ce.childID = ?
-");
-$stmt->execute([$childID]);
+// Формируем fcEvents
 $fcEvents = [];
 
-while ($event = $stmt->fetch(PDO::FETCH_ASSOC)) {
+// 1. Добавляем расписание как повторяющиеся события на месяц
+$firstDayOfMonth = date('Y-m-01');
+$lastDayOfMonth  = date('Y-m-t');
+foreach ($scheduleList as $sched) {
+    $startDate = new DateTime($firstDayOfMonth);
+    $endDate = new DateTime($lastDayOfMonth);
+    while ($startDate <= $endDate) {
+        if ($startDate->format('l') === $sched['dayOfWeek']) {
+            $fcEvents[] = [
+                'id' => 'sched_' . $sched['scheduleID'] . '_' . $startDate->format('Ymd'),
+                'title' => $sched['activity'],
+                'start' => $startDate->format('Y-m-d') . 'T' . $sched['startTime'],
+                'end' => $startDate->format('Y-m-d') . 'T' . $sched['endTime'],
+                'allDay' => false,
+                'color' => '#FFA500',
+                'extendedProps' => [
+                    'description' => $sched['activity'] . " (Постоянное расписание)",
+                    'eventType' => 'schedule'
+                ]
+            ];
+        }
+        $startDate->modify('+1 day');
+    }
+}
+
+// 2. Добавляем обычные события
+foreach ($events as $event) {
     $fcEvents[] = [
         'id' => $event['eventID'],
         'title' => $event['title'],
         'start' => $event['date'] . 'T' . $event['time'],
         'allDay' => false,
         'color' => $event['createdBy'] === 'parent' ? '#3788d8' : '#34a853',
+        'extendedProps' => [
+            'description' => $event['description'] ?? '',
+            'eventType' => $event['eventType'] ?? 'event'
+        ]
     ];
 }
 
+// 3. Добавляем достижения
 foreach ($achievements as $ach) {
     $color = match ($ach['medal']) {
         'gold' => '#FFD700',
@@ -124,7 +105,6 @@ foreach ($achievements as $ach) {
         'bronze' => '#CD7F32',
         default => '#61b659ff'
     };
-
     $fcEvents[] = [
         'id' => 'ach_' . $ach['achievementID'],
         'title' => '🏅 ' . $ach['title'],
@@ -134,7 +114,6 @@ foreach ($achievements as $ach) {
         'extendedProps' => [
             'description' => implode("\n", array_filter([
                 '🏅 ' . $ach['title'],
-                '------------------',
                 'Тип: ' . ucfirst($ach['type']),
                 (!empty($ach['medal']) && $ach['medal'] !== 'none') ? 'Медаль: ' . ucfirst($ach['medal']) : null,
                 (!empty($ach['place'])) ? 'Место: ' . (int)$ach['place'] : null
@@ -143,6 +122,26 @@ foreach ($achievements as $ach) {
         ]
     ];
 }
+
+$stmt = $pdo->prepare("SELECT e.*, ce.createdBy FROM events e
+    LEFT JOIN child_event ce ON e.eventID = ce.eventID
+    WHERE e.eventType='private_lesson' AND ce.childID=?");
+$stmt->execute([$childID]);
+$privateLessons = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($privateLessons as $event) {
+    $fcEvents[] = [
+        'id' => $event['eventID'],
+        'title' => '🎯 ' . $event['title'],
+        'start' => $event['date'] . 'T' . $event['time'],
+        'allDay' => false,
+        'color' => '#FF69B4', // ярко-розовый для приватного урока
+        'extendedProps' => [
+            'description' => $event['description']
+        ]
+    ];
+}
+
 
 $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 ?>
@@ -184,35 +183,80 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       </div>
     </section>
 
-    <section class="card weekly-schedule">
-      <h2><i data-lucide="calendar-clock"></i> Weekly schedule</h2>
-      <?php if (empty($groupedSchedule)): ?>
-        <p>There are no scheduled classes for this week.</p>
-      <?php else: ?>
-        <table>
-          <thead>
-            <tr><th>DAY</th><th>TIME</th><th>ACTIVITY</th><th>LOCATION</th></tr>
-          </thead>
-          <tbody>
-            <?php foreach ($groupedSchedule as $day => $events): ?>
-              <?php foreach ($events as $i => $ev): ?>
-                <tr>
-                  <?php if ($i === 0): ?>
-                    <td rowspan="<?= count($events) ?>"><strong><?= ucfirst($day) ?></strong></td>
-                  <?php endif; ?>
-                  <td><?= substr($ev['time'], 0, 5) ?></td>
-                  <td><?= htmlspecialchars($ev['activity']) ?></td>
-                  <td><?= htmlspecialchars($ev['location']) ?></td>
-                </tr>
-              <?php endforeach; ?>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      <?php endif; ?>
+    <section class="card monthly-schedule">
+  <h2><i data-lucide="calendar"></i> Schedule Management</h2>
 
-      <p><a href="add_schedue.php?childID=<?= $childID ?>" class="button">
-        <i data-lucide="plus-circle"></i> Add schedule </a></p>
-    </section>
+  <?php if(empty($scheduleList)): ?>
+    <p>No schedule added yet.</p>
+  <?php else: ?>
+    <table>
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Activity</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach($scheduleList as $sched): ?>
+          <tr>
+            <td><?= htmlspecialchars($sched['dayOfWeek']) ?></td>
+            <td><?= substr($sched['startTime'],0,5) ?></td>
+            <td><?= substr($sched['endTime'],0,5) ?></td>
+            <td><?= htmlspecialchars($sched['activity']) ?></td>
+            <td>
+              <a href="edit_schedule.php?scheduleID=<?= $sched['scheduleID'] ?>" class="btn-small"><i data-lucide="edit-3"></i></a>
+              <a href="delete_schedule.php?scheduleID=<?= $sched['scheduleID'] ?>&childID=<?= $childID ?>" class="btn-small btn-danger" onclick="return confirm('Are you sure you want to delete this schedule?');">
+                <i data-lucide="trash-2"></i>
+              </a>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+
+    <p><a href="add_schedule.php?childID=<?= $childID ?>" class="button">
+    <i data-lucide="plus-circle"></i> Add new schedule</a></p>
+  <?php endif; ?>
+</section>
+
+<section class="card private-lesson-request">
+  <h2><i data-lucide="target"></i> Request a Private Lesson</h2>
+  <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
+    <label for="lessonDate">Date:</label>
+    <input type="date" name="lessonDate" id="lessonDate" required>
+
+    <label for="lessonTime">Time:</label>
+    <input type="time" name="lessonTime" id="lessonTime" required>
+
+    <label for="message">Comment / Notes:</label>
+    <textarea name="message" id="message" rows="3"></textarea>
+  </form>
+
+   <button type="submit" class="button"><i data-lucide="send"></i> Send Request</button>
+
+  <div class="requests-block">
+  <h3>Мои запросы на занятия</h3>
+  <?php if ($requests): ?>
+    <ul>
+      <?php foreach ($requests as $req): ?>
+        <li class="request <?= $req['status'] ?>">
+          <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
+          <p>Статус: <?= ucfirst($req['status']) ?></p>
+          <?php if ($req['response']): ?>
+            <p><em>Ответ: <?= htmlspecialchars($req['response']) ?></em></p>
+          <?php endif; ?>
+          <small><?= $req['requestDate'] ?></small>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php else: ?>
+    <p>Запросов пока нет.</p>
+  <?php endif; ?>
+</div>
+</section>
 
     <section class="card schedule-events-section">
       <h2><i data-lucide="calendar-days"></i> Events</h2>
@@ -247,6 +291,8 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
         <i data-lucide="plus-circle"></i> Add an event </a></p>
     </section>
 
+    
+
    <section class="card payments-section">
   <h2><i data-lucide="credit-card"></i> Recent payments</h2>
   <?php if (empty($payments)): ?>
@@ -275,6 +321,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   </div>
 
   <div class="right-column">
+
     <section class="card calendar-section">
       <h2><i data-lucide="calendar-check-2"></i> Calendar of Events</h2>
       <div id='calendar'></div>

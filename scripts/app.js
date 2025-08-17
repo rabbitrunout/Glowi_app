@@ -1,74 +1,65 @@
 
 
- document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', function () {
   const calendarEl = document.getElementById('calendar');
   const calendar = new FullCalendar.Calendar(calendarEl, {
-    // locale: 'ru',
+    locale: 'ru',
     initialView: 'dayGridMonth',
     editable: true,
     selectable: true,
     events: fcEventsFromPHP,
-
-    select: function (info) {
-      document.getElementById('eventTitle').value = '';
-      document.getElementById('eventStart').value = info.startStr;
-      document.getElementById('eventEnd').value = info.endStr || '';
-      const modal = new bootstrap.Modal(document.getElementById('eventModal'));
-      modal.show();
+    eventDidMount: function(info) {
+      // Добавляем иконки перед заголовком
+      if(info.event.extendedProps.eventType === 'schedule') {
+        info.el.querySelector('.fc-event-title').innerHTML = '📅 ' + info.event.title;
+      } else if(info.event.extendedProps.eventType === 'training') {
+        info.el.querySelector('.fc-event-title').innerHTML = '🏋️ ' + info.event.title;
+      } else if(info.event.extendedProps.eventType === 'competition') {
+        info.el.querySelector('.fc-event-title').innerHTML = '🏆 ' + info.event.title;
+      } else if(info.event.extendedProps.eventType === 'achievement') {
+        info.el.querySelector('.fc-event-title').innerHTML = '🥇 ' + info.event.title;
+      }
     },
-
-   eventClick: function(info) {
-  const title = info.event.title;
-  const desc = info.event.extendedProps?.description || 'Без описания';
-  openGlowiModal(title, desc);
-},
-
-
-    eventDrop: function (info) {
-      updateEvent(info.event);
-    },
-
-    eventResize: function (info) {
-      updateEvent(info.event);
-    }
-  });
-
-  calendar.render();
-
-  // Добавление
-  document.getElementById('eventForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const title = document.getElementById('eventTitle').value;
-    const start = document.getElementById('eventStart').value;
-    const end = document.getElementById('eventEnd').value;
-
-    const newEvent = { title, start, end, allDay: false };
-
-    fetch(`add_event.php?childID=${childID}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newEvent)
-    })
+    select: function(info) {
+      const title = prompt("Название нового события:");
+      if (!title) return;
+      const type = prompt("Тип события: training/competition (оставьте пустым по умолчанию)");
+      const newEvent = { title, start: info.startStr, end: info.endStr || '', allDay: false, eventType: type || 'training' };
+      fetch(`add_event.php?childID=${childID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newEvent)
+      })
       .then(res => res.json())
       .then(data => {
         if (data.success) {
+          let color = '#1E90FF'; // по умолчанию тренировка
+          if(newEvent.eventType === 'competition') color = '#34a853';
           calendar.addEvent({
             id: data.id,
             title,
-            start,
-            end,
+            start: info.startStr,
+            end: info.endStr || '',
             allDay: false,
-            color: '#1E90FF'
+            color: color,
+            extendedProps: { eventType: newEvent.eventType }
           });
-        } else {
-          alert('Ошибка при добавлении: ' + (data.error || 'неизвестно'));
-        }
-        bootstrap.Modal.getInstance(document.getElementById('eventModal')).hide();
+        } else alert('Ошибка добавления: ' + (data.error||'неизвестно'));
       });
+    },
+    eventClick: function(info) {
+      const title = info.event.title;
+      const desc = info.event.extendedProps?.description || 'Без описания';
+      openGlowiModal(title, desc);
+    },
+    eventDrop: updateEvent,
+    eventResize: updateEvent
   });
+  calendar.render();
 
-  // Обновление
-  function updateEvent(event) {
+  function updateEvent(info) {
+    const event = info.event || info;
     fetch('update_event.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -81,13 +72,10 @@
       })
     })
     .then(res => res.json())
-    .then(data => {
-      if (!data.success) {
-        alert('Ошибка при обновлении: ' + (data.error || ''));
-      }
-    });
+    .then(data => { if(!data.success) alert('Ошибка обновления: '+(data.error||'')) });
   }
 });
+
 
 function openGlowiModal(title, description) {
   document.getElementById('viewEventTitle').innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
