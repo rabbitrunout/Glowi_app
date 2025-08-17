@@ -513,6 +513,120 @@ main.container.glowi-card {
 
 /* login form page */
 
+/* payment page */
+
+main.container.glowi-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), 0 0 25px rgba(255, 0, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  animation: fadeInUp 0.7s ease forwards;
+}
+
+main.container.glowi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(255, 0, 255, 0.3), 0 0 35px rgba(255, 0, 255, 0.15);
+}
+
+main h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  color: #00e6f6;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.glowi-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.15);
+}
+
+.glowi-table th {
+  background: rgba(255, 0, 255, 0.2);
+  color: #ffd700;
+  text-align: left;
+  padding: 0.8rem 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.glowi-table td {
+  padding: 0.7rem 1rem;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glowi-table tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.glowi-table tr:hover {
+  background: rgba(255, 0, 255, 0.15);
+  transition: background 0.3s ease;
+}
+
+.btn-save {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: auto;
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 25px;
+  background: #ff00cc;
+  color: #212222;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff00cc;
+  transition: background 0.3s ease, transform 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-save:hover {
+  background: #cc00cc;
+  box-shadow: 0 0 25px #ff66ff;
+  transform: scale(1.04);
+}
+
+a {
+  color: #00e6f6;
+  font-weight: 600;
+  margin-top: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #ffcc00;
+}
+
+@keyframes fadeInUp {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+
 
 @media (max-width: 768px) {
   nav {

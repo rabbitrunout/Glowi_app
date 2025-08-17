@@ -225,7 +225,10 @@ button.btn-save:hover {
     </div>
   <?php endif; ?>
 
-  <p><a href="child_profile.php?childID=<?= $childID ?>">← Back on profile</a></p>
+  <p><a href="event_add_child.php?childID=<?= $childID ?>" class="button">
+        <i data-lucide="plus-circle"></i> Add an event </a></p>
+
+  <p><a href="child_profile.php?childID=<?= $childID ?>">← Back to profile</a></p>
 </main>
 
 <!-- Модальное окно -->

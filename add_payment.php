@@ -26,9 +26,9 @@ if (!$child) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $amount = floatval($_POST['amount']);
-    $status = $_POST['status'];
-    $paymentDate = $_POST['paymentDate'];
+    $amount = floatval($_POST['amount'] ?? 0);
+    $status = $_POST['status'] ?? '';
+    $paymentDate = $_POST['paymentDate'] ?? '';
 
     if ($amount > 0 && in_array($status, ['paid', 'unpaid']) && $paymentDate) {
         $stmt = $pdo->prepare("INSERT INTO payments (childID, amount, status, paymentDate) VALUES (?, ?, ?, ?)");
@@ -40,51 +40,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Add a payment— <?= htmlspecialchars($child['name']) ?></title>
-   <link rel="stylesheet" href="css/main.css">
-   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/locales/ru.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <title>Add a payment — <?= htmlspecialchars($child['name']) ?></title>
+  <link rel="stylesheet" href="css/main.css">
   <script src="https://unpkg.com/lucide@latest"></script>
-  
 </head>
 <body>
 <?php include 'header.php'; ?>
 
-<h1>Add a payment for <?= htmlspecialchars($child['name']) ?></h1>
+<main class="container glowi-card">
+  <h2><i data-lucide="plus-circle"></i> Add a payment — <?= htmlspecialchars($child['name']) ?></h2>
 
-<?php if ($error): ?>
-    <p style="color:red;"><?= htmlspecialchars($error) ?></p>
-<?php endif; ?>
+  <?php if ($error): ?>
+    <div class="glowi-message error">
+      <i data-lucide="alert-triangle"></i>
+      <span><?= htmlspecialchars($error) ?></span>
+    </div>
+  <?php endif; ?>
 
-<form method="POST" action="">
-    <label>Amount (CAD):</label><br>
-    <input type="number" step="0.01" min="0.01" name="amount" required><br><br>
+  <form method="POST" action="">
+    <label>Amount (CAD):</label>
+    <input type="number" step="0.01" min="0.01" name="amount" required>
 
-    <label>Status:</label><br>
+    <label>Status:</label>
     <select name="status" required>
-        <option value="">Select the status</option>
-        <option value="paid">Paid</option>
-        <option value="unpaid">Not paid</option>
-    </select><br><br>
+      <option value="">Select the status</option>
+      <option value="paid">Paid</option>
+      <option value="unpaid">Not paid</option>
+    </select>
 
-    <label>Payment date:</label><br>
-    <input type="date" name="paymentDate" required><br><br>
+    <label>Payment date:</label>
+    <input type="date" name="paymentDate" required>
 
-    <button type="submit">Add a payment</button>
-</form>
+    <button type="submit" class="btn-save">💾 Save</button>
+  </form>
 
-<p><a href="child_payments.php?childID=<?= $childID ?>">← Back to payments</a></p>
-
-<p><a href="child_profile.php?childID=<?= $childID ?>">← Back to profile</a></p>
+  <p style="margin-top:.8rem;">
+    <a href="child_payments.php?childID=<?= $childID ?>">← Back to payments</a>
+  </p>
+  <p><a href="child_profile.php?childID=<?= $childID ?>">← Back to profile</a></p>
+</main>
 
 <?php include 'footer.php'; ?>
+<script> lucide.createIcons(); </script>
 </body>
 </html>

@@ -29,23 +29,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($title && $eventType && $eventDate && $eventTime) {
         try {
-            // Добавляем событие в таблицу events
+            // add event on table events
             $stmt = $pdo->prepare("INSERT INTO events (title, description, eventType, date, time, location) VALUES (?, ?, ?, ?, ?, ?)");
             $stmt->execute([$title, $description, $eventType, $eventDate, $eventTime, $location]);
 
             $eventID = $pdo->lastInsertId();
 
-            // Привязываем событие к ребёнку через таблицу child_event
+            //  We link the event to the child via the child_event table.
             $stmt2 = $pdo->prepare("INSERT INTO child_event (eventID, childID, createdBy) VALUES (?, ?, 'parent')");
             $stmt2->execute([$eventID, $childID]);
 
-            // Можно перенаправить или отобразить сообщение
-            $message = '<div class="glowi-message success"><i data-lucide="check-circle"></i> Событие успешно добавлено!</div>';
+            // You can forward or display the message.
+            $message = '<div class="glowi-message success">
+            <i data-lucide="check-circle"></i> Event successfully added! </div>';
         } catch (PDOException $e) {
-            $message = '<div class="glowi-message error"><i data-lucide="x-circle"></i> Ошибка БД: ' . htmlspecialchars($e->getMessage()) . '</div>';
+            $message = '<div class="glowi-message error"><i data-lucide="x-circle"></i> Database error: ' . htmlspecialchars($e->getMessage()) . '</div>';
         }
     } else {
-        $message = '<div class="glowi-message error"><i data-lucide="alert-triangle"></i> Пожалуйста, заполните все обязательные поля.</div>';
+        $message = '<div class="glowi-message error">
+                         <i data-lucide="alert-triangle"></i> 
+                         Please fill in all required fields.
+                    </div>';
     }
 }
 
@@ -73,34 +77,42 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="form-wrapper">
     <main class="container glowi-card">
         <form method="POST">
-            <h2><i data-lucide="calendar-plus"></i> Добавить событие</h2>
+            <h2><i data-lucide="calendar-plus"></i> Add an event </h2>
             <?= $message ?>
 
-            <label for="title">Название</label>
+            <label for="title">Title</label>
             <input type="text" name="title" id="title" required>
 
-            <label for="eventType">Тип события</label>
+            <label for="eventType">Event type</label>
             <select name="eventType" id="eventType" required>
-                <option value="">-- Выберите тип --</option>
-                <option value="training">Тренировка</option>
-                <option value="competition">Соревнование</option>
+                <option value="">-- Select type --</option>
+                <option value="training">Training</option>
+                <option value="competition">Competition</option>
             </select>
 
-            <label for="description">Описание</label>
+            <label for="description">Description</label>
             <input type="text" name="description" id="description">
 
-            <label for="eventDate">Дата</label>
+            <label for="eventDate">Date</label>
             <input type="date" name="eventDate" id="eventDate" required>
 
-            <label for="eventTime">Время</label>
+            <label for="eventTime">Time</label>
             <input type="time" name="eventTime" id="eventTime" required>
 
-            <label for="location">Место проведения</label>
+            <label for="location">Location</label>
             <input type="text" name="location" id="location">
 
-            <button type="submit" class="btn-save">Создать событие</button>
-            <a href="child_profile.php?childID=<?= $childID ?>">← Назад в профиль</a>
+
+            <button type="submit" class="btn-save">Create an event</button>
+            <br/>
+            <br/>
+
+            <a href="child_profile.php?childID=<?= $childID ?>">← Back to profile</a>
+            <br/>
+            <a href="event_list_child.php?childID=<?= $childID ?>"> All events →</a>
         </form>
+
+        
     </main>
 </div>
 

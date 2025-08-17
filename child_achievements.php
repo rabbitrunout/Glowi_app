@@ -95,16 +95,13 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
   <?php endforeach; ?>
       </ul>
   <?php endif; ?>
-</section>
 
-<div class="button-row">
-  <a href="add_achievement.php?childID=<?= $childID ?>" class="button">
-    <i data-lucide="plus-circle"></i> Добавить достижение
-  </a>
-  <a href="child_profile.php?childID=<?= $childID ?>" class="button">
+  <p><a href="add_achievement.php?childID=<?= $childID ?>" class="button">
+        <i data-lucide="plus-circle"></i> Add Achievement</a></p>
+        <a href="child_profile.php?childID=<?= $childID ?>" class="button">
     ← Back to the child's profile
   </a>
-</div>
+</section>
 
 
 <!-- Редактирование -->

@@ -15,7 +15,7 @@ if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
 
 $childID = (int)$_GET['childID'];
 
-// Проверка принадлежности ребенка
+// Проверка принадлежности ребёнка
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -33,46 +33,53 @@ $payments = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Payments for <?= htmlspecialchars($child['name']) ?></title>
-   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/child_profile_neon.css">
+  <title>Payments — <?= htmlspecialchars($child['name']) ?></title>
+  <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
 
-<h1>Child's payments: <?= htmlspecialchars($child['name']) ?></h1>
+<main class="container glowi-card">
+  <h2><i data-lucide="credit-card"></i> Payments — <?= htmlspecialchars($child['name']) ?></h2>
 
-<?php if (empty($payments)): ?>
-    <p>There are no payments.</p>
-<?php else: ?>
-    <table border="1" cellpadding="5" cellspacing="0">
+  <?php if (empty($payments)): ?>
+    <p style="color:#ffccff;">There are no payments.</p>
+  <?php else: ?>
+    <div class="table-wrapper">
+      <table class="glowi-table">
         <thead>
-            <tr>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Status</th>
-            </tr>
+          <tr>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
         </thead>
         <tbody>
-            <?php foreach ($payments as $payment): ?>
+          <?php foreach ($payments as $payment): ?>
             <tr>
-                <td><?= htmlspecialchars($payment['paymentDate']) ?></td>
-                <td><?= number_format($payment['amount'], 2, ',', ' ') ?> $ CAD</td>
-                <td><?= htmlspecialchars($payment['status']) ?></td>
+              <td><?= htmlspecialchars($payment['paymentDate']) ?></td>
+              <td><?= number_format($payment['amount'], 2, ',', ' ') ?> $ CAD</td>
+              <td><?= htmlspecialchars($payment['status']) ?></td>
             </tr>
-            
-            <?php endforeach; ?>
+          <?php endforeach; ?>
         </tbody>
-        <p><a href="add_payment.php?childID=<?= $childID ?>" class="button">
-        <i data-lucide="plus-circle"></i> Add payment </a></p>
-    </table>
-<?php endif; ?>
+      </table>
+    </div>
+  <?php endif; ?>
 
+  <p style="margin-top:1rem;">
+    <a href="add_payment.php?childID=<?= $childID ?>" class="btn-save">
+      <i data-lucide="plus-circle"></i> Add payment
+    </a>
+  </p>
 
-      
-
-<p><a href="child_profile.php?childID=<?= $childID ?>">← Back to profile</a></p>
+  <p><a href="child_profile.php?childID=<?= $childID ?>">← Back to profile</a></p>
+</main>
 
 <?php include 'footer.php'; ?>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
 </body>
 </html>
