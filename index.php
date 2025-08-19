@@ -1,18 +1,7 @@
 <?php
 session_start();
 
-require __DIR__ . '/../src/db.php';
 
-echo "<h1 style='color:lime'>Glowi works on Render 🚀</h1>";
-
-// Проверим подключение к БД
-try {
-    $stmt = $pdo->query("SELECT NOW()");
-    $row = $stmt->fetch();
-    echo "<p>DB connection successful ✅ | Time: " . $row[0] . "</p>";
-} catch (Exception $e) {
-    echo "<p style='color:red'>DB connection failed ❌: " . $e->getMessage() . "</p>";
-}
 
 ?>
 
