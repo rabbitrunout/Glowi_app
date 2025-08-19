@@ -220,43 +220,44 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
     <p><a href="add_schedule.php?childID=<?= $childID ?>" class="button">
     <i data-lucide="plus-circle"></i> Add new schedule</a></p>
   <?php endif; ?>
+ <!-- <h2><i data-lucide="target"></i> Запросы на уроки</h2> -->
+  
+  <!-- Кнопка для открытия модального окна -->
+  <!-- <button class="button neon-btn" onclick="openModal()">
+    <i data-lucide="plus-circle"></i> Сделать запрос
+  </button> -->
+  
 </section>
 
-<section class="card private-lesson-request">
-  <h2><i data-lucide="target"></i> Request a Private Lesson</h2>
-  <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
-    <label for="lessonDate">Date:</label>
-    <input type="date" name="lessonDate" id="lessonDate" required>
+<!-- Кнопка для открытия модального окна -->
+<!-- Секция на странице профиля -->
 
-    <label for="lessonTime">Time:</label>
-    <input type="time" name="lessonTime" id="lessonTime" required>
 
-    <label for="message">Comment / Notes:</label>
-    <textarea name="message" id="message" rows="3"></textarea>
-  </form>
+<!-- Модальное окно -->
+<div id="lessonModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2><i data-lucide="send"></i> Новый запрос на урок</h2>
+    
+    <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
+      <label for="lessonDate">Дата:</label>
+      <input type="date" name="lessonDate" id="lessonDate" required>
 
-   <button type="submit" class="button"><i data-lucide="send"></i> Send Request</button>
+      <label for="lessonTime">Время:</label>
+      <input type="time" name="lessonTime" id="lessonTime" required>
 
-  <div class="requests-block">
-  <h3>Мои запросы на занятия</h3>
-  <?php if ($requests): ?>
-    <ul>
-      <?php foreach ($requests as $req): ?>
-        <li class="request <?= $req['status'] ?>">
-          <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
-          <p>Статус: <?= ucfirst($req['status']) ?></p>
-          <?php if ($req['response']): ?>
-            <p><em>Ответ: <?= htmlspecialchars($req['response']) ?></em></p>
-          <?php endif; ?>
-          <small><?= $req['requestDate'] ?></small>
-        </li>
-      <?php endforeach; ?>
-    </ul>
-  <?php else: ?>
-    <p>Запросов пока нет.</p>
-  <?php endif; ?>
+      <label for="message">Комментарий / Заметки:</label>
+      <textarea name="message" id="message" rows="3"></textarea>
+
+      <button type="submit" class="button"><i data-lucide="send"></i> Отправить</button>
+    </form>
+  </div>
 </div>
-</section>
+
+
+
+
+
 
     <section class="card schedule-events-section">
       <h2><i data-lucide="calendar-days"></i> Events</h2>
@@ -323,7 +324,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   <div class="right-column">
 
     <section class="card calendar-section">
-      <h2><i data-lucide="calendar-check-2"></i> Calendar of Events</h2>
+      <h2><i data-lucide="calendar-check-2"></i> Calendar </h2>
       <div id='calendar'></div>
 
       <div class="modal fade" id="eventModal" tabindex="-1" aria-hidden="true"></div>
@@ -338,7 +339,40 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
           <p id="viewEventDetails"> Loading...</p>
         </div>
       </div>
+ <br/>
+ <br/>
+      <h2><i data-lucide="target"></i> Request private class</h2>
+  
+  <!-- Кнопка для открытия модального окна -->
+  <button class="button neon-btn" onclick="openModal()">
+    <i data-lucide="plus-circle"></i> Сделать запрос
+  </button>
+
+  <div class="requests-block">
+    <h3>Мои запросы</h3>
+    <?php if ($requests): ?>
+      <ul>
+        <?php foreach ($requests as $req): ?>
+          <li class="request <?= $req['status'] ?>">
+            <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
+            <p>Статус: <?= ucfirst($req['status']) ?></p>
+            <?php if ($req['response']): ?>
+              <p><em>Ответ: <?= htmlspecialchars($req['response']) ?></em></p>
+            <?php endif; ?>
+            <small><?= $req['requestDate'] ?></small>
+          </li>
+        <?php endforeach; ?>
+      </ul>
+    <?php else: ?>
+      <p>Запросов пока нет.</p>
+    <?php endif; ?>
+  </div>
     </section>
+
+
+
+
+
 
     <section class="card achievements-section">
       <h2><i data-lucide="medal"></i> Achievements</h2>

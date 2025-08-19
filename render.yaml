@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: glowi-app
+    env: php
+    plan: free
+    buildCommand: ""
+    startCommand: ""
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: glowi-db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: glowi-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: glowi-db
+          property: user
+      - key: DB_PASS
+        fromDatabase:
+          name: glowi-db
+          property: password
+
+databases:
+  - name: glowi-db
+    plan: free

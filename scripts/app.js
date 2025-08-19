@@ -104,4 +104,18 @@ function closeGlowiModal() {
   }
 });
 
+function openModal() {
+  document.getElementById("lessonModal").style.display = "block";
+}
+function closeModal() {
+  document.getElementById("lessonModal").style.display = "none";
+}
+window.onclick = function(event) {
+  let modal = document.getElementById("lessonModal");
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+
 
