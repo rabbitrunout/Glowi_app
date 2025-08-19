@@ -1,0 +1,9 @@
+{
+  "name": "glowi/app",
+  "description": "Glowi demo project",
+  "require": {
+    "php": ">=8.1",
+    "ext-pdo": "*",
+    "ext-mysqli": "*"
+  }
+}
