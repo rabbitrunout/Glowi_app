@@ -30,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($dayOfWeek && in_array($dayOfWeek, $allowedDays) && $startTime && $endTime && $activity) {
         $stmt = $pdo->prepare("INSERT INTO schedule (childID, dayOfWeek, startTime, endTime, activity) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$childID, $dayOfWeek, $startTime, $endTime, $activity]);
-        $success = "Занятие успешно добавлено!";
+        $success = "The activity has been added successfully!";
     } else {
-        $error = "Пожалуйста, заполните все поля корректно.";
+        $error = "Please fill in all fields correctly.";
     }
 }
 ?>

@@ -233,31 +233,6 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 <!-- Секция на странице профиля -->
 
 
-<!-- Модальное окно -->
-<div id="lessonModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h2><i data-lucide="send"></i> Новый запрос на урок</h2>
-    
-    <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
-      <label for="lessonDate">Дата:</label>
-      <input type="date" name="lessonDate" id="lessonDate" required>
-
-      <label for="lessonTime">Время:</label>
-      <input type="time" name="lessonTime" id="lessonTime" required>
-
-      <label for="message">Комментарий / Заметки:</label>
-      <textarea name="message" id="message" rows="3"></textarea>
-
-      <button type="submit" class="button"><i data-lucide="send"></i> Отправить</button>
-    </form>
-  </div>
-</div>
-
-
-
-
-
 
     <section class="card schedule-events-section">
       <h2><i data-lucide="calendar-days"></i> Events</h2>
@@ -332,7 +307,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       <div class="glowi-modal-overlay" id="modalOverlay" style="display: none;"></div>
       <div class="glowi-modal" id="viewEventModal" style="display: none;">
         <div class="modal-header">
-          <h3 id="viewEventTitle"><i data-lucide="calendar-days"></i> Событие</h3>
+          <h3 id="viewEventTitle"><i data-lucide="calendar-days"></i> Event</h3>
           <button class="close-button" onclick="closeGlowiModal()">✖</button>
         </div>
         <div class="modal-body">
@@ -345,32 +320,51 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   
   <!-- Кнопка для открытия модального окна -->
   <button class="button neon-btn" onclick="openModal()">
-    <i data-lucide="plus-circle"></i> Сделать запрос
+    <i data-lucide="plus-circle"></i> Do request
   </button>
 
   <div class="requests-block">
-    <h3>Мои запросы</h3>
+    <br/>
+    <h3>My requests</h3>
     <?php if ($requests): ?>
       <ul>
         <?php foreach ($requests as $req): ?>
           <li class="request <?= $req['status'] ?>">
             <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
-            <p>Статус: <?= ucfirst($req['status']) ?></p>
+            <p>Status: <?= ucfirst($req['status']) ?></p>
             <?php if ($req['response']): ?>
-              <p><em>Ответ: <?= htmlspecialchars($req['response']) ?></em></p>
+              <p><em>Answer: <?= htmlspecialchars($req['response']) ?></em></p>
             <?php endif; ?>
             <small><?= $req['requestDate'] ?></small>
           </li>
         <?php endforeach; ?>
       </ul>
     <?php else: ?>
-      <p>Запросов пока нет.</p>
+      <p>There are no requests yet.</p>
     <?php endif; ?>
   </div>
+
+  <!-- Модальное окно -->
+<div id="lessonModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2><i data-lucide="send"></i> New lesson request </h2>
+    
+    <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
+      <label for="lessonDate">Date:</label>
+      <input type="date" name="lessonDate" id="lessonDate" required>
+
+      <label for="lessonTime">Time:</label>
+      <input type="time" name="lessonTime" id="lessonTime" required>
+
+      <label for="message">Comment / Notes:</label>
+      <textarea name="message" id="message" rows="3"></textarea>
+
+      <button type="submit" class="button"><i data-lucide="send"></i> Send</button>
+    </form>
+  </div>
+</div>
     </section>
-
-
-
 
 
 
@@ -432,7 +426,7 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 
 <script>
   const fcEventsFromPHP = <?= json_encode($fcEvents, JSON_UNESCAPED_UNICODE) ?>;
-  const childID = <?= (int)$childID ?>;
+  const childID = <?php echo (int)$childID; ?>;
 </script>
 <script src="scripts/app.js"></script>
 <script>

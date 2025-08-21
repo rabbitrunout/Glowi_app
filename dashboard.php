@@ -148,7 +148,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <input type="number" id="childAge" name="childAge" min="1" max="18" required placeholder="From 1 to 18" />
 
       <label for="groupLevel">Level:</label>
-      <input type="text" id="groupLevel" name="groupLevel" required placeholder="For example, 'Beginner'" />
+      <input type="text" id="groupLevel" name="groupLevel" required placeholder="For example, 'Provintial'" />
 
        <!-- <label> Photo:</label><br>
        <input type="file" name="photoImage" accept="image/*"><br><br> -->

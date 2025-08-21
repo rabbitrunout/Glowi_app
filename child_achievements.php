@@ -10,7 +10,7 @@ if (!isset($_SESSION['parentID'])) {
 $parentID = $_SESSION['parentID'];
 
 if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
-    die("Некорректный ID ребенка.");
+    die("Incorrect child ID.");
 }
 
 $childID = (int)$_GET['childID'];
@@ -20,7 +20,7 @@ $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$child) {
-    die("Ребенок не найден или доступ запрещён.");
+    die("The child has not been found or access is prohibited.");
 }
 
 // Удаление достижения
@@ -97,7 +97,7 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </td>
             <td>
               <button type="button" class="btn-save" onclick='editAchievement(<?= json_encode($ach) ?>)'>✏️ Edit</button>
-              <a href="?childID=<?= $childID ?>&deleteID=<?= $ach['achievementID'] ?>" class="btn-save" onclick="return confirm('Удалить это достижение?')">❌ Delete</a>
+              <a href="?childID=<?= $childID ?>&deleteID=<?= $ach['achievementID'] ?>" class="btn-save" onclick="return confirm('Delete this achievement?')">❌ Delete</a>
             </td>
           </tr>
         <?php endforeach; ?>
@@ -116,7 +116,7 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </main>
 
 <!-- Модалка -->
-<!-- <div class="modal-overlay" id="overlay"></div>
+<div class="modal-overlay" id="overlay"></div>
 <div class="modal glowi-card" id="editModal">
   <h3>Edit achievement</h3>
   <form method="POST" action="update_achievement.php">
@@ -153,30 +153,14 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </select>
 
     <button type="submit" class="btn-save">💾 Save</button>
-    <button type="button" class="btn-save" onclick="closeModal()">✖️ Cancel</button>
+    <button type="button" class="btn-save" onclick="closeAchievementModal()">✖️ Cancel</button>
+
   </form>
-</div> -->
+</div>
 
 <?php include 'footer.php'; ?>
 
-<script>
-function editAchievement(data) {
-  document.getElementById('overlay').style.display = 'block';
-  document.getElementById('editModal').style.display = 'block';
-
-  document.getElementById('editID').value = data.achievementID;
-  document.getElementById('editTitle').value = data.title;
-  document.getElementById('editType').value = data.type;
-  document.getElementById('editDate').value = data.dateAwarded;
-  document.getElementById('editPlace').value = data.place || '';
-  document.getElementById('editMedal').value = data.medal;
-}
-
-function closeModal() {
-  document.getElementById('overlay').style.display = 'none';
-  document.getElementById('editModal').style.display = 'none';
-}
-lucide.createIcons();
-</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="scripts/child_achievements.js"></script>
 </body>
 </html>

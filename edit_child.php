@@ -74,7 +74,7 @@ $photoPath = (!empty($photoFile) && file_exists($uploadDir . $photoFile))
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Редактирование профиля: <?= htmlspecialchars($child['name']) ?></title>
+    <title>  Edit a child's profile: <?= htmlspecialchars($child['name']) ?></title>
    <link rel="stylesheet" href="css/edit_child.css">
 
 </head>

@@ -183,15 +183,15 @@ button.btn-save:hover {
 <body>
 <?php include 'header.php'; ?>
 <main class="container glowi-card">
-  <h1>📅 События — <?= htmlspecialchars($child['name']) ?></h1>
+  <h1> Events — <?= htmlspecialchars($child['name']) ?></h1>
 
   <form method="get">
     <input type="hidden" name="childID" value="<?= $childID ?>">
-    <label>Фильтр:</label>
+    <label>Filter:</label>
     <select name="filter" onchange="this.form.submit()">
-      <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>Все</option>
-      <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>Тренировки</option>
-      <option value="competition" <?= $filter === 'competition' ? 'selected' : '' ?>>Соревнования</option>
+      <!-- <option value="all" <?= $filter === 'all' ? 'selected' : '' ?>>All</option>
+      <option value="training" <?= $filter === 'training' ? 'selected' : '' ?>>Training</option> -->
+      <option value="competition" <?= $filter === 'competition' ? 'selected' : '' ?>>Competition</option>
     </select>
   </form>
 

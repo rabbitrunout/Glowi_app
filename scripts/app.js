@@ -1,26 +1,38 @@
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
   const calendarEl = document.getElementById('calendar');
-  const calendar = new FullCalendar.Calendar(calendarEl, {
+
+ const calendar = new FullCalendar.Calendar(calendarEl, {
     locale: 'ru',
     initialView: 'dayGridMonth',
     editable: true,
     selectable: true,
-    events: fcEventsFromPHP,
-    eventDidMount: function(info) {
-      // Добавляем иконки перед заголовком
-      if(info.event.extendedProps.eventType === 'schedule') {
-        info.el.querySelector('.fc-event-title').innerHTML = '📅 ' + info.event.title;
-      } else if(info.event.extendedProps.eventType === 'training') {
-        info.el.querySelector('.fc-event-title').innerHTML = '🏋️ ' + info.event.title;
-      } else if(info.event.extendedProps.eventType === 'competition') {
-        info.el.querySelector('.fc-event-title').innerHTML = '🏆 ' + info.event.title;
-      } else if(info.event.extendedProps.eventType === 'achievement') {
-        info.el.querySelector('.fc-event-title').innerHTML = '🥇 ' + info.event.title;
+
+
+    // 🔥 Вместо двух events — используем eventSources
+    eventSources: [
+      fcEventsFromPHP, // достижения, тренировки, соревнования
+      {
+        url: 'get_schedule.php?childID=' + childID,
+        method: 'GET',
+        failure: function() {
+          alert('Ошибка загрузки расписания');
+        }
       }
-    },
+    ],
+
+   eventDidMount: function(info) {
+    if(info.event.extendedProps.eventType === 'schedule') {
+      info.el.querySelector('.fc-event-title').innerHTML = '📅 ' + info.event.title;
+    } else if(info.event.extendedProps.eventType === 'training') {
+      info.el.querySelector('.fc-event-title').innerHTML = '🏋️ ' + info.event.title;
+    } else if(info.event.extendedProps.eventType === 'competition') {
+      info.el.querySelector('.fc-event-title').innerHTML = '🏆 ' + info.event.title;
+    } else if(info.event.extendedProps.eventType === 'achievement') {
+      info.el.querySelector('.fc-event-title').innerHTML = '🥇 ' + info.event.title;
+    }
+  },
     select: function(info) {
       const title = prompt("Название нового события:");
       if (!title) return;
@@ -116,6 +128,38 @@ window.onclick = function(event) {
     modal.style.display = "none";
   }
 }
+
+function editAchievement(data) {
+  document.getElementById('overlay').style.display = 'block';
+  document.getElementById('editModal').style.display = 'block';
+
+  // заполняем форму данными
+  document.getElementById('editID').value = data.achievementID;
+  document.getElementById('editTitle').value = data.title;
+  document.getElementById('editType').value = data.type;
+  document.getElementById('editDate').value = data.dateAwarded;
+  document.getElementById('editPlace').value = data.place || '';
+  document.getElementById('editMedal').value = data.medal;
+}
+
+function closeModal() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('editModal').style.display = 'none';
+}
+
+// закрытие по клику вне модалки
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'overlay') {
+    closeModal();
+  }
+});
+
+// инициализация иконок
+document.addEventListener("DOMContentLoaded", () => {
+  lucide.createIcons();
+});
+
+
 
 
 

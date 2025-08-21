@@ -439,6 +439,18 @@ a {
   border-color: #ff00cc;
   color: #fff;
 }
+.requests-block ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+.requests-block li {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  color: #eee;
+}
 
 
 /* Модальное окно */
@@ -618,7 +630,7 @@ a {
 #calendar {
   width: 100%;
   max-width: 100%;
-  height: auto;
+  max-height: 100%;
   box-sizing: border-box;
   background: rgba(216, 215, 216, 0.789);
   background: rgba(25, 0, 51, 0.85);
@@ -633,7 +645,7 @@ a {
   background: transparent;
   /* background: rgba(255, 255, 255, 0.95); */
   border-radius: 15px;
-  padding: 1rem;
+  padding: 0.9rem;
   color: #1a1a2e;
   font-family: 'Nunito', sans-serif;
 }

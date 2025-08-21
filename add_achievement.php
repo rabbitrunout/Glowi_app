@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <input type="date" name="dateAwarded" required>
 
     <label>Awarding Place:</label>
-    <input type="number" name="place" min="1" placeholder="например, 1">
+    <input type="number" name="place" min="1" placeholder="for example, 1">
 
     <label>Type of Medal:</label>
     <select name="medal">
