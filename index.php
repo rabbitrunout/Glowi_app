@@ -30,7 +30,7 @@ session_start();
     <a href="#login" class="btn">Get Started</a>
   </section>
 
-  <section id="how-it-works" class="card section how-glowi-works">
+  <section id="how-it-works" class="card section how-glowi-works" >
     <img src="assets/img/lamp.png" alt="lamp">
     <h2>How does Glowi work?</h2>
     <div class="cards-container-main">

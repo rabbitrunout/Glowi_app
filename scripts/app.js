@@ -1,16 +1,13 @@
-
-
 document.addEventListener('DOMContentLoaded', function () {
   const calendarEl = document.getElementById('calendar');
 
- const calendar = new FullCalendar.Calendar(calendarEl, {
+  const calendar = new FullCalendar.Calendar(calendarEl, {
     locale: 'ru',
     initialView: 'dayGridMonth',
     editable: true,
     selectable: true,
 
-
-    // 🔥 Вместо двух events — используем eventSources
+    // 🔥 Источники событий
     eventSources: [
       fcEventsFromPHP, // достижения, тренировки, соревнования
       {
@@ -22,17 +19,18 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     ],
 
-   eventDidMount: function(info) {
-    if(info.event.extendedProps.eventType === 'schedule') {
-      info.el.querySelector('.fc-event-title').innerHTML = '📅 ' + info.event.title;
-    } else if(info.event.extendedProps.eventType === 'training') {
-      info.el.querySelector('.fc-event-title').innerHTML = '🏋️ ' + info.event.title;
-    } else if(info.event.extendedProps.eventType === 'competition') {
-      info.el.querySelector('.fc-event-title').innerHTML = '🏆 ' + info.event.title;
-    } else if(info.event.extendedProps.eventType === 'achievement') {
-      info.el.querySelector('.fc-event-title').innerHTML = '🥇 ' + info.event.title;
-    }
-  },
+    eventDidMount: function(info) {
+      if(info.event.extendedProps.eventType === 'schedule') {
+        info.el.querySelector('.fc-event-title').innerHTML = '📅 ' + info.event.title;
+      } else if(info.event.extendedProps.eventType === 'training') {
+        info.el.querySelector('.fc-event-title').innerHTML = '🏋️ ' + info.event.title;
+      } else if(info.event.extendedProps.eventType === 'competition') {
+        info.el.querySelector('.fc-event-title').innerHTML = '🏆 ' + info.event.title;
+      } else if(info.event.extendedProps.eventType === 'achievement') {
+        info.el.querySelector('.fc-event-title').innerHTML = '🥇 ' + info.event.title;
+      }
+    },
+
     select: function(info) {
       const title = prompt("Название нового события:");
       if (!title) return;
@@ -60,11 +58,16 @@ document.addEventListener('DOMContentLoaded', function () {
         } else alert('Ошибка добавления: ' + (data.error||'неизвестно'));
       });
     },
+
     eventClick: function(info) {
       const title = info.event.title;
       const desc = info.event.extendedProps?.description || 'Без описания';
-      openGlowiModal(title, desc);
+      openModal('viewEventModal');
+      document.getElementById('viewEventTitle').innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
+      document.getElementById('viewEventDetails').innerText = desc;
+      lucide.createIcons();
     },
+
     eventDrop: updateEvent,
     eventResize: updateEvent
   });
@@ -88,78 +91,74 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
-
-function openGlowiModal(title, description) {
-  document.getElementById('viewEventTitle').innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
-  document.getElementById('viewEventDetails').innerText = description;
-  document.getElementById('viewEventModal').style.display = 'block';
-  document.getElementById('modalOverlay').style.display = 'block';
-  lucide.createIcons();
+// --- Универсальное управление модалками ---
+function openModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) modal.style.display = "block";
+  const overlay = document.getElementById('modalOverlay');
+  if (overlay) overlay.style.display = "block";
 }
 
-function closeGlowiModal() {
-  document.getElementById('viewEventModal').style.display = 'none';
-  document.getElementById('modalOverlay').style.display = 'none';
+function closeModal(id) {
+  const modal = document.getElementById(id);
+  if (modal) modal.style.display = "none";
+  const overlay = document.getElementById('modalOverlay');
+  if (overlay) overlay.style.display = "none";
 }
 
+// закрытие по клику вне окна
+window.addEventListener("click", function(event) {
+  if (event.target.classList.contains("modal")) {
+    event.target.style.display = "none";
+  }
+  if (event.target.id === 'modalOverlay') {
+    closeModal('viewEventModal');
+  }
+});
 
-  const swiper = new Swiper('.swiper', {
+// --- Swiper ---
+const swiper = new Swiper('.swiper', {
   loop: true,
   slidesPerView: 1,
   spaceBetween: 20,
-  autoplay: {
-    delay: 3000,
-  },
+  autoplay: { delay: 3000 },
   breakpoints: {
     768: { slidesPerView: 2 },
     1024: { slidesPerView: 3 },
   }
 });
 
+// --- Редактирование достижений ---
+function editAchievement(ach) {
+  document.getElementById("editID").value = ach.achievementID;
+  document.getElementById("editTitle").value = ach.title;
+  document.getElementById("editType").value = ach.type;
+  document.getElementById("editDate").value = ach.dateAwarded;
+  document.getElementById("editPlace").value = ach.place || "";
+  document.getElementById("editMedal").value = ach.medal || "none";
+
+  openModal();
+}
+
 function openModal() {
-  document.getElementById("lessonModal").style.display = "block";
-}
-function closeModal() {
-  document.getElementById("lessonModal").style.display = "none";
-}
-window.onclick = function(event) {
-  let modal = document.getElementById("lessonModal");
-  if (event.target == modal) {
-    modal.style.display = "none";
-  }
-}
-
-function editAchievement(data) {
-  document.getElementById('overlay').style.display = 'block';
-  document.getElementById('editModal').style.display = 'block';
-
-  // заполняем форму данными
-  document.getElementById('editID').value = data.achievementID;
-  document.getElementById('editTitle').value = data.title;
-  document.getElementById('editType').value = data.type;
-  document.getElementById('editDate').value = data.dateAwarded;
-  document.getElementById('editPlace').value = data.place || '';
-  document.getElementById('editMedal').value = data.medal;
+  document.getElementById("editModal").classList.add("active");
+  document.getElementById("modalOverlay").classList.add("active");
 }
 
 function closeModal() {
-  document.getElementById('overlay').style.display = 'none';
-  document.getElementById('editModal').style.display = 'none';
+  document.getElementById("editModal").classList.remove("active");
+  document.getElementById("modalOverlay").classList.remove("active");
 }
 
-// закрытие по клику вне модалки
-document.addEventListener('click', function(e) {
-  if (e.target.id === 'overlay') {
+// Закрытие по клику на оверлей
+document.addEventListener("click", function (e) {
+  if (e.target.id === "modalOverlay") {
     closeModal();
   }
 });
 
-// инициализация иконок
+
+// --- инициализация иконок ---
 document.addEventListener("DOMContentLoaded", () => {
   lucide.createIcons();
 });
-
-
-
-
-

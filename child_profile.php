@@ -319,9 +319,10 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       <h2><i data-lucide="target"></i> Request private class</h2>
   
   <!-- Кнопка для открытия модального окна -->
-  <button class="button neon-btn" onclick="openModal()">
-    <i data-lucide="plus-circle"></i> Do request
-  </button>
+  <button class="button neon-btn" onclick="openModal('lessonModal')">
+  <i data-lucide="plus-circle"></i> Do request
+</button>
+
 
   <div class="requests-block">
     <br/>
@@ -344,26 +345,29 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
     <?php endif; ?>
   </div>
 
-  <!-- Модальное окно -->
+  <!-- Popup-модалка возле кнопки -->
 <div id="lessonModal" class="modal">
   <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h2><i data-lucide="send"></i> New lesson request </h2>
-    
-    <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
-      <label for="lessonDate">Date:</label>
-      <input type="date" name="lessonDate" id="lessonDate" required>
+    <span class="close" onclick="closeModal('lessonModal')">&times;</span>
+    <h2><i data-lucide="send"></i> New lesson request</h2>
+    <!-- форма -->
+     <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
+    <label for="lessonDate">Date:</label>
+    <input type="date" name="lessonDate" id="lessonDate" required>
 
-      <label for="lessonTime">Time:</label>
-      <input type="time" name="lessonTime" id="lessonTime" required>
+    <label for="lessonTime">Time:</label>
+    <input type="time" name="lessonTime" id="lessonTime" required>
 
-      <label for="message">Comment / Notes:</label>
-      <textarea name="message" id="message" rows="3"></textarea>
+    <label for="message">Comment / Notes:</label>
+    <textarea name="message" id="message" rows="3"></textarea>
 
-      <button type="submit" class="button"><i data-lucide="send"></i> Send</button>
-    </form>
+    <button type="submit" class="btn-save"><i data-lucide="send"></i> Send</button>
+  </form>
   </div>
 </div>
+
+
+
     </section>
 
 

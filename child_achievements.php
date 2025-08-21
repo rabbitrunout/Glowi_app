@@ -116,51 +116,57 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </main>
 
 <!-- Модалка -->
-<div class="modal-overlay" id="overlay"></div>
-<div class="modal glowi-card" id="editModal">
-  <h3>Edit achievement</h3>
-  <form method="POST" action="update_achievement.php">
-    <input type="hidden" name="achievementID" id="editID">
-    <input type="hidden" name="childID" value="<?= $childID ?>">
+<div id="modalOverlay" class="modal-overlay"></div>
 
-    <label>Title:</label>
-    <input type="text" name="title" id="editTitle" required>
+<div id="editModal" class="modal">
+  <div class="modal-content neon-form">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2><i data-lucide="edit"></i> Edit achievement</h2>
+    <form method="POST" action="update_achievement.php">
+      <input type="hidden" name="achievementID" id="editID">
+      <input type="hidden" name="childID" value="<?= $childID ?>">
 
-    <label>Type:</label>
-    <select name="type" id="editType">
-      <option value="medal">Medal</option>
-      <option value="diploma">Diploma</option>
-      <option value="competition">Competition</option>
-    </select>
+      <label for="editTitle">Title:</label>
+      <input type="text" name="title" id="editTitle" required>
 
-    <label>Date:</label>
-    <input type="date" name="dateAwarded" id="editDate" required>
+      <label for="editType">Type:</label>
+      <select name="type" id="editType">
+        <option value="medal">Medal</option>
+        <option value="diploma">Diploma</option>
+        <option value="competition">Competition</option>
+      </select>
 
-    <label>Place:</label>
-    <input type="number" name="place" id="editPlace" min="1" placeholder="optional">
+      <label for="editDate">Date:</label>
+      <input type="date" name="dateAwarded" id="editDate" required>
 
-    <label>Medal:</label>
-    <select name="medal" id="editMedal">
-      <option value="none">None</option>
-      <option value="gold">🥇 Gold</option>
-      <option value="silver">🥈 Silver</option>
-      <option value="bronze">🥉 Bronze</option>
-      <option value="fourth">🎗️ 4th</option>
-      <option value="fifth">🎗️ 5th</option>
-      <option value="sixth">🎗️ 6th</option>
-      <option value="seventh">🎗️ 7th</option>
-      <option value="honorable">🏵️ Honor</option>
-    </select>
+      <label for="editPlace">Place:</label>
+      <input type="number" name="place" id="editPlace" min="1" placeholder="optional">
 
-    <button type="submit" class="btn-save">💾 Save</button>
-    <button type="button" class="btn-save" onclick="closeAchievementModal()">✖️ Cancel</button>
+      <label for="editMedal">Medal:</label>
+      <select name="medal" id="editMedal">
+        <option value="none">None</option>
+        <option value="gold">🥇 Gold</option>
+        <option value="silver">🥈 Silver</option>
+        <option value="bronze">🥉 Bronze</option>
+        <option value="fourth">🎗️ 4th</option>
+        <option value="fifth">🎗️ 5th</option>
+        <option value="sixth">🎗️ 6th</option>
+        <option value="seventh">🎗️ 7th</option>
+        <option value="honorable">🏵️ Honor</option>
+      </select>
 
-  </form>
+      <div class="actions">
+        <button type="submit" class="btn-save">💾 Save</button>
+        <button type="button" class="btn-save" onclick="closeModal()">✖️ Cancel</button>
+      </div>
+    </form>
+  </div>
 </div>
+
 
 <?php include 'footer.php'; ?>
 
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="scripts/child_achievements.js"></script>
+<script src="scripts/app.js"></script>
 </body>
 </html>

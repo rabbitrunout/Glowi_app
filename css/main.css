@@ -631,13 +631,24 @@ a:hover {
 }
 
 
-/* достижения */
+/* ================== Modal =================== */
+* Модалка Glowi Neon */
 .modal-overlay {
-  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 100;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
 }
 
 .modal {
@@ -645,41 +656,101 @@ a:hover {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  background: rgba(255, 255, 255, 0.07);
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 0 25px #ff66ff;
-  max-width: 500px;
   width: 90%;
-  z-index: 101;
-  color: #fff;
+  max-width: 500px;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5),
+              0 0 30px rgba(255, 0, 255, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 1200;
+  opacity: 0;
+  transform: translate(-50%, -55%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.modal h3 {
-  margin-top: 0;
+.modal.active {
+  display: block;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.4rem;
+  color: #ffccff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal h2 {
+  font-size: 1.5rem;
   color: #00e6f6;
-   box-shadow: 0 0 25px #ff66ff;
-}
-
-.modal input,
-.modal select {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   margin-bottom: 1rem;
-  padding: 10px;
+}
+
+.modal select,
+.modal input[type="text"],
+.modal input[type="number"],
+.modal input[type="date"] {
+  width: 100%;
+  padding: 0.5rem 0.9rem;
+  margin-bottom: 0.9rem;
   border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255,255,255,0.05);
+  border: 1.3px solid #ff66ff;
+  background: rgba(0, 0, 0, 0.28);
   color: #fff;
-}
-
-.modal input:focus,
-.modal select:focus {
-  box-shadow: 0 0 10px #ff66ff;
+  font-size: 0.9rem;
   outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.modal select:focus,
+.modal input:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 5px #ffd700;
+}
 
+.modal label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #ffccff;
+  text-shadow: 0 0 2px #ff66ff;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.actions .btn-save {
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  background: #ff00cc;
+  color: #212222;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff00cc;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.actions .btn-save:hover {
+  background: #cc00cc;
+  box-shadow: 0 0 25px #ff66ff;
+  transform: scale(1.04);
+}
 
 
 
@@ -702,16 +773,7 @@ a:hover {
 
 
 
-
-
-
-
-
-
-
-
-
-
+/* ================== Glowi Modal =================== */
 
 
 

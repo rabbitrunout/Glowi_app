@@ -1,8 +1,8 @@
 <header>
   <nav>
     <div class="nav-left">
-      <img src="assets/img/mainlogo.png" alt="GLOWI Logo" class="logo">
-      <h1 class="animate__animated animate__pulse">GLOWI</h1>
+     <a href="index.php"> <img src="assets/img/mainlogo.png" alt="GLOWI Logo" class="logo">
+      <h1 class="animate__animated animate__pulse">GLOWI</h1></a>
     </div>
     <div class="nav-links">
       <a href="index.php">Home</a>
