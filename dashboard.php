@@ -15,11 +15,11 @@ $stmt->execute([$parentID]);
 $parent = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$parent) {
-    die("Пользователь не найден.");
+    die("User not found.");
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Обработка удаления ребёнка
+    // Processing of child removal
     if (isset($_POST['delete_child_id'])) {
         $deleteID = intval($_POST['delete_child_id']);
         $delStmt = $pdo->prepare("DELETE FROM children WHERE childID = ? AND parentID = ?");
@@ -28,14 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // Обработка добавления ребёнка
+    // Processing the addition of a child
     $name = $_POST['childName'] ?? '';
     $age = intval($_POST['childAge'] ?? 0);
     $groupLevel = $_POST['groupLevel'] ?? '';
 
    if ($name && $age > 0 && $groupLevel) {
-    // Обработка изображения
-  $filename = 'placeholder.png'; // значение по умолчанию
+    // Image processing
+  $filename = 'placeholder.png'; // default value
 if (!empty($_FILES['photoImage']['name'])) {
     $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (in_array($_FILES['photoImage']['type'], $allowedTypes)) {
@@ -46,7 +46,7 @@ if (!empty($_FILES['photoImage']['name'])) {
         $filename = uniqid('child_', true) . '.' . $ext;
         $targetPath = $targetDir . $filename;
         if (!move_uploaded_file($_FILES['photoImage']['tmp_name'], $targetPath)) {
-            // загрузка не удалась, вернуть к placeholder
+            // Loading failed, return to placeholder
             $filename = 'placeholder.png';
         }
     }
@@ -59,7 +59,7 @@ if (!empty($_FILES['photoImage']['name'])) {
     exit;
 }
  else {
-        $error = "Пожалуйста, заполните все поля при добавлении ребенка.";
+        $error = "Please fill in all fields when adding a child.";
     }
 }
 
@@ -104,7 +104,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($children as $child): ?>
         <div class="child-card card">
          <?php
-          $photoFile = $child['photoImage']; // ← вот этого не хватало
+          $photoFile = $child['photoImage']; // ← That's what was missing.
           $photoSrc = (!empty($photoFile) && file_exists('uploads/avatars/' . $photoFile))
                     ? 'uploads/avatars/' . htmlspecialchars($photoFile)
                     : 'assets/img/placeholder.png';
@@ -112,7 +112,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
          <img src="<?= htmlspecialchars($photoSrc) ?>" alt="Photo of the child" />
 
   <h3><?= htmlspecialchars($child['name']) ?></h3>
-    <p>Age: <?= (int)$child['age'] ?> лет</p>
+    <p>Age: <?= (int)$child['age'] ?> y.o</p>
     <p>Level: <?= htmlspecialchars($child['groupLevel']) ?></p>
 
    <div class="child-actions">
@@ -150,8 +150,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
       <label for="groupLevel">Level:</label>
       <input type="text" id="groupLevel" name="groupLevel" required placeholder="For example, 'Provintial'" />
 
-       <!-- <label> Photo:</label><br>
-       <input type="file" name="photoImage" accept="image/*"><br><br> -->
+    
 <br/>
       <button type="submit" class="neon-button">
         <i data-lucide="check-circle"></i> Add
@@ -159,7 +158,7 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </form>
   </section>
 
-  <!-- Действия -->
+  <!-- Actions -->
   <div class="actions">
     <a href="logout.php" class="button">
       <i data-lucide="log-out"></i> Logout

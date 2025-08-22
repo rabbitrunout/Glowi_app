@@ -1,9 +1,7 @@
-
 document.addEventListener('DOMContentLoaded', function () {
-
   const overlay = document.getElementById('modalOverlay');
 
-  // Универсальные функции для открытия/закрытия модалок
+  // Универсальные модалки по id
   function openModal(id) {
     const modal = document.getElementById(id);
     if (modal && overlay) {
@@ -11,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
       overlay.style.display = 'block';
     }
   }
-
   function closeModal(id) {
     const modal = document.getElementById(id);
     if (modal && overlay) {
@@ -20,14 +17,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Закрытие по клику на оверлей
-  overlay.addEventListener('click', function () {
-    const modals = document.querySelectorAll('.modal, .glowi-modal');
-    modals.forEach(modal => modal.style.display = 'none');
-    overlay.style.display = 'none';
-  });
-
-  // Закрытие модалки по крестику
+  if (overlay) {
+    overlay.addEventListener('click', function () {
+      document.querySelectorAll('.modal, .glowi-modal').forEach(m => m.style.display = 'none');
+      overlay.style.display = 'none';
+    });
+  }
   document.querySelectorAll('.modal .close, .glowi-modal .close').forEach(btn => {
     btn.addEventListener('click', function () {
       const modal = this.closest('.modal, .glowi-modal');
@@ -37,13 +32,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // === Calendar ===
   const calendarEl = document.getElementById('calendar');
- 
-
   const calendar = new FullCalendar.Calendar(calendarEl, {
     locale: 'en',
     initialView: 'dayGridMonth',
     editable: true,
     selectable: true,
+
     eventSources: [
       fcEventsFromPHP,
       {
@@ -53,6 +47,15 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     ],
 
+    // Вешаем CSS-классы по типу события
+    eventClassNames: function(arg) {
+      const t = arg.event.extendedProps?.eventType;
+      if (t === 'competition') return ['competition-event'];
+      if (t === 'training')    return ['training-event'];
+      return [];
+    },
+
+    // Эмодзи в заголовок
     eventDidMount: function(info) {
       const emojiMap = {
         'schedule': '📅',
@@ -60,16 +63,25 @@ document.addEventListener('DOMContentLoaded', function () {
         'competition': '🏆',
         'achievement': '🥇'
       };
-      const prefix = emojiMap[info.event.extendedProps.eventType] || '';
+      const prefix = emojiMap[info.event.extendedProps?.eventType] || '';
       const titleEl = info.el.querySelector('.fc-event-title');
-      if (titleEl) titleEl.innerHTML = prefix + ' ' + info.event.title;
+      if (titleEl) titleEl.innerHTML = `${prefix} ${info.event.title}`;
     },
 
+    // Добавление событий мышкой
     select: function(info) {
       const title = prompt("Название нового события:");
       if (!title) return;
       const type = prompt("Тип события: training/competition (оставьте пустым по умолчанию)");
-      const newEvent = { title, start: info.startStr, end: info.endStr || '', allDay: false, eventType: type || 'training' };
+      const eventType = (type || 'training').trim();
+
+      const newEvent = {
+        title,
+        start: info.startStr,
+        end: info.endStr || '',
+        allDay: false,
+        eventType
+      };
 
       fetch(`add_event.php?childID=${childID}`, {
         method: 'POST',
@@ -79,18 +91,17 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          let color = '#1E90FF';
-          if (newEvent.eventType === 'competition') color = '#34a853';
           calendar.addEvent({
             id: data.id,
             title,
             start: info.startStr,
             end: info.endStr || '',
             allDay: false,
-            color: color,
-            extendedProps: { eventType: newEvent.eventType }
+            extendedProps: { eventType } // классы подтянутся из eventClassNames
           });
-        } else alert('Ошибка добавления: ' + (data.error||'неизвестно'));
+        } else {
+          alert('Ошибка добавления: ' + (data.error||'неизвестно'));
+        }
       });
     },
 
@@ -138,13 +149,13 @@ document.addEventListener('DOMContentLoaded', function () {
   // === Lucide Icons ===
   lucide.createIcons();
 
-  // === Кнопки для открытия модалок ===
+  // Вынесем во внешний скоуп
   window.openModal = openModal;
   window.closeModal = closeModal;
-
 });
 
-// --- Редактирование достижений ---
+/* ===== Ниже были конфликтующие функции. Переименовал, чтобы не ломать openModal(id) ===== */
+
 function editAchievement(ach) {
   document.getElementById("editID").value = ach.achievementID;
   document.getElementById("editTitle").value = ach.title;
@@ -152,41 +163,38 @@ function editAchievement(ach) {
   document.getElementById("editDate").value = ach.dateAwarded;
   document.getElementById("editPlace").value = ach.place || "";
   document.getElementById("editMedal").value = ach.medal || "none";
-
-  openModal();
+  openEditModal();
 }
 
-function openModal() {
+function openEditModal() {
   document.getElementById("editModal").classList.add("active");
   document.getElementById("modalOverlay").classList.add("active");
 }
 
-function closeModal() {
+function closeEditModal() {
   document.getElementById("editModal").classList.remove("active");
   document.getElementById("modalOverlay").classList.remove("active");
 }
 
-// Закрытие по клику на оверлей
 document.addEventListener("click", function (e) {
   if (e.target.id === "modalOverlay") {
-    closeModal();
+    closeEditModal();
   }
 });
 
-
-// --- инициализация иконок ---
+// иконки
 document.addEventListener("DOMContentLoaded", () => {
   lucide.createIcons();
 });
 
- function closeGlowiModal() {
-    document.getElementById("modalOverlay").style.display = "none";
-    document.getElementById("viewEventModal").style.display = "none";
-  }
-
-  function openGlowiModal(title, details) {
-    document.getElementById("viewEventTitle").innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
-    document.getElementById("viewEventDetails").innerText = details;
-    document.getElementById("modalOverlay").style.display = "block";
-    document.getElementById("viewEventModal").style.display = "block";
-  }
+// вспомогательные модалки просмотра
+function closeGlowiModal() {
+  document.getElementById("modalOverlay").style.display = "none";
+  document.getElementById("viewEventModal").style.display = "none";
+}
+function openGlowiModal(title, details) {
+  document.getElementById("viewEventTitle").innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
+  document.getElementById("viewEventDetails").innerText = details;
+  document.getElementById("modalOverlay").style.display = "block";
+  document.getElementById("viewEventModal").style.display = "block";
+}

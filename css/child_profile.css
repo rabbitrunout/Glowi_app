@@ -708,14 +708,23 @@ a {
   font-weight: bold;
 }
 
+/* Общий стиль для всех событий */
 .fc-daygrid-event {
-  background-color: #ff66ff;
+  background-color: #00c3ff;
   border: none;
   color: white;
   border-radius: 5px;
   padding: 2px 4px;
   font-size: 0.85rem;
 }
+
+/* Для соревнований */
+.fc-daygrid-event.competition-event {
+  background-color: red !important;
+  color: white !important;
+  font-weight: bold;
+}
+
 
 .fc-day-today {
   background: #ffe0f7 !important;

@@ -71,7 +71,6 @@ foreach ($scheduleList as $sched) {
                 'start' => $startDate->format('Y-m-d') . 'T' . $sched['startTime'],
                 'end' => $startDate->format('Y-m-d') . 'T' . $sched['endTime'],
                 'allDay' => false,
-                // 'color' => '#FFA500',
                 'extendedProps' => [
                     'description' => $sched['activity'] . " (Regular schedule)",
                     'eventType' => 'schedule'
@@ -82,14 +81,36 @@ foreach ($scheduleList as $sched) {
     }
 }
 
-// 2. Добавляем обычные события
+// 2. Добавляем обычные события с отдельной логикой для соревнований
 foreach ($events as $event) {
+    $eventColor = '#34a853'; // стандартный зелёный
+    $eventTitlePrefix = '';   // иконка перед названием
+
+    if (isset($event['eventType'])) {
+        switch ($event['eventType']) {
+            case 'competition':
+                $eventColor = '#FF6347'; // ярко-красный для соревнований
+                $eventTitlePrefix = '🏆 ';
+                break;
+            case 'training':
+                $eventColor = '#3788d8'; // синий для тренировок
+                break;
+            case 'private_lesson':
+                $eventColor = '#fffd69ff'; // ярко-розовый для приватных уроков
+                $eventTitlePrefix = '🎯 ';
+                break;
+            case 'event':
+            default:
+                $eventColor = $event['createdBy'] === 'parent' ? '#3788d8' : '#34a853';
+        }
+    }
+
     $fcEvents[] = [
         'id' => $event['eventID'],
-        'title' => $event['title'],
+        'title' => $eventTitlePrefix . $event['title'],
         'start' => $event['date'] . 'T' . $event['time'],
         'allDay' => false,
-        'color' => $event['createdBy'] === 'parent' ? '#3788d8' : '#34a853',
+        'color' => $eventColor,
         'extendedProps' => [
             'description' => $event['description'] ?? '',
             'eventType' => $event['eventType'] ?? 'event'
@@ -123,6 +144,7 @@ foreach ($achievements as $ach) {
     ];
 }
 
+// 4. Добавляем приватные уроки отдельно
 $stmt = $pdo->prepare("SELECT e.*, ce.createdBy FROM events e
     LEFT JOIN child_event ce ON e.eventID = ce.eventID
     WHERE e.eventType='private_lesson' AND ce.childID=?");
@@ -142,9 +164,9 @@ foreach ($privateLessons as $event) {
     ];
 }
 
-
 $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 ?>
+
 
 
 <!DOCTYPE html>
