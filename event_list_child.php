@@ -196,13 +196,18 @@ button.btn-save:hover {
   </form>
 
   <?php if (empty($events)): ?>
-    <p class="glowi-message error">Нет событий.</p>
+    <p class="glowi-message error">No events</p>
   <?php else: ?>
     <div class="table-wrapper">
     <table class="glowi-table">
       <thead>
         <tr>
-          <th>Дата</th><th>Время</th><th>Название</th><th>Тип</th><th>Место</th><th>Действие</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Location</th>
+          <!-- <th>Действие</th> -->
         </tr>
       </thead>
       <tbody>
@@ -213,11 +218,11 @@ button.btn-save:hover {
             <td><?= htmlspecialchars($event['title']) ?></td>
             <td><?= $event['eventType'] === 'training' ? 'Training' : 'Competition' ?></td>
             <td><?= htmlspecialchars($event['location']) ?></td>
-            <td>
+            <!-- <td>
               <a href="?childID=<?= $childID ?>&unlinkEventID=<?= $event['eventID'] ?>" onclick="return confirm('Удалить событие из списка ребёнка?')">❌ Delete</a><br>
               <button class="edit-btn"
                 data-event='<?= json_encode($event, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_HEX_AMP) ?>'>✏️ Edit</button>
-            </td>
+            </td> -->
           </tr>
         <?php endforeach; ?>
       </tbody>

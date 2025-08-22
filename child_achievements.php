@@ -39,7 +39,7 @@ $achievements = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Achievements — <?= htmlspecialchars($child['name']) ?></title>

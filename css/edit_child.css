@@ -215,3 +215,27 @@ footer {
 main.container.glowi-card {
   animation: fadeInUp 0.7s ease forwards;
 }
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* .file-upload label.btn-save {
+  background: #ff00cc;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 12px #ff00cc;
+  transition: 0.3s;
+} */
+
+/* .file-upload label.btn-save:hover {
+  box-shadow: 0 0 25px #ff00cc, 0 0 35px #333399;
+} */
+
+.file-upload #fileName {
+  color: #ccc;
+  font-size: 0.9rem;
+}

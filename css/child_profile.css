@@ -23,8 +23,16 @@ body {
   color: white;
   overflow-x: hidden;
 }
-/* ================== Header =================== */
+/* ================== Base =================== */
+body {
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  background: linear-gradient(to right, #2d1b47, #12142e);
+  color: white;
+  overflow-x: hidden;
+}
 
+/* ================== Header =================== */
 header {
   position: sticky;
   top: 0;
@@ -48,17 +56,13 @@ nav {
   color: #00e6f6;
   animation: pulse 2s infinite;
 }
+
 .nav-left {
   display: flex;
   align-items: center;
   gap: 10px; /* расстояние между логотипом и текстом */
 }
 
-.logo {
-  height: 65px; /* подберите под ваш дизайн */
-  width: auto;
-  /* border: 2px solid #FFD700; */
-}
 
 .nav-links {
   display: flex;
@@ -78,6 +82,35 @@ nav a:hover {
   color: #ff66ff;
   text-shadow: 0 0 5px #ff66ff, 0 0 10px #ff66ff;
 }
+
+.section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* Контейнер логотипа и названия */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem; /* расстояние между логотипом и текстом */
+  text-decoration: none;
+}
+
+/* Лого */
+.logo {
+  margin-top: 13px;
+  height: 65px;
+  width: auto;
+}
+
+/* Текст рядом с логотипом */
+.brand h1 {
+  font-size: 1.8rem;
+  /* font-weight: 600; */
+  color: #00e6f6; /* или твой фирменный цвет */
+  margin-top: 13px;
+}
+
 
 
 /* Обёртка и блоки */
@@ -629,8 +662,9 @@ a {
 
 #calendar {
   width: 100%;
+  min-height: 500px;
   max-width: 100%;
-  max-height: 100%;
+  /* max-height: 100%; */
   box-sizing: border-box;
   background: rgba(216, 215, 216, 0.789);
   background: rgba(25, 0, 51, 0.85);
@@ -695,6 +729,13 @@ a {
 .event-competition {
   background-color: #f44336;
 }
+.training {
+  color: #00c3ff;
+}
+
+.competition {
+  color: #ffc300;
+}
 
 /* =========== Секция достижений =========== */
 
@@ -723,6 +764,81 @@ a {
   color: #eee;
 }
 
+/* Модалка Glowi Neon рядом с кнопкой */
+.lesson-modal {
+  position: absolute;
+  display: none;
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 30px rgba(255,0,255,0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  z-index: 1000;
+  width: 320px;
+  padding: 1rem 1.2rem;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.lesson-modal .modal-content {
+  padding: 0;
+}
+
+.lesson-modal .close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 1.3rem;
+  color: #ffccff;
+  cursor: pointer;
+}
+
+.lesson-modal h2 {
+  font-size: 1.3rem;
+  color: #00e6f6;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+/* Подсветка формы Glowi Neon */
+.lesson-modal input,
+.lesson-modal textarea,
+.lesson-modal select {
+  width: 100%;
+  padding: 0.45rem 0.9rem;
+  margin-bottom: 0.7rem;
+  border-radius: 10px;
+  border: 1.3px solid #ff66ff;
+  background: rgba(0,0,0,0.28);
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lesson-modal input:focus,
+.lesson-modal textarea:focus,
+.lesson-modal select:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 5px #ffd700;
+}
+
+.lesson-modal label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: #ffccff;
+  text-shadow: 0 0 2px #ff66ff;
+  font-size: 0.9rem;
+}
+
+.lesson-modal .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
 
 
 /* ================== Footer =================== */

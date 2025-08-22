@@ -7,7 +7,7 @@ if (isset($_SESSION['parentID'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Login — Glowi</title>

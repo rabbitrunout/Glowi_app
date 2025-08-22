@@ -28,6 +28,6 @@ if ($eventID && $title && $type && $date && $time && $location) {
     header("Location: event_list_child.php?childID=$childID");
     exit;
 } else {
-    die("Ошибка обновления: не все данные заполнены.");
+    die("Update error: Not all data is filled in.");
 }
 ?>

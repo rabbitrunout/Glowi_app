@@ -11,7 +11,7 @@ $childID = $_POST['childID'] ?? null;
 $parentID = $_SESSION['parentID'];
 
 if (!$childID) {
-    die("ID ребёнка не указан.");
+    die("ID the child is not specified.");
 }
 
 // Получаем имя файла фото
@@ -20,7 +20,7 @@ $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$child) {
-    die("Ребёнок не найден или нет доступа.");
+    die("The child is not found or there is no access.");
 }
 
 // Удаляем изображение, если оно есть

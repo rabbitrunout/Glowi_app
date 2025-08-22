@@ -71,9 +71,9 @@ foreach ($scheduleList as $sched) {
                 'start' => $startDate->format('Y-m-d') . 'T' . $sched['startTime'],
                 'end' => $startDate->format('Y-m-d') . 'T' . $sched['endTime'],
                 'allDay' => false,
-                'color' => '#FFA500',
+                // 'color' => '#FFA500',
                 'extendedProps' => [
-                    'description' => $sched['activity'] . " (Постоянное расписание)",
+                    'description' => $sched['activity'] . " (Regular schedule)",
                     'eventType' => 'schedule'
                 ]
             ];
@@ -107,16 +107,16 @@ foreach ($achievements as $ach) {
     };
     $fcEvents[] = [
         'id' => 'ach_' . $ach['achievementID'],
-        'title' => '🏅 ' . $ach['title'],
+        'title' => ' ' . $ach['title'],
         'start' => $ach['dateAwarded'],
         'allDay' => true,
         'color' => $color,
         'extendedProps' => [
             'description' => implode("\n", array_filter([
-                '🏅 ' . $ach['title'],
-                'Тип: ' . ucfirst($ach['type']),
-                (!empty($ach['medal']) && $ach['medal'] !== 'none') ? 'Медаль: ' . ucfirst($ach['medal']) : null,
-                (!empty($ach['place'])) ? 'Место: ' . (int)$ach['place'] : null
+                '' . $ach['title'],
+                'Type: ' . ucfirst($ach['type']),
+                (!empty($ach['medal']) && $ach['medal'] !== 'none') ? 'Medal: ' . ucfirst($ach['medal']) : null,
+                (!empty($ach['place'])) ? 'Place: ' . (int)$ach['place'] : null
             ])),
             'eventType' => 'achievement'
         ]
@@ -135,7 +135,7 @@ foreach ($privateLessons as $event) {
         'title' => '🎯 ' . $event['title'],
         'start' => $event['date'] . 'T' . $event['time'],
         'allDay' => false,
-        'color' => '#FF69B4', // ярко-розовый для приватного урока
+        'color' => '#fffd69ff', // ярко-розовый для приватного урока
         'extendedProps' => [
             'description' => $event['description']
         ]
@@ -156,13 +156,18 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   <!-- <link rel="stylesheet" href="css/main.css"> -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/locales/ru.js"></script>
+ <!-- Подключаем сам FullCalendar -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+<!-- Подключаем только английскую локаль (en-gb или en) -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/locales/en-gb.global.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
   <?php include 'header.php'; ?>
+
   <?php if (basename($_SERVER['PHP_SELF']) == 'child_profile.php'): ?>
   
 <?php endif; ?>
@@ -319,55 +324,56 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
       <h2><i data-lucide="target"></i> Request private class</h2>
   
   <!-- Кнопка для открытия модального окна -->
-  <button class="button neon-btn" onclick="openModal('lessonModal')">
+<button class="button neon-btn" onclick="openModal('lessonModal')">
   <i data-lucide="plus-circle"></i> Do request
 </button>
 
-
-  <div class="requests-block">
-    <br/>
-    <h3>My requests</h3>
-    <?php if ($requests): ?>
-      <ul>
-        <?php foreach ($requests as $req): ?>
-          <li class="request <?= $req['status'] ?>">
-            <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
-            <p>Status: <?= ucfirst($req['status']) ?></p>
-            <?php if ($req['response']): ?>
-              <p><em>Answer: <?= htmlspecialchars($req['response']) ?></em></p>
-            <?php endif; ?>
-            <small><?= $req['requestDate'] ?></small>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    <?php else: ?>
-      <p>There are no requests yet.</p>
-    <?php endif; ?>
-  </div>
-
-  <!-- Popup-модалка возле кнопки -->
-<div id="lessonModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal('lessonModal')">&times;</span>
-    <h2><i data-lucide="send"></i> New lesson request</h2>
-    <!-- форма -->
-     <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
-    <label for="lessonDate">Date:</label>
-    <input type="date" name="lessonDate" id="lessonDate" required>
-
-    <label for="lessonTime">Time:</label>
-    <input type="time" name="lessonTime" id="lessonTime" required>
-
-    <label for="message">Comment / Notes:</label>
-    <textarea name="message" id="message" rows="3"></textarea>
-
-    <button type="submit" class="btn-save"><i data-lucide="send"></i> Send</button>
-  </form>
-  </div>
+<div class="requests-block">
+  <br/>
+  <h3>My requests</h3>
+  <?php if ($requests): ?>
+    <ul>
+      <?php foreach ($requests as $req): ?>
+        <li class="request <?= $req['status'] ?>">
+          <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
+          <p>Status: <?= ucfirst($req['status']) ?></p>
+          <?php if ($req['response']): ?>
+            <p><em>Answer: <?= htmlspecialchars($req['response']) ?></em></p>
+          <?php endif; ?>
+          <small><?= $req['requestDate'] ?></small>
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  <?php else: ?>
+    <p>There are no requests yet.</p>
+  <?php endif; ?>
 </div>
 
+<!-- Overlay -->
+<div id="modalOverlay" class="modal-overlay"></div>
 
+<!-- Модальное окно -->
+<div id="lessonModal" class="modal">
+  <div class="modal-content neon-form">
+    <span class="close" onclick="closeModal('lessonModal')">&times;</span>
+    <h2><i data-lucide="send"></i> New lesson request</h2>
+    <form method="POST" action="send_private_lesson_request.php?childID=<?= $childID ?>">
+      <label for="lessonDate">Date:</label>
+      <input type="date" name="lessonDate" id="lessonDate" required>
 
+      <label for="lessonTime">Time:</label>
+      <input type="time" name="lessonTime" id="lessonTime" required>
+
+      <label for="message">Comment / Notes:</label>
+      <textarea name="message" id="message" rows="3"></textarea>
+
+      <div class="actions">
+        <button type="submit" class="btn-save"><i data-lucide="send"></i> Send</button>
+        <button type="button" class="btn-save" onclick="closeModal('lessonModal')">✖️ Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
     </section>
 
 
@@ -429,8 +435,8 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 <?php include 'footer.php'; ?>
 
 <script>
-  const fcEventsFromPHP = <?= json_encode($fcEvents, JSON_UNESCAPED_UNICODE) ?>;
   const childID = <?php echo (int)$childID; ?>;
+  const fcEventsFromPHP = <?= json_encode($fcEvents, JSON_UNESCAPED_UNICODE) ?>; 
 </script>
 <script src="scripts/app.js"></script>
 <script>

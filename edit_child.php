@@ -71,7 +71,7 @@ $photoPath = (!empty($photoFile) && file_exists($uploadDir . $photoFile))
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>  Edit a child's profile: <?= htmlspecialchars($child['name']) ?></title>
@@ -122,7 +122,7 @@ $photoPath = (!empty($photoFile) && file_exists($uploadDir . $photoFile))
         </select>
 
         <label for="childImage">Upload New Photo:</label>
-        <input id="childImage" type="file" name="childImage" accept="image/*" onchange="previewImage(event)"><br/><br/>
+        <input id="childImage" type="file" name="childImage" lang="en" accept="image/*" onchange="previewImage(event)"><br/><br/>
 
         <button type="submit" class="btn-save">Save</button>
 

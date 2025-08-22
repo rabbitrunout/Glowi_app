@@ -14,7 +14,7 @@ $password = filter_input(INPUT_POST, 'password');
 $email_address = filter_input(INPUT_POST, 'email_address');
 
 if ($user_name === null || $password === null || $email_address === null) {
-    $_SESSION["add_error"] = "Неверные данные регистрации. Проверьте все поля.";
+    $_SESSION["add_error"] = "Нever registration data. Check all fields.";
     header("Location: error.php");
     exit;
 }
@@ -31,7 +31,7 @@ $existing = $statement->fetch();
 $statement->closeCursor();
 
 if ($existing) {
-    $_SESSION["add_error"] = "Пользователь с таким email или именем уже существует.";
+    $_SESSION["add_error"] = "A user with the same email address or name already exists.";
     header("Location: error.php");
     exit;
 }
@@ -57,8 +57,8 @@ $to_address = $email_address;
 $to_name = $user_name;
 $from_address = 'your_email@example.com';
 $from_name = 'Glowi Team';
-$subject = 'Glowi – Регистрация завершена';
-$body = '<p>Спасибо за регистрацию в системе Glowi.</p><p>С уважением,<br>Команда Glowi</p>';
+$subject = 'Glowi – Registration is completed';
+$body = '<p>Thank you for registering in the system Glowi.</p><p>With respect,<br>team Glowi</p>';
 $is_body_html = true;
 
 // Отправка email

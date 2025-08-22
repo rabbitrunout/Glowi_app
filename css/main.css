@@ -59,11 +59,6 @@ nav {
   gap: 10px; /* расстояние между логотипом и текстом */
 }
 
-.logo {
-  height: 65px; /* подберите под ваш дизайн */
-  width: auto;
-  /* border: 2px solid #FFD700; */
-}
 
 .nav-links {
   display: flex;
@@ -88,6 +83,29 @@ nav a:hover {
   padding: 60px 20px;
   text-align: center;
 }
+
+/* Контейнер логотипа и названия */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem; /* расстояние между логотипом и текстом */
+  text-decoration: none;
+}
+
+/* Лого */
+.logo {
+  height: 65px;
+  width: auto;
+}
+
+/* Текст рядом с логотипом */
+.brand h1 {
+  font-size: 1.8rem;
+  /* font-weight: 600; */
+  color: #00e6f6; /* или твой фирменный цвет */
+  margin: 0;
+}
+
 /* ================== Hero =================== */
 .hero {
   display: flex;
@@ -774,6 +792,121 @@ a:hover {
 
 
 /* ================== Glowi Modal =================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  display: flex;
+  opacity: 1;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  max-width: 500px;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.07); /* светлый стеклянный фон */
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5),
+              0 0 30px rgba(255,0,255,0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.15);
+  z-index: 1200;
+  opacity: 0;
+  transform: translate(-50%, -55%);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal.active {
+  display: block;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+.modal .close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.4rem;
+  color: #ffccff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal h2 {
+  font-size: 1.5rem;
+  color: #00e6f6;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.modal label,
+.modal input,
+.modal textarea,
+.modal select {
+  width: 100%;
+  margin-bottom: 0.9rem;
+}
+
+.modal input,
+.modal textarea,
+.modal select {
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  border: 1.3px solid #ff66ff;
+  background: rgba(0,0,0,0.28);
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modal input:focus,
+.modal textarea:focus,
+.modal select:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 5px #ffd700;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.actions .btn-save {
+  padding: 0.6rem 1.2rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 25px;
+  background: #ff00cc;
+  color: #212222;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff00cc;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.actions .btn-save:hover {
+  background: #cc00cc;
+  box-shadow: 0 0 25px #ff66ff;
+  transform: scale(1.04);
+}
 
 
 

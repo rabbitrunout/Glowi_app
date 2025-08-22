@@ -5,16 +5,16 @@ session_start();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Glowi – Подтверждение регистрации</title>
+    <title>Glowi – confirmation of registration</title>
     <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
 <?php include("header.php"); ?>
 
 <main>
-    <h2>Регистрация успешно завершена</h2>
-    <p>Спасибо, <?= htmlspecialchars($_SESSION["userName"] ?? 'гость') ?>, вы успешно зарегистрированы.</p>
-    <p>Теперь вы можете перейти в <a href="dashboard.php">личный кабинет</a>.</p>
+    <h2>Registration completed successfully</h2>
+    <p>thamk you, <?= htmlspecialchars($_SESSION["userName"] ?? 'гость') ?>, you have successfully registered.</p>
+    <p>Now you can go to <a href="dashboard.php">personal account</a>.</p>
 </main>
 
 <?php include("footer.php"); ?>

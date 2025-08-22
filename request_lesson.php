@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <form method="POST" class="glowi-form">
-  <h2>Запрос на приватное занятие</h2>
-  <textarea name="message" required placeholder="Опишите пожелания к занятию"></textarea>
-  <button type="submit">Отправить запрос</button>
+  <h2>Request for a private lesson</h2>
+  <textarea name="message" required placeholder="Describe your wishes for the lesson"></textarea>
+  <button type="submit">Send a request</button>
 </form>

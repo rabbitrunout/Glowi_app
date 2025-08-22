@@ -1,12 +1,9 @@
 <?php
 session_start();
-
-
-
 ?>
 
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Home — Glowi</title>
