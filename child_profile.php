@@ -144,25 +144,23 @@ foreach ($achievements as $ach) {
     ];
 }
 
-// 4. Добавляем приватные уроки отдельно
-$stmt = $pdo->prepare("SELECT e.*, ce.createdBy FROM events e
-    LEFT JOIN child_event ce ON e.eventID = ce.eventID
-    WHERE e.eventType='private_lesson' AND ce.childID=?");
-$stmt->execute([$childID]);
-$privateLessons = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($privateLessons as $event) {
-    $fcEvents[] = [
-        'id' => $event['eventID'],
-        'title' => '🎯 ' . $event['title'],
-        'start' => $event['date'] . 'T' . $event['time'],
-        'allDay' => false,
-        'color' => '#fffd69ff', // ярко-розовый для приватного урока
-        'extendedProps' => [
-            'description' => $event['description']
-        ]
-    ];
+ // // 4. Добавляем приватные уроки из private_lesson_requests
+foreach ($requests as $req) {
+    if ($req['status'] === 'approved' && $req['lessonDateTime'] !== '0000-00-00 00:00:00') {
+        $fcEvents[] = [
+            'id' => 'private_' . $req['requestID'],
+            'title' => '🎯 ' . ($req['message'] ?: 'Private lesson'),
+            'start' => $req['lessonDateTime'],
+            'allDay' => false,
+            'color' => '#fffd69ff', // ярко-розовый
+            'extendedProps' => [
+                'description' => $req['message'] ?? ''
+            ]
+        ];
+    }
 }
+
+
 
 $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 ?>
@@ -355,17 +353,54 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
   <h3>My requests</h3>
   <?php if ($requests): ?>
     <ul>
-      <?php foreach ($requests as $req): ?>
-        <li class="request <?= $req['status'] ?>">
+      <?php
+        $visibleRequests = array_slice($requests, 0, 3);
+        $hiddenRequests  = array_slice($requests, 3);
+      ?>
+
+      <?php foreach ($visibleRequests as $req): ?>
+        <li class="request <?= htmlspecialchars($req['status']) ?>">
           <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
+          <p>📅 <strong>Lesson:</strong> <?= date('d.m.Y H:i', strtotime($req['lessonDateTime'])) ?></p>
           <p>Status: <?= ucfirst($req['status']) ?></p>
           <?php if ($req['response']): ?>
             <p><em>Answer: <?= htmlspecialchars($req['response']) ?></em></p>
           <?php endif; ?>
-          <small><?= $req['requestDate'] ?></small>
+          <small>Request created: <?= date('d.m.Y H:i', strtotime($req['requestDate'])) ?></small>
+          <?php if ($req['status'] === 'approved'): ?>
+            <br>
+            <a href="download_lesson_ics.php?id=<?= $req['requestID'] ?>" class="btn-calendar">
+              ➕ Add to calendar
+            </a>
+          <?php endif; ?>
+        </li>
+      <?php endforeach; ?>
+
+      <?php foreach ($hiddenRequests as $req): ?>
+        <li class="request hidden-request <?= htmlspecialchars($req['status']) ?>" style="display:none;">
+          <p><strong><?= htmlspecialchars($req['message']) ?></strong></p>
+          <p>📅 <strong>Lesson:</strong> <?= date('d.m.Y H:i', strtotime($req['lessonDateTime'])) ?></p>
+          <p>Status: <?= ucfirst($req['status']) ?></p>
+          <?php if ($req['response']): ?>
+            <p><em>Answer: <?= htmlspecialchars($req['response']) ?></em></p>
+          <?php endif; ?>
+          <small>Request created: <?= date('d.m.Y H:i', strtotime($req['requestDate'])) ?></small>
+          <?php if ($req['status'] === 'approved'): ?>
+            <br>
+            <a href="download_lesson_ics.php?id=<?= $req['requestID'] ?>" class="btn-calendar">
+              ➕ Add to calendar
+            </a>
+          <?php endif; ?>
         </li>
       <?php endforeach; ?>
     </ul>
+
+    <?php if (count($hiddenRequests) > 0): ?>
+      <button id="showAllRequests" class="button neon-btn">
+        <i data-lucide="plus-circle"></i> Show all my requests
+      </button>
+    <?php endif; ?>
+
   <?php else: ?>
     <p>There are no requests yet.</p>
   <?php endif; ?>
@@ -464,5 +499,6 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
 <script>
   lucide.createIcons();
 </script>
+
 </body>
 </html>

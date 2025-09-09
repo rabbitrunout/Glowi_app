@@ -858,3 +858,183 @@ footer {
   text-align: center;
   padding: 2rem;
 }
+
+/* === Overlay === */
+#modalOverlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); /* тёмный прозрачный фон */
+  backdrop-filter: blur(4px);  /* лёгкое размытие заднего фона */
+  display: none;
+  z-index: 999;
+}
+
+/* === Модальное окно === */
+#lessonModal {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  z-index: 1000;
+}
+
+/* === Контент модалки === */
+#lessonModal .modal-content {
+  max-width: 480px;
+  width: 90%;
+  margin: auto;
+  padding: 2rem;
+  background: linear-gradient(145deg, rgba(50,40,80,0.85), rgba(35,20,60,0.9));
+  border: 2px solid rgba(255,215,0,0.7);
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(255,215,0,0.6), 0 0 45px rgba(255,105,255,0.25);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  animation: fadeIn 0.3s ease;
+}
+
+/* === Заголовок === */
+#lessonModal h2 {
+  font-size: 1.5rem;
+  color: #FFD700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 8px rgba(255,215,0,0.9), 0 0 15px rgba(255,105,255,0.5);
+}
+
+/* === Labels === */
+#lessonModal label {
+  font-weight: 600;
+  color: #FFD700;
+  margin-bottom: 0.4rem;
+  display: block;
+  font-size: 0.95rem;
+  text-shadow: 0 0 3px rgba(255,215,0,0.4);
+}
+
+/* === Поля формы === */
+#lessonModal input,
+#lessonModal textarea {
+  width: 90%;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,215,0,0.7);
+  background: rgba(30,20,50,0.65);
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#lessonModal input:focus,
+#lessonModal textarea:focus {
+  border-color: #FFD700;
+  box-shadow: 0 0 10px rgba(255,215,0,0.6);
+}
+
+/* === Действия (кнопки) === */
+#lessonModal .actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+#lessonModal button.btn-save {
+  background: linear-gradient(45deg, #FFD700, #FFA500);
+  color: #1a1a2e;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+#lessonModal button.btn-save:hover {
+  background: linear-gradient(45deg, #FFE066, #FFD700);
+  box-shadow: 0 0 12px #FFD700;
+  transform: translateY(-2px);
+}
+
+/* === Закрывающий крестик === */
+#lessonModal .close {
+  position: absolute;
+  top: 0.6rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #FFD700;
+  transition: all 0.2s ease;
+}
+
+#lessonModal .close:hover {
+  transform: scale(1.2);
+  color: #fff;
+}
+
+/* === Анимация появления === */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translate(-50%, -48%); }
+  100% { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+
+  .btn-calendar {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 6px 12px;
+    background: #007bff;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .btn-calendar:hover {
+    background: #0056b3;
+  }
+
+
+/* Общий стиль для запроса */
+.request {
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border-left: 4px solid transparent;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(255, 0, 255, 0.2), 0 0 8px rgba(0, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+/* Статусы */
+.request.pending {
+  border-left-color: #FFD700; /* ярко-желтый */
+  background: rgba(255, 246, 72, 0.18); /* мягкий желтый прозрачный фон */
+}
+
+.request.approved {
+  border-left-color: #28a745; /* зеленый */
+  background: rgba(11, 246, 11, 0.2); /* прозрачный зеленый */
+  box-shadow: 0 4px 12px rgba(40, 255, 0, 0.3), 0 0 8px rgba(0, 255, 128, 0.15);
+}
+
+.request.declined {
+  border-left-color: #dc3545; /* красный */
+  background: rgba(255, 1, 1, 0.3); /* прозрачный красный */
+  box-shadow: 0 4px 12px rgba(255, 0, 50, 0.3), 0 0 8px rgba(255, 0, 0, 0.2);
+}
+
+/* Наведение */
+.request:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 0, 255, 0.3), 0 0 12px rgba(0, 255, 255, 0.2);
+}
+.hidden-request {
+  display: none;
+}
+

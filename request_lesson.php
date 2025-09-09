@@ -1,7 +1,7 @@
 <!-- request_lesson.php -->
 <?php
 session_start();
-require 'db.php';
+require 'database.php';
 
 if (!isset($_SESSION['parentID'])) {
     header("Location: login.php");
@@ -21,8 +21,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<form method="POST" class="glowi-form">
-  <h2>Request for a private lesson</h2>
-  <textarea name="message" required placeholder="Describe your wishes for the lesson"></textarea>
-  <button type="submit">Send a request</button>
-</form>

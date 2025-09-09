@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require 'database.php';
 
 // --- ЗАПРОСЫ ---
 $stmt = $pdo->query("SELECT r.*, c.name AS childName 

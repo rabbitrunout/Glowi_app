@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require 'database.php';
 
 $requestID = $_POST['requestID'];
 $status = $_POST['status'];
