@@ -710,7 +710,7 @@ a {
 
 /* Общий стиль для всех событий */
 .fc-daygrid-event {
-  background-color: #00c3ff;
+  background-color: #c2dde58d;
   border: none;
   color: white;
   border-radius: 5px;
@@ -727,7 +727,7 @@ a {
 
 
 .fc-day-today {
-  background: #ffe0f7 !important;
+  background: #00e6f6ae !important;
   border-radius: 10px;
 }
 
