@@ -7,40 +7,49 @@ if (!isset($_SESSION['parentID'])) {
     exit;
 }
 
-$childID = $_POST['childID'] ?? null;
 $parentID = $_SESSION['parentID'];
+$childID = $_POST['childID'] ?? null;
 
 if (!$childID) {
-    die("ID the child is not specified.");
+    die("Child ID is not specified.");
 }
 
-// Получаем имя файла фото
+if (!isset($_FILES['photo']) || $_FILES['photo']['error'] !== 0) {
+    die("No new photo uploaded.");
+}
+
+// Получаем текущее имя фото из базы
 $stmt = $pdo->prepare("SELECT photoImage FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$child) {
-    die("The child is not found or there is no access.");
+    die("Child not found or no access.");
 }
 
-// Удаляем изображение, если оно есть
+// Удаляем старое фото и миниатюры
 if (!empty($child['photoImage'])) {
     $targetDir = 'uploads/avatars/';
-    $baseName = pathinfo($child['photoImage'], PATHINFO_FILENAME);
-    $ext = '.' . pathinfo($child['photoImage'], PATHINFO_EXTENSION);
-
-    foreach (["", "_100", "_400"] as $suffix) {
-        $file = $targetDir . $baseName . $suffix . $ext;
-        if (file_exists($file)) {
-            unlink($file);
-        }
-    }
+    $oldFile = $targetDir . $child['photoImage'];
+    if (file_exists($oldFile)) unlink($oldFile);
 }
 
-// Удаляем ребёнка из базы данных
-$stmt = $pdo->prepare("DELETE FROM children WHERE childID = ? AND parentID = ?");
-$stmt->execute([$childID, $parentID]);
+// Загружаем новое фото с **оригинальным именем**
+$uploadDir = 'uploads/avatars/';
+if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
-header('Location: children_list.php');
+$originalName = basename($_FILES['photo']['name']); // оригинальное имя без изменений
+$targetFile = $uploadDir . $originalName;
+
+// ⚡ Если файл с таким именем уже существует, можно его перезаписать или добавить проверку
+if (!move_uploaded_file($_FILES['photo']['tmp_name'], $targetFile)) {
+    die("Failed to upload new photo.");
+}
+
+// Обновляем запись в базе
+$stmt = $pdo->prepare("UPDATE children SET photoImage = ? WHERE childID = ? AND parentID = ?");
+$stmt->execute([$originalName, $childID, $parentID]);
+
+header('Location: child_profile.php?childID=' . $childID);
 exit;
 ?>

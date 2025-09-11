@@ -241,22 +241,12 @@ $fcEventsJson = json_encode($fcEvents, JSON_UNESCAPED_UNICODE);
         <?php endforeach; ?>
       </tbody>
     </table>
-
-    <p><a href="add_schedule.php?childID=<?= $childID ?>" class="button">
-    <i data-lucide="plus-circle"></i> Add new schedule</a></p>
   <?php endif; ?>
- <!-- <h2><i data-lucide="target"></i> Запросы на уроки</h2> -->
-  
-  <!-- Кнопка для открытия модального окна -->
-  <!-- <button class="button neon-btn" onclick="openModal()">
-    <i data-lucide="plus-circle"></i> Сделать запрос
-  </button> -->
-  
+
+  <!-- Кнопка теперь всегда есть -->
+  <p><a href="add_schedule.php?childID=<?= $childID ?>" class="button">
+    <i data-lucide="plus-circle"></i> Add new schedule</a></p>
 </section>
-
-<!-- Кнопка для открытия модального окна -->
-<!-- Секция на странице профиля -->
-
 
 
     <section class="card schedule-events-section">
