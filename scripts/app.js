@@ -64,68 +64,70 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ===== Calendar =====
   const calendarEl = document.getElementById('calendar');
-  const calendar = new FullCalendar.Calendar(calendarEl, {
-    locale: 'en',
-    initialView: 'dayGridMonth',
-    editable: true,
-    selectable: true,
-    eventSources: [
-      fcEventsFromPHP
-    ],
-    eventClassNames: (arg) => {
-      const t = arg.event.extendedProps?.eventType;
-      if (t === 'competition') return ['competition-event'];
-      if (t === 'training') return ['training-event'];
-      return [];
-    },
-    eventDidMount: (info) => {
-      const emojiMap = { 'schedule':'📅','training':'🏋️','competition':'🏆','achievement':'🥇','private_lesson':'🎯' };
-      const prefix = emojiMap[info.event.extendedProps?.eventType] || '';
-      const titleEl = info.el.querySelector('.fc-event-title');
-      if (titleEl) titleEl.innerHTML = `${prefix} ${info.event.title}`;
-    },
-    eventClick: function(info) {
-      openGlowiModal(info.event.title, info.event.extendedProps?.description || 'Без описания');
-    },
-    select: function(info) {
-      const title = prompt("Название нового события:");
-      if (!title) return;
-      const type = prompt("Тип события: training/competition (по умолчанию training)") || 'training';
-      const newEvent = { title, start: info.startStr, end: info.endStr || '', allDay:false, eventType:type };
-      fetch(`add_event.php?childID=${childID}`, {
-        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(newEvent)
+  if (calendarEl) {
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      locale: 'en',
+      initialView: 'dayGridMonth',
+      editable: true,
+      selectable: true,
+      eventSources: [ fcEventsFromPHP ],
+      eventClassNames: (arg) => {
+        const t = arg.event.extendedProps?.eventType;
+        if (t === 'competition') return ['competition-event'];
+        if (t === 'training') return ['training-event'];
+        return [];
+      },
+      eventDidMount: (info) => {
+        const emojiMap = { 'schedule':'📅','training':'🏋️','competition':'🏆','achievement':'🥇','private_lesson':'🎯' };
+        const prefix = emojiMap[info.event.extendedProps?.eventType] || '';
+        const titleEl = info.el.querySelector('.fc-event-title');
+        if (titleEl) titleEl.innerHTML = `${prefix} ${info.event.title}`;
+      },
+      eventClick: function(info) {
+        openGlowiModal(info.event.title, info.event.extendedProps?.description || 'Без описания');
+      },
+      select: function(info) {
+        const title = prompt("Название нового события:");
+        if (!title) return;
+        const type = prompt("Тип события: training/competition (по умолчанию training)") || 'training';
+        const newEvent = { title, start: info.startStr, end: info.endStr || '', allDay:false, eventType:type };
+        fetch(`add_event.php?childID=${childID}`, {
+          method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(newEvent)
+        })
+        .then(res=>res.json())
+        .then(data=>{
+          if(data.success) {
+            calendar.addEvent({ id:data.id, title, start:info.startStr, end:info.endStr||'', allDay:false, extendedProps:{eventType:type} });
+          } else alert('Ошибка добавления: '+(data.error||'неизвестно'));
+        });
+      },
+      eventDrop: updateEvent,
+      eventResize: updateEvent
+    });
+
+    calendar.render();
+
+    function updateEvent(info) {
+      const event = info.event || info;
+      fetch('update_event.php', {
+        method:'POST', headers:{'Content-Type':'application/json'}, 
+        body:JSON.stringify({ id:event.id, title:event.title, start:event.start.toISOString(), end:event.end?event.end.toISOString():null, allDay:event.allDay })
       })
       .then(res=>res.json())
-      .then(data=>{
-        if(data.success) {
-          calendar.addEvent({ id:data.id, title, start:info.startStr, end:info.endStr||'', allDay:false, extendedProps:{eventType:type} });
-        } else alert('Ошибка добавления: '+(data.error||'неизвестно'));
-      });
-    },
-    eventDrop: updateEvent,
-    eventResize: updateEvent
-  });
-
-  calendar.render();
-
-  function updateEvent(info) {
-    const event = info.event || info;
-    fetch('update_event.php', {
-      method:'POST', headers:{'Content-Type':'application/json'}, 
-      body:JSON.stringify({ id:event.id, title:event.title, start:event.start.toISOString(), end:event.end?event.end.toISOString():null, allDay:event.allDay })
-    })
-    .then(res=>res.json())
-    .then(data=>{ if(!data.success) alert('Ошибка обновления: '+(data.error||'')) });
+      .then(data=>{ if(!data.success) alert('Ошибка обновления: '+(data.error||'')) });
+    }
   }
 
   // ===== Swiper =====
-  new Swiper('.swiper',{
-    loop:true,
-    slidesPerView:1,
-    spaceBetween:20,
-    autoplay:{delay:3000},
-    breakpoints:{768:{slidesPerView:2},1024:{slidesPerView:3}}
-  });
+  if (document.querySelector('.swiper')) {
+    new Swiper('.swiper',{
+      loop:true,
+      slidesPerView:1,
+      spaceBetween:20,
+      autoplay:{delay:3000},
+      breakpoints:{768:{slidesPerView:2},1024:{slidesPerView:3}}
+    });
+  }
 
   // ===== Lucide =====
   lucide.createIcons();
@@ -135,42 +137,44 @@ document.addEventListener('DOMContentLoaded', function () {
   window.closeModal = closeModal;
   window.openActiveModal = openActiveModal;
   window.closeActiveModal = closeActiveModal;
+
+  // ===== Редактирование достижений =====
+  window.editAchievement = function(ach) {
+    document.getElementById("editID").value = ach.achievementID;
+    document.getElementById("editTitle").value = ach.title;
+    document.getElementById("editType").value = ach.type;
+    document.getElementById("editDate").value = ach.dateAwarded;
+    document.getElementById("editPlace").value = ach.place||"";
+    document.getElementById("editMedal").value = ach.medal||"none";
+    openActiveModal('editModal');
+  };
+
+  window.closeEditModal = function() {
+    closeActiveModal('editModal');
+  };
+
+  // ===== Glowi модалки просмотра (Календарь) =====
+  window.openGlowiModal = function(title, details) {
+    const overlay = document.getElementById("modalOverlay");
+    const modal = document.getElementById("viewEventModal");
+
+    document.getElementById("viewEventTitle").innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
+    document.getElementById("viewEventDetails").innerText = details;
+
+    if (modal && overlay) {
+      modal.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    lucide.createIcons();
+  };
+
+  window.closeGlowiModal = function() {
+    const overlay = document.getElementById("modalOverlay");
+    const modal = document.getElementById("viewEventModal");
+    if (modal && overlay) {
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+  };
 });
-
-// ===== Редактирование достижений =====
-function editAchievement(ach) {
-  document.getElementById("editID").value = ach.achievementID;
-  document.getElementById("editTitle").value = ach.title;
-  document.getElementById("editType").value = ach.type;
-  document.getElementById("editDate").value = ach.dateAwarded;
-  document.getElementById("editPlace").value = ach.place||"";
-  document.getElementById("editMedal").value = ach.medal||"none";
-  openActiveModal('editModal');
-}
-
-function closeEditModal() { closeActiveModal('editModal'); }
-
-// ===== Glowi модалки просмотра (Календарь) =====
-function openGlowiModal(title, details) {
-  const overlay = document.getElementById("modalOverlay");
-  const modal = document.getElementById("viewEventModal");
-
-  document.getElementById("viewEventTitle").innerHTML = `<i data-lucide="calendar-days"></i> ${title}`;
-  document.getElementById("viewEventDetails").innerText = details;
-
-  if (modal && overlay) {
-    modal.style.display = 'block';
-    overlay.style.display = 'block';
-  }
-
-  lucide.createIcons();
-}
-
-function closeGlowiModal() {
-  const overlay = document.getElementById("modalOverlay");
-  const modal = document.getElementById("viewEventModal");
-  if (modal && overlay) {
-    modal.style.display = 'none';
-    overlay.style.display = 'none';
-  }
-}

@@ -19,7 +19,7 @@ if (!isset($_GET['childID']) || !is_numeric($_GET['childID'])) {
 
 $childID = (int)$_GET['childID'];
 
-// Проверка принадлежности ребенка
+// Checking the child's affiliation
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -32,7 +32,7 @@ $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Получаем значения из формы и делаем базовую очистку
+    // We get the values from the form and do the basic cleaning.
     $title = trim($_POST['title'] ?? '');
     $type = $_POST['type'] ?? '';
     $dateAwarded = $_POST['dateAwarded'] ?? '';
@@ -92,14 +92,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   <form method="POST" action="">
     <label>Achievement name:</label>
-    <input type="text" name="title" placeholder="Название достижения" required>
+    <input type="text" name="title" placeholder="Achievement name" required>
 
     <label>Type:</label>
     <select name="type" required>
       <option value="">-- Select type --</option>
       <option value="medal">Medal</option>
       <option value="diploma">Diploma</option>
-      <option value="competition">Competition</option>
+      <option value="competition">Certificate</option>
     </select>
 
     <label>Date Awarded:</label>

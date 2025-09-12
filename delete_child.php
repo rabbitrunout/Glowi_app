@@ -12,14 +12,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' ||
     empty($_POST['csrf_token']) ||
     $_POST['csrf_token'] !== ($_SESSION['csrf_token'] ?? '')
 ) {
-    die("Ошибка безопасности. Повторите попытку.");
+    die("A security error. Please try again.");
 }
 
 $childID = $_POST['childID'] ?? null;
 $parentID = $_SESSION['parentID'];
 
 if (!$childID || !is_numeric($childID)) {
-    die("Некорректный запрос.");
+    die("Invalid request.");
 }
 
 // Получаем фото ребёнка
@@ -28,7 +28,7 @@ $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$child) {
-    die("Ребёнок не найден или нет доступа.");
+    die("The child is not found or there is no access.");
 }
 
 // Удаляем фото (все размеры)

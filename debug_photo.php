@@ -25,8 +25,8 @@ $children = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <thead>
         <tr>
             <th>ID</th>
-            <th>Имя</th>
-            <th>photoImage (путь)</th>
+            <th>Name</th>
+            <th>photoImage </th>
             <th>Превью</th>
         </tr>
     </thead>

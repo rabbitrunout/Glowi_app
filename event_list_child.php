@@ -9,13 +9,13 @@ if (!isset($_SESSION['parentID'])) {
 
 $parentID = $_SESSION['parentID'];
 $childID = isset($_GET['childID']) ? (int)$_GET['childID'] : 0;
-if ($childID <= 0) die("Неверный ID ребенка.");
+if ($childID <= 0) die("The child's ID is incorrect.");
 
 // Проверка доступа к ребенку
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$child) die("Ребенок не найден или не принадлежит вам.");
+if (!$child) die("The child has not been found or does not belong to you.");
 
 // Удаление привязки события
 if (isset($_GET['unlinkEventID'])) {

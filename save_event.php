@@ -15,7 +15,7 @@ $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$child) {
-    die("Ошибка: Ребёнок не найден или доступ запрещён.");
+    die("Error: The child has not been found or access is denied..");
 }
 
 // Данные из формы
@@ -28,7 +28,7 @@ $time = $_POST['time'] ?? '';
 $location = trim($_POST['location'] ?? '');
 
 if (!$title || !$eventType || !$date || !$time || !$location) {
-    die("Пожалуйста, заполните все обязательные поля.");
+    die("Please fill in all required fields..");
 }
 
 try {
@@ -61,6 +61,6 @@ try {
     exit;
 
 } catch (PDOException $e) {
-    echo "Ошибка при сохранении: " . $e->getMessage();
+    echo "Error when saving:" . $e->getMessage();
 }
 ?>

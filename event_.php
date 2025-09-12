@@ -49,18 +49,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Привязка события</title>
+    <title>Event Binding</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <?php include 'header.php'; ?>
 
 <main class="container">
-    <h1>🔗 Привязка события #<?= $eventID ?> к детям</h1>
+    <h1>🔗 Event Binding #<?= $eventID ?> к детям</h1>
 
     <form method="post">
         <fieldset>
-            <legend>Выберите детей для привязки:</legend>
+            <legend>Select the children to link to:</legend>
             <?php foreach ($children as $child): ?>
                 <label>
                     <input type="checkbox" name="children[]" value="<?= $child['childID'] ?>"
@@ -71,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </fieldset>
 
         <br>
-        <button type="submit">💾 Сохранить привязку</button>
-        <a href="event_list.php" class="button">← Назад к списку событий</a>
+        <button type="submit">💾 Save the link</button>
+        <a href="event_list.php" class="button">← Back to the list of events</a>
     </form>
 </main>
 

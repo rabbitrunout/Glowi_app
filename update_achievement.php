@@ -8,30 +8,40 @@ if (!isset($_SESSION['parentID'])) {
 }
 
 $parentID = $_SESSION['parentID'];
-$childID = $_POST['childID'] ?? 0;
-$achievementID = $_POST['achievementID'] ?? 0;
+$childID = (int)($_POST['childID'] ?? 0);
+$achievementID = (int)($_POST['achievementID'] ?? 0);
 
-$stmt = $pdo->prepare("SELECT * FROM achievements WHERE achievementID = ? AND childID = ?");
-$stmt->execute([$achievementID, $childID]);
+// Проверяем, что достижение принадлежит именно этому родителю
+$stmt = $pdo->prepare("
+    SELECT a.*
+    FROM achievements a
+    JOIN children c ON a.childID = c.childID
+    WHERE a.achievementID = ? AND a.childID = ? AND c.parentID = ?
+");
+$stmt->execute([$achievementID, $childID, $parentID]);
 $ach = $stmt->fetch();
 
 if (!$ach) {
-    die("Достижение не найдено или доступ запрещен.");
+    die("Achievement not found or access denied.");
 }
 
-$title = $_POST['title'] ?? '';
+// Получаем данные формы
+$title = trim($_POST['title'] ?? '');
 $type = $_POST['type'] ?? 'medal';
 $dateAwarded = $_POST['dateAwarded'] ?? '';
-$place = $_POST['place'] ?? null;
+$place = $_POST['place'] !== '' ? (int)$_POST['place'] : null;
 $medal = $_POST['medal'] ?? 'none';
 
+// Обновляем
 $stmt = $pdo->prepare("
     UPDATE achievements
     SET title = ?, type = ?, dateAwarded = ?, place = ?, medal = ?
     WHERE achievementID = ? AND childID = ?
 ");
-$stmt->execute([$title, $type, $dateAwarded, $place ?: null, $medal, $achievementID, $childID]);
+$stmt->execute([$title, $type, $dateAwarded, $place, $medal, $achievementID, $childID]);
 
+// Возвращаем обратно на страницу ребёнка
 header("Location: child_achievements.php?childID=$childID");
 exit;
+
 ?>

@@ -8,13 +8,13 @@ if (!isset($_SESSION['parentID'])) {
 }
 
 $parentID = $_SESSION['parentID'];
-$childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die("Некорректный ID ребенка.");
+$childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die("Invalid child ID.");
 
 // Проверка принадлежности ребёнка
 $stmt = $pdo->prepare("SELECT * FROM children WHERE childID = ? AND parentID = ?");
 $stmt->execute([$childID, $parentID]);
 $child = $stmt->fetch(PDO::FETCH_ASSOC);
-if (!$child) die("Ребёнок не найден или доступ запрещён.");
+if (!$child) die("The child has not been found or access is denied.");
 
 $error = '';
 $success = '';

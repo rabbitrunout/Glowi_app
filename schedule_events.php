@@ -8,7 +8,7 @@ if (!isset($_SESSION['parentID'])) {
 }
 
 $parentID = $_SESSION['parentID'];
-$childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die('Некорректный ID ребенка');
+$childID = isset($_GET['childID']) && is_numeric($_GET['childID']) ? (int)$_GET['childID'] : die('Invalid child ID');
 
 // Проверяем принадлежность ребенка родителю
 $stmt = $pdo->prepare("SELECT groupLevel FROM children WHERE childID = ? AND parentID = ?");
@@ -24,13 +24,13 @@ $stmt->execute([$child['groupLevel']]);
 $schedule = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 $daysMap = [
-    'Воскресенье' => 0,
-    'Понедельник' => 1,
-    'Вторник' => 2,
-    'Среда' => 3,
-    'Четверг' => 4,
-    'Пятница' => 5,
-    'Суббота' => 6,
+    'Sunday' => 0,
+    'Monday' => 1,
+    'Tuesday' => 2,
+    'Wednesday' => 3,
+    'Thursday' => 4,
+    'Friday' => 5,
+    'Saturday' => 6,
 ];
 
 $events = [];
