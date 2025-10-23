@@ -1,7 +1,7 @@
 # 🌟 Glowi App — Rhythmic Gymnastics Portal  
 
 <p align="center">
-  <img src="assets/images/glowi-dashboard.png" width="800" alt="Glowi App Dashboard Preview"/>
+  <img src="/image/main-glowi.png" width="800" alt="Glowi App Dashboard Preview"/>
 </p>
 
 > 🩰 A modern web platform for parents of young gymnasts — combining beauty, structure, and simplicity.  
@@ -44,7 +44,7 @@ The app was designed to reflect the **grace and glow** of gymnastics — using a
 
 | Dashboard | Child Profile | Calendar | Achievements |
 |------------|----------------|-----------|---------------|
-| ![Dashboard](assets/images/glowi-dashboard.png) | ![Child Profile](assets/images/glowi-profile.png) | ![Calendar](assets/images/glowi-calendar.png) | ![Achievements](assets/images/glowi-achievements.png) |
+| ![Dashboard](/image/2.png) | ![Child Profile](/image/9.png) | ![Calendar](/image/4.png) | ![Achievements](/image/7.png) |
 
 ---
 
