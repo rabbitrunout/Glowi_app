@@ -1,39 +1,91 @@
-# 🌟 Glowi_app
+# 🌟 Glowi App — Rhythmic Gymnastics Portal  
 
-Web Capstone Project is a modern web application created for parents of young gymnasts.
+<p align="center">
+  <img src="assets/images/glowi-dashboard.png" width="800" alt="Glowi App Dashboard Preview"/>
+</p>
 
-![Glowi Preview](images/screen.png)
-
-
-## ✨ Introduction
-
-Glowi is an intuitive platform that simplifies the interaction between parents and the sports school. The project is inspired by the grace and aesthetics of rhythmic gymnastics. It provides parents with quick access to their child's training schedule, pay status, and achievements — all in one place. The interface is adapted for mobile and desktop devices, emphasizing a clean and user-friendly design.
-
-## 🔑 Main functionality
-
-### 👨👩👧 For parents:
-- View the child's profile (photo, age, group)
-- Calendar of training and competitions
-- View achievements (diplomas, medals, ratings — uploaded by the admin)
-- Monthly payment status (paid/unpaid)
-- Sending a request for an individual lesson
-- View responses from the coach/admin on request
-
-### 🧑🏫 For administrators (coaches/staff):
-- User and child profile management
-- Adding and editing calendar events
-- Uploading achievements (diplomas, medals, ratings)
-- Updating the payment status for each child
-- View and manage requests for private lessons
+> 🩰 A modern web platform for parents of young gymnasts — combining beauty, structure, and simplicity.  
 
 ---
 
-## 🛠️ Technologies
+## ✨ Introduction  
 
-- HTML / CSS / JavaScript
-- PHP & MySQL
-- Adaptive layout
-- UI/UX design aimed at parents and admins
+**Glowi** is an intuitive web platform that connects parents and the rhythmic gymnastics school in one unified system.  
+It provides parents with quick and easy access to:
+- their child’s training schedule,  
+- competition calendar,  
+- payment history,  
+- and a showcase of achievements (medals, diplomas, and progress).
+
+The app was designed to reflect the **grace and glow** of gymnastics — using a **neon color palette**, **soft gradients**, and **responsive animations**.
 
 ---
 
+## 🧩 Features  
+
+### 👨‍👩‍👧 For Parents
+- 🖼️ **Child profile** — photo, age, and group  
+- 📅 **Training & competition calendar**  
+- 🏅 **Achievements** — medals, diplomas, and ratings  
+- 💸 **Monthly payments** — status tracking (paid/unpaid)  
+- 📝 **Request private lessons** directly from the dashboard  
+- 💬 **View coach feedback** on requests  
+
+### 🧑‍🏫 For Coaches & Administrators
+- 👥 Manage users and children profiles  
+- 🗓️ Add and edit calendar events  
+- 🏆 Upload achievements and update progress  
+- 💳 Change payment status per child  
+- 📬 Review and respond to parent requests  
+
+---
+
+## 🖼️ UI Preview  
+
+| Dashboard | Child Profile | Calendar | Achievements |
+|------------|----------------|-----------|---------------|
+| ![Dashboard](assets/images/glowi-dashboard.png) | ![Child Profile](assets/images/glowi-profile.png) | ![Calendar](assets/images/glowi-calendar.png) | ![Achievements](assets/images/glowi-achievements.png) |
+
+---
+
+## 🧠 Architecture  
+
+The project follows a modular PHP structure and a clean database design with relational tables:  
+
+- **parents** – account data  
+- **children** – linked via parent ID  
+- **events** – training & competitions  
+- **child_event** – relation between children and events  
+- **payments** – monthly payment status  
+- **achievements** – uploaded by coaches  
+
+---
+
+## 🛠️ Tech Stack  
+
+- **Frontend:** HTML5, CSS3, JavaScript  
+- **Backend:** PHP 8, MySQL  
+- **Database:** `students_directory`  
+- **Design:** Figma + Neon/Glassmorphism UI  
+- **Frameworks:** none (pure PHP modular architecture)  
+- **Responsive:** Fully optimized for mobile and desktop  
+
+---
+
+## 🎨 Design Style  
+
+> A balance between **modern elegance for parents** and **playful energy for kids**  
+
+- Neon gradients (💜 pink → 💙 blue → 💜 violet)  
+- Rounded cards with glass effect  
+- Soft shadows, glowing borders  
+- Smooth hover and button animations  
+- Unified layout for all pages (`header.php`, `footer.php`, `db.php`)  
+
+---
+
+## 🚀 Installation  
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/Glowi_app.git
