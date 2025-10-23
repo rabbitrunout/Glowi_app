@@ -84,8 +84,10 @@ The project follows a modular PHP structure and a clean database design with rel
 
 ---
 
-## 🚀 Installation  
+🧑‍💻 Author
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/Glowi_app.git
+Irina Safronova
+🎓 Mobile & Web Developer Student — triOS College, Toronto 🇨🇦
+💻 Passionate about combining elegant UI with meaningful functionality
+
+
