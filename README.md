@@ -1,46 +1,82 @@
-# 🌟 Glowi App — Rhythmic Gymnastics Portal  
+# Glowi — Rhythmic Gymnastics Management Platform
+
+Full-stack web application for managing training schedules, competitions, payments, and achievements for rhythmic gymnastics schools.
+
+---
+
+## 🚀 Overview
+
+Glowi is a role-based web platform that connects parents and coaches in a unified system.
+
+The application provides:
+
+- Real-time access to training and competition schedules
+- Payment status tracking
+- Achievement management
+- Structured parent–coach communication
+
+The project focuses on clean modular architecture, relational database design, and clear UI/UX separation.
+
+---
+
+## 🏗 Architecture Overview
+
+Frontend: HTML5, CSS3, JavaScript  
+Backend: PHP 8 (modular architecture)  
+Database: MySQL (relational schema)  
+Authentication: Session-based login system  
+Deployment: Local LAMP environment  
+
+### Database Structure
+
+- `parents` — user accounts  
+- `children` — linked via parent_id (1-to-many relationship)  
+- `events` — training sessions & competitions  
+- `child_event` — many-to-many relation table  
+- `payments` — monthly payment tracking  
+- `achievements` — uploaded and managed by coaches  
+
+---
+
+## 🔐 Core Functionalities
+
+### Parent Role
+
+- View child profile & group
+- Access training & competition calendar
+- Track monthly payment status
+- Submit private lesson requests
+- View coach responses
+- View achievements and progress updates
+
+### Coach / Admin Role
+
+- Manage parent & child accounts
+- Create and edit calendar events
+- Update payment status
+- Upload achievements
+- Review and respond to requests
+
+Role-based access control ensures that users only access permitted features.
+
+---
+
+## 🧠 Engineering Highlights
+
+- Designed normalized relational database schema
+- Implemented parent-child relationship logic (1-to-many)
+- Built modular PHP structure (`header.php`, `footer.php`, `db.php`)
+- Implemented session-based authentication
+- Created structured UI component layout for consistency
+- Implemented responsive layout without external frameworks
+
+---
+
+## 🖼 UI Preview
 
 <p align="center">
-  <img src="/image/main-glowi.png" width="800" alt="Glowi App Dashboard Preview"/>
+  <img src="/image/main-glowi.png" width="750"/>
 </p>
-
-> 🩰 A modern web platform for parents of young gymnasts — combining beauty, structure, and simplicity.  
-
----
-
-## ✨ Introduction  
-
-**Glowi** is an intuitive web platform that connects parents and the rhythmic gymnastics school in one unified system.  
-It provides parents with quick and easy access to:
-- their child’s training schedule,  
-- competition calendar,  
-- payment history,  
-- and a showcase of achievements (medals, diplomas, and progress).
-
-The app was designed to reflect the **grace and glow** of gymnastics — using a **neon color palette**, **soft gradients**, and **responsive animations**.
-
----
-
-## 🧩 Features  
-
-### 👨‍👩‍👧 For Parents
-- 🖼️ **Child profile** — photo, age, and group  
-- 📅 **Training & competition calendar**  
-- 🏅 **Achievements** — medals, diplomas, and ratings  
-- 💸 **Monthly payments** — status tracking (paid/unpaid)  
-- 📝 **Request private lessons** directly from the dashboard  
-- 💬 **View coach feedback** on requests  
-
-### 🧑‍🏫 For Coaches & Administrators
-- 👥 Manage users and children profiles  
-- 🗓️ Add and edit calendar events  
-- 🏆 Upload achievements and update progress  
-- 💳 Change payment status per child  
-- 📬 Review and respond to parent requests  
-
----
-
-## 🖼️ UI Preview  
 
 | Dashboard | Child Profile | Calendar | Achievements |
 |------------|----------------|-----------|---------------|
@@ -48,46 +84,33 @@ The app was designed to reflect the **grace and glow** of gymnastics — using a
 
 ---
 
-## 🧠 Architecture  
+## 🛠 Tech Stack
 
-The project follows a modular PHP structure and a clean database design with relational tables:  
-
-- **parents** – account data  
-- **children** – linked via parent ID  
-- **events** – training & competitions  
-- **child_event** – relation between children and events  
-- **payments** – monthly payment status  
-- **achievements** – uploaded by coaches  
-
----
-
-## 🛠️ Tech Stack  
-
-- **Frontend:** HTML5, CSS3, JavaScript  
-- **Backend:** PHP 8, MySQL  
-- **Database:** `students_directory`  
-- **Design:** Figma + Neon/Glassmorphism UI  
-- **Frameworks:** none (pure PHP modular architecture)  
-- **Responsive:** Fully optimized for mobile and desktop  
+- PHP 8
+- MySQL
+- HTML5
+- CSS3
+- JavaScript
+- Figma (UI Design)
+- Responsive Layout (mobile + desktop)
 
 ---
 
-## 🎨 Design Style  
+## 📌 Design Approach
 
-> A balance between **modern elegance for parents** and **playful energy for kids**  
+The interface was designed to balance clarity for parents with engaging visual identity for children.
 
-- Neon gradients (💜 pink → 💙 blue → 💜 violet)  
-- Rounded cards with glass effect  
-- Soft shadows, glowing borders  
-- Smooth hover and button animations  
-- Unified layout for all pages (`header.php`, `footer.php`, `db.php`)  
+Key principles:
+- Modular layout
+- Clean card-based structure
+- Clear data hierarchy
+- Consistent navigation patterns
+- Responsive design
 
 ---
 
-🧑‍💻 Author
+## 👩‍💻 Author
 
-Irina Safronova
-🎓 Mobile & Web Developer Student — triOS College, Toronto 🇨🇦
-💻 Passionate about combining elegant UI with meaningful functionality
-
-
+Irina Safronova  
+Mobile & Web Developer  
+Toronto, Canada
