@@ -1,78 +1,90 @@
-# Glowi — Rhythmic Gymnastics Management Platform
+# Glowi — Role-Based Gymnastics Management Platform
 
-Full-stack web application for managing training schedules, competitions, payments, and achievements for rhythmic gymnastics schools.
+Full-stack product-style web application with structured data model, role-based dashboards, and clean UI workflows.
+
+Built as a real-world management system for rhythmic gymnastics schools.
 
 ---
 
-## 🚀 Overview
+## 🚀 Product Overview
 
-Glowi is a role-based web platform that connects parents and coaches in a unified system.
+Glowi connects parents and coaches in a unified platform that manages:
 
-The application provides:
+- Training & competition schedules
+- Monthly payments tracking
+- Achievements & progress updates
+- Structured parent–coach requests
 
-- Real-time access to training and competition schedules
-- Payment status tracking
-- Achievement management
-- Structured parent–coach communication
+The system focuses on clear user flows, state-driven UI, and relational data modeling.
 
-The project focuses on clean modular architecture, relational database design, and clear UI/UX separation.
+---
+
+## 🎯 Why This Project Matters for React / iOS Roles
+
+Glowi demonstrates transferable skills directly relevant to modern mobile and frontend development:
+
+- UI state handling (loading / empty / success / error)
+- Role-based access control (Parents vs Coaches/Admin)
+- Structured CRUD workflows
+- Data-driven screens backed by relational models
+- Authentication & protected routes
+- Component-style layout structure
+- Responsive design principles
 
 ---
 
 ## 🏗 Architecture Overview
 
-Frontend: HTML5, CSS3, JavaScript  
-Backend: PHP 8 (modular architecture)  
-Database: MySQL (relational schema)  
-Authentication: Session-based login system  
-Deployment: Local LAMP environment  
-
-### Database Structure
-
-- `parents` — user accounts  
-- `children` — linked via parent_id (1-to-many relationship)  
-- `events` — training sessions & competitions  
-- `child_event` — many-to-many relation table  
-- `payments` — monthly payment tracking  
-- `achievements` — uploaded and managed by coaches  
-
----
-
-## 🔐 Core Functionalities
-
-### Parent Role
-
-- View child profile & group
-- Access training & competition calendar
-- Track monthly payment status
-- Submit private lesson requests
-- View coach responses
-- View achievements and progress updates
-
-### Coach / Admin Role
-
-- Manage parent & child accounts
-- Create and edit calendar events
-- Update payment status
-- Upload achievements
-- Review and respond to requests
-
-Role-based access control ensures that users only access permitted features.
+**Frontend:** HTML5, CSS3, JavaScript  
+**Backend:** PHP 8 (modular structure)  
+**Database:** MySQL (normalized relational schema)  
+**Authentication:** Session-based login  
+**Access Control:** Role-based permissions  
 
 ---
 
 ## 🧠 Engineering Highlights
 
 - Designed normalized relational database schema
-- Implemented parent-child relationship logic (1-to-many)
-- Built modular PHP structure (`header.php`, `footer.php`, `db.php`)
-- Implemented session-based authentication
-- Created structured UI component layout for consistency
-- Implemented responsive layout without external frameworks
+- Implemented parent → children 1-to-many relationship
+- Created many-to-many relation for events (`child_event`)
+- Built structured CRUD logic for:
+  - Events
+  - Achievements
+  - Payments
+- Implemented session authentication & protected actions
+- Designed reusable layout structure (`header.php`, `footer.php`, `db.php`)
+- Structured UI into consistent page-level components
+- Ensured responsive layout without external UI frameworks
 
 ---
 
-## 🖼 UI Preview
+## 🗄 Database Schema
+
+- `parents`
+- `children`
+- `events`
+- `child_event`
+- `payments`
+- `achievements`
+
+Relational integrity and role separation enforced through backend logic.
+
+---
+
+## 🔄 Core Workflows
+
+### Parent Flow
+Login → Dashboard → View child → Track payments → Submit request → View response
+
+### Coach/Admin Flow
+Login → Manage users → Add events → Upload achievements → Update payment status
+
+Each workflow maintains consistent navigation and protected state transitions.
+
+---
+
+## 📱 UI Preview
 
 <p align="center">
   <img src="/image/main-glowi.png" width="750"/>
@@ -84,6 +96,22 @@ Role-based access control ensures that users only access permitted features.
 
 ---
 
+## 🔜 Planned React / iOS Evolution
+
+Future iteration roadmap:
+
+- Refactor UI into reusable React components
+- Convert backend into REST API with JSON responses
+- Implement client-side state management (React)
+- Introduce typed models (TypeScript / Swift structs)
+- Replace session auth with JWT-based auth
+- Add unit & UI testing
+- Migrate to React Native or SwiftUI for mobile experience
+
+This roadmap reflects how the current architecture can scale into a modern mobile-first stack.
+
+---
+
 ## 🛠 Tech Stack
 
 - PHP 8
@@ -91,26 +119,13 @@ Role-based access control ensures that users only access permitted features.
 - HTML5
 - CSS3
 - JavaScript
-- Figma (UI Design)
-- Responsive Layout (mobile + desktop)
-
----
-
-## 📌 Design Approach
-
-The interface was designed to balance clarity for parents with engaging visual identity for children.
-
-Key principles:
-- Modular layout
-- Clean card-based structure
-- Clear data hierarchy
-- Consistent navigation patterns
 - Responsive design
+- Figma (UI prototyping)
 
 ---
 
 ## 👩‍💻 Author
 
 Irina Safronova  
-Mobile & Web Developer  
+Mobile & Frontend Developer  
 Toronto, Canada
